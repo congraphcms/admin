@@ -1,0 +1,27 @@
+.quick-form {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+.quick-form-backdrop {
+	color: red;
+
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background: rgba(0,0,0,0.3);
+
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+.quick-form-wrapper {
+	height: 100%;
+	overflow-y: auto;
+	background: #fff;
+	width: 95%;
+	margin-left: 5%;
+	cursor: default;
+}

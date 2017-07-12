@@ -1,0 +1,116 @@
+<!-- userList -->
+<div class="cb-view" flex layout="column" ng-show="vm.isListing()">
+
+  <!-- app subheader -->
+  <md-toolbar class="app-subheader">
+    <div class="md-toolbar-tools">
+      <h3 class="app-view-title">{{translate('users_label')}}</h3>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+
+  <div flex layout="row" class="app-view-content">
+
+  	<!-- navigation / filters -->
+  	<div flex layout="column" class="cb-view-sidenav">
+      <md-toolbar class="cb-white cb-border-b cb-action">
+        <div class="md-toolbar-tools" >
+          <md-button
+            aria-label="{{translate('btn_new')}} {{translate('user_label')}}"
+            class="md-raised md-accent cb-primary-action"
+            md-colors="{background: 'blue'}"
+            ui-sref="app.users.new">
+            {{translate('btn_new')}} {{translate('user_label')}}
+          </md-button>
+        </div>
+      </md-toolbar>
+  	</div>
+
+  	<!-- listing -->
+  	<div flex layout="column" class="cb-listing">
+
+      <!-- header -->
+      <md-toolbar class="cb-toolbar cb-white cb-border-b">
+        <div class="md-toolbar-tools"></div>
+      </md-toolbar>
+
+      <md-content
+        flex
+        layout="row"
+        layout-align="center start"
+        ng-hide="vm.ready">
+          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      </md-content>
+
+      <!-- body -->
+      <md-content flex ng-show="vm.ready">
+
+            <div ng-if="vm.empty" layout="row" layout-align="center start" >
+              <div>
+                <h1>{{translate('no_items_label')}}</h1>
+              </div>
+            </div>
+
+            <md-list ng-if="!vm.empty">
+
+              <md-list-item
+                ng-click="null"
+                ng-repeat="item in vm.list">
+
+                <!-- DELETE LOADER -->
+                <div class="cb-item-loader busy" ng-show="vm.modelBusy(item)">
+                    <md-progress-linear md-mode="query" ></md-progress-linear>
+                </div>
+
+                <!-- COLUMNS -->
+
+                <p flex="20">
+                  <span>{{item.attributes.name}}</span>
+                </p>
+
+                <p flex="20">
+                  <span class="">{{item.attributes.email}}</span>
+                </p>
+
+                <!-- END COLUMNS -->
+
+                <span flex></span>
+
+                <!-- EDIT -->
+                <md-button
+                  class="md-secondary md-primary"
+                  aria-label="{{translate('btn_edit')}}"
+                  ng-click="vm.editUser(item.id)">
+                  {{translate('btn_edit')}}
+                </md-button>
+
+                <!-- OPTIONS -->
+                <md-menu class="md-secondary" md-position-mode="target-right target">
+                  <md-button aria-label="Open set menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon class="material-icons">more_horiz</md-icon>
+                  </md-button>
+                  <md-menu-content width="3" >
+                    <md-menu-item>
+                      <md-button ng-click="null" ng-disabled="1">
+                        {{translate('btn_disable')}}
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button ng-click="vm.deleteUser(item)" ng-disabled="vm.list.length <= 1">
+                        {{translate('btn_delete')}}
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+
+                <md-divider></md-divider>
+              </md-list-item>
+
+            </md-list>
+          </div>
+      </md-content>
+  	</div>
+
+  </div>
+</div>
+<div ui-view layout="column" flex ng-show="!vm.isListing()"></div>

@@ -1,0 +1,221 @@
+<!-- attribtueList -->
+<div class="cb-view" flex layout="column" ng-show="vm.isListing()">
+
+	<!-- app subheader -->
+	<md-toolbar class="app-subheader">
+		<div class="md-toolbar-tools">
+			<h3 class="app-view-title">{{translate('attributes_label')}}</h3>
+			<span flex></span>
+
+			<md-menu md-position-mode="target-right target" md-offset="0 60">
+				<md-button class="md-icon-button"
+						   aria-label="Sort items by"
+						   ng-click="vm.openSortMenu($mdOpenMenu, $event)">
+					<md-icon class="material-icons">sort_by_alpha</md-icon>
+				</md-button>
+				<md-menu-content width="3" class="cb-caret">
+					<md-menu-item ng-repeat="option in vm.sortOptions">
+						<md-button ng-click="vm.setSortOption(option)">
+							<md-icon ng-class="{hidden: vm.sortOption != option}"
+									 class="material-icons">done</md-icon>
+							{{ option.label }}
+						</md-button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+			<!-- <md-button class="md-icon-button"
+					   aria-label="Sort direction"
+					   ng-click="vm.toggleSortDirection()">
+				<md-icon class="material-icons">swap_vert</md-icon>
+			</md-button> -->
+			<md-button class="md-icon-button" ng-click="vm.toggleSidebarDetails()">
+				<md-icon class="material-icons">info</md-icon>
+			</md-button>
+
+		</div>
+	</md-toolbar>
+
+	<div flex layout="row" class="app-view-content">
+
+		<!-- navigation / filters -->
+		<div flex layout="column" class="cb-view-sidenav">
+
+			<md-toolbar class="cb-white cb-border-b cb-action">
+				<div class="md-toolbar-tools" >
+					<md-button
+					  aria-label="{{translate('btn_new')}} attribute"
+					  class="md-raised md-accent cb-primary-action"
+					  md-colors="{background: 'blue'}"
+					  ui-sref="app.attributes.new()">
+						{{translate('btn_new')}}
+					</md-button>
+				</div>
+			</md-toolbar>
+
+			<md-content flex layout="column" class="cb-transparent">
+				<!-- Nav  -->
+				<md-list class="cb-nav">
+					<md-subheader class="md-no-sticky">{{translate('attribute_field_types_label')}}</md-subheader>
+					<!-- all -->
+					<md-list-item ng-click="vm.filterList()" class="md-offset">
+						<md-icon class="material-icons"></md-icon>
+						<p>{{translate('all_filter')}}</p>
+					</md-list-item>
+					<!-- available wf points -->
+					<md-list-item ng-repeat="selection in vm.fieldSelection"
+								  ng-click="vm.filterList(selection)" >
+						<md-icon class="material-icons">{{ selection.icon }}</md-icon>
+						<p>{{ selection.label }}</p>
+					</md-list-item>
+				</md-list>
+			</md-content>
+
+		</div>
+
+		<!-- listing -->
+		<div flex layout="column" class="cb-listing">
+			<!-- header -->
+			<md-toolbar class="cb-toolbar cb-white cb-border-b">
+				<div class="md-toolbar-tools">
+
+				</div>
+			</md-toolbar>
+			<!-- body -->
+			<md-content flex>
+
+				<div layout="row" layout-align="center start" ng-hide="vm.ready" >
+					<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+				</div>
+
+				<div class="" ng-show="vm.ready">
+
+					<div ng-if="vm.empty" layout="row" layout-align="center start" >
+						<div>
+							<h1>{{translate('no_items_label')}}</h1>
+						</div>
+					</div>
+
+					<md-list ng-if="!vm.empty">
+
+						<md-list-item ng-repeat="item in vm.list"
+									  ng-click="vm.selectField($event, item)"
+									  class="md-2-line" >
+
+							<md-icon class="md-avatar-icon material-icons">
+								{{ vm.getAttributeIcon(item) }}
+							</md-icon>
+
+							<div class="md-list-item-text">
+								<div class="cb-item-loader busy" ng-show="vm.modelBusy(item)">
+									<md-progress-linear md-mode="query" ></md-progress-linear>
+								</div>
+								<h3>{{item.attributes.admin_label}}</h3>
+								<!-- <p>{{item.attributes.admin_notice}}</p> -->
+								<p>
+									<code class="cb-attr-code">{{item.attributes.code}}</code>
+									<span class="">{{item.attributes.field_type}}</span>
+								</p>
+							</div>
+
+
+							<!-- EDIT -->
+							<md-button 
+								class="md-secondary" 
+								aria-label="edit field" 
+								ng-click="vm.editField(item.id)">
+								{{translate('btn_edit')}}
+							</md-button>
+
+							<!-- OPTIONS -->
+							<md-menu class="md-secondary" md-position-mode="target-right target">
+								<md-button aria-label="Open set menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+									<md-icon class="material-icons">more_horiz</md-icon>
+								</md-button>
+								<md-menu-content width="3" >
+									<md-menu-item >
+										<md-button ng-disabled="1">
+											<p>{{translate('btn_duplicate')}}</p>
+										</md-button>
+									</md-menu-item>
+									<md-menu-divider></md-menu-divider>
+									<md-menu-item>
+										<md-button ng-click="vm.deleteAttribute(item)">
+											<p>{{translate('btn_delete')}}</p>
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+
+							<md-divider inset></md-divider>
+						</md-list-item>
+
+					</md-list>
+				</div>
+			</md-content>
+		</div>
+
+		<!-- info / details -->
+		<md-sidenav class="md-sidenav-right cb-info-sidenav"
+					md-component-id="info-sidenav"
+					md-is-locked-open="true"
+					layout="column">
+
+			<md-toolbar class="cb-transparent cb-border-b">
+				<div class="md-toolbar-tools">
+					<h3>{{translate('info_label')}}</h3>
+					<span flex></span>
+					<md-button class="md-icon-button">
+						<md-icon class="material-icons">close</md-icon>
+					</md-button>
+				</div>
+			</md-toolbar>
+
+			<md-content flex layout="column" class="cb-transparent" ng-show="vm.selectedField">
+				<div class="md-padding">
+
+					<!-- Details -->
+					<div style="font-size:13px">
+						<div layout style="line-height:30px">
+							<div flex="35">{{translate('attribute_name_label')}}</div>
+							<div flex>{{vm.selectedField.attributes.admin_label}}</div>
+						</div>
+						<div layout style="line-height:30px">
+							<div flex="35">{{translate('attribute_code_label')}}</div>
+							<div flex><b>{{vm.selectedField.attributes.code}}</b></div>
+						</div>
+						<div layout style="line-height:30px">
+							<div flex="35">{{translate('attribute_description_label')}}</div>
+							<div flex style="overflow: hidden;text-overflow: ellipsis;">
+								<span style="white-space:nowrap;">
+								{{vm.selectedField.attributes.admin_notice}}
+								</span>
+							</div>
+						</div>
+						<div layout style="line-height:30px">
+							<div flex="35">{{translate('attribute_type_label')}}</div>
+							<div flex layout="row">{{vm.getAttributeType(vm.selectedField)}}</div>
+						</div>
+						<div layout style="line-height:30px">
+							<div flex="35">{{translate('attribute_required_label')}}</div>
+							<div flex>{{vm.booleanToText(vm.selectedField.attributes.required)}}</div>
+						</div>
+						<div layout style="line-height:30px">
+							<div flex="35">{{translate('attribute_localized_label')}}</div>
+							<div flex>{{vm.booleanToText(vm.selectedField.attributes.localized)}}</div>
+						</div>
+						<div layout style="line-height:30px">
+							<div flex="35">{{translate('attribute_unique_label')}}</div>
+							<div flex>{{vm.booleanToText(vm.selectedField.attributes.unique)}}</div>
+						</div>
+					</div>
+
+					<md-divider style="margin:16px 0;"></md-divider>
+
+				</div>
+			</md-content>
+		</md-sidenav>
+
+	</div>
+
+</div>
+<div ui-view layout="column" flex ng-show="!vm.isListing()"></div>

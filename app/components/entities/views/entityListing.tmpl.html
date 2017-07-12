@@ -1,0 +1,422 @@
+<!-- entityList -->
+<div class="cb-view" flex layout="column" ng-show="vm.isListing()">
+
+  <!-- app subheader -->
+  <md-toolbar class="app-subheader">
+    <div class="md-toolbar-tools">
+      <h3 class="app-view-title">
+        {{vm.contentModel.get('plural_name')}}
+      </h3>
+      <span flex></span>
+
+      <!-- language menu -->
+      <md-menu 
+        md-position-mode="target-right target" 
+        md-offset="0 60" 
+        ng-if="vm.contentModel.get('localized')">
+          <md-button 
+            class="" 
+            aria-label="{{ translate('select_locale_label') }}" 
+            ng-click="vm.openLocaleSelect($mdOpenMenu, $event)">
+            {{vm.locale.attributes.name}}
+          </md-button>
+          <md-menu-content width="3" class="cb-caret">
+            <md-menu-item ng-repeat="locale in vm.locales.models">
+              <md-button 
+                ui-sref="{'listingLocale': locale.attributes.code}">
+                <md-icon 
+                  ng-class="{hidden: vm.localeModel != locale}"
+                  class="material-icons">
+                  done
+                </md-icon>
+                {{ locale.attributes.name }}
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+      </md-menu>
+
+      <!-- sort menu -->
+      <md-menu md-position-mode="target-right target" md-offset="0 60">
+        <md-button 
+          class="md-icon-button" 
+          aria-label="{{ translate('sort_by_label') }}" 
+          ng-click="vm.openSortMenu($mdOpenMenu, $event)">
+            <md-icon class="material-icons">sort_by_alpha</md-icon>
+        </md-button>
+        <md-menu-content width="3" class="cb-caret">
+            <md-menu-item ng-repeat="option in vm.sortOptions">
+                <md-button ng-click="vm.setSortOption(option)">
+                    <md-icon ng-class="{'hidden': vm.sortOption != option}" class="material-icons">done</md-icon>
+                    {{ translate(option) }}
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+    </div>
+  </md-toolbar>
+
+    <div flex layout="row" class="app-view-content">
+
+        <!-- navigation / filters -->
+        <md-sidenav
+          class="cb-info-sidenav-left"
+          md-component-id="info-sidenav"
+          md-disable-backdrop
+          md-is-open="vm.isOpenFilters()"
+          md-is-locked-open="vm.isLockedOpenFilters()"
+          layout="column">
+
+            <md-toolbar class="cb-toolbar cb-white cb-border-b">
+                <div class="md-toolbar-tools" layout-align="end center">
+                  <md-button
+                    aria-label="close filter"
+                    class="md-secondary md-icon-button"
+                    ng-click="vm.filtersOpened = false">
+                      <md-icon class="material-icons">close</md-icon>
+                  </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-content flex layout="column" class="cb-transparent">
+
+                <div class="md-padding">
+                    <md-input-container md-no-float class="md-block">
+                        <md-icon>search</md-icon>
+                        <input ng-model="vm.searchTerms" type="text" placeholder="{{translate('search_placeholder')}}" cb-on-enter="vm.searchList()">
+                    </md-input-container>
+                </div>
+
+                <md-list class="cb-nav">
+                    <md-divider></md-divider>
+
+                    <!-- Status Filter -->
+                    <md-subheader class="md-no-sticky">{{translate('status_label')}}</md-subheader>
+                    <md-list-item ng-click="vm.filterStatusList(vm.filterTrashStatuses())">
+                        <p>All</p>
+                    </md-list-item>
+                    <md-list-item
+                      ng-repeat="point in vm.workflowPoints.models"
+                      ng-click="vm.filterStatusList({status: point.attributes.status })">
+                        <p>{{ point.attributes.name }}</p>
+                        <md-checkbox class="md-secondary" ng-checked="vm.listFilterSelected.status == point.attributes.status"></md-checkbox>
+                    </md-list-item>
+                    <md-divider></md-divider>
+
+                    <!-- Time Filter -->
+                    <md-subheader class="md-no-sticky">{{translate('date_created_label')}}</md-subheader>
+                    <md-list-item ng-click="vm.filterDateList()">
+                        <p>{{translate('all_filter')}}</p>
+                    </md-list-item>
+                    <md-list-item ng-click="vm.filterDateList('day')">
+                        <p>{{translate('today_filter')}}</p>
+                        <md-checkbox class="md-secondary" ng-checked="vm.listFilterSelected.date == 'day'"></md-checkbox>
+                    </md-list-item>
+                    <md-list-item ng-click="vm.filterDateList('week')">
+                        <p>{{translate('week_filter')}}</p>
+                        <md-checkbox class="md-secondary" ng-checked="vm.listFilterSelected.date == 'week'"></md-checkbox>
+                    </md-list-item>
+                    <md-list-item ng-click="vm.filterDateList('month')">
+                        <p>{{translate('month_filter')}}</p>
+                        <md-checkbox class="md-secondary" ng-checked="vm.listFilterSelected.date == 'month'"></md-checkbox>
+                    </md-list-item>
+                    <md-divider></md-divider>
+
+                </md-list>
+            </md-content>
+
+        </md-sidenav>
+
+        <!-- listing -->
+        <div flex layout="column" class="cb-listing">
+
+            <!-- List Header -->
+            <md-toolbar class="cb-toolbar cb-white cb-border-b">
+                <div class="md-toolbar-tools">
+                  <md-button
+                    aria-label="filter"
+                    class="md-secondary md-icon-button"
+                    ng-click="vm.filtersOpened = true"
+                    ng-disabled="vm.filtersOpened">
+                      <md-icon class="material-icons">filter_list</md-icon>
+                  </md-button>
+                  <md-button
+                    aria-label="Create a new entity"
+                    class="md-raised md-accent cb-primary-action"
+                    md-colors="{background: 'blue'}"
+                    create-entity-link
+                    attribute-sets="vm.attributeSets"
+                    content-model="vm.contentModel"
+                    locale="vm.locale">
+                      {{translate('btn_new')}} {{vm.contentModel.get('name')}}
+                  </md-button>
+                </div>
+            </md-toolbar>
+
+            <!-- List Body -->
+            <md-content flex layout="column">
+
+                <div layout="row" layout-align="center start" ng-hide="vm.ready">
+                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                </div>
+
+                <div class="" ng-show="vm.ready" layout="column" flex>
+
+                    <!-- Empty State -->
+                    <div ng-if="vm.empty" layout="column" layout-align="center center" flex>
+                        <div>
+                          <md-icon
+                            class="material-icons"
+                            style="font-size:48px; height:48px; width: 48px; color:rgba(0,0,0,0.12);">
+                            library_books
+                          </md-icon>
+                        </div>
+                        <h2 class="md-display-1" style="margin-bottom:8px;">{{translate('no_items_label')}}</h2>
+                        <div class="md-body-1">{{translate('no_cases_info')}}</div>
+                    </div>
+
+                    <!-- List Header -->
+                    <div ng-if="!vm.empty" layout="row" class="cb-table-header md-padding cb-white" style="padding-right: 32px;">
+
+                        <div flex 
+                          class="cb-table-header-item" style="padding-right: 16px;">
+                          {{translate('entity_title_label')}}
+                        </div>
+
+                        <div 
+                          flex="20" flex-gt-lg="15" 
+                          hide show-gt-md 
+                          class="cb-table-header-item" 
+                          layout-align="start center">
+                          {{translate('updated_at_label')}}
+                        </div>
+
+                        <div 
+                          flex="20" flex-gt-lg="15" 
+                          hide show-gt-md 
+                          class="cb-table-header-item" 
+                          layout-align="start center">
+                          {{translate('created_at_label')}}
+                        </div>
+
+                        <div 
+                          flex="30" flex-gt-lg="20" 
+                          class="cb-table-header-item" 
+                          layout-align="center center"
+                          layout="row">
+                          <span>{{translate('actions_label')}}</span>
+                        </div>
+
+                    </div>
+                    <md-divider inset></md-divider>
+                    <!-- List -->
+                    <md-virtual-repeat-container id="vertical-container" flex>
+
+                        <!-- 2 lines -->
+                        <div
+                          class="cb-listing-item"
+                          layout="column"
+                          md-virtual-repeat="item in vm.dynamicItems" 
+                          md-on-demand
+                          ng-click="vm.selectModel($event, item)"
+                          >
+                          <div layout="row" flex class="md-padding" >
+
+                            <!-- <md-icon class="md-avatar-icon material-icons">menu</md-icon> -->
+
+                            <div flex class=" cb-item-title" >
+                                <div>
+                                  <p md-highlight-text="vm.searchTerms" md-highlight-flags="i" md-truncate>{{item.getTitle()}}</p>
+                                  <!-- <span class="md-caption">Klijent: {{item.getField('case_client').getContactName()}}</span> -->
+                                </div>
+                            </div>
+
+                            <!-- <div class="md-list-item-text cb-item-status">
+                              <p class="status-summary ellipsis">
+                                <i class="status-badge {{item.attributes.status}}"></i>
+                                <span class="status-text" hide show-gt-md>{{item.attributes.status}}</span>
+                              </p>
+                              <p class="md-caption ellipsis" hide show-gt-md>
+                                <span class="status-time">1 day ago</span>
+                                <span hide show-gt-lg>by <a href="#">Velimir</a></span>
+                              </p>
+                            </div> -->
+
+                            <!-- <div class="md-list-item-text cb-item-locale" hide show-gt-md>
+                              <p class="ellipsis">{{ vm.getLocaleNameByCode(item.attributes.locale) }}</p>
+                              <p class="md-caption ellipsis">2 more locales</p>
+                            </div> -->
+
+                            <div flex="20" flex-gt-lg="15" layout="row" layout-align="start center" hide show-gt-md >
+                                <p class="ellipsis">
+                                  <span>{{item.get('updated_at') | amDateFormat:'DD/MM/YYYY'}}</span>
+                                  <!-- <span class="md-caption">{{item.get('updated_at') | amDateFormat:'(HH:mm)'}}</span> -->
+                                </p>
+                                <!-- <p class="md-caption ellipsis">by <a href="">Velimir</a></p> -->
+                            </div>
+                            <div flex="20" flex-gt-lg="15" layout="row" layout-align="start center" hide show-gt-md >
+                                <p class="ellipsis">
+                                  <span>{{item.get('created_at') | amDateFormat:'DD/MM/YYYY'}}</span>
+                                  <!-- <span class="md-caption">{{item.get('created_at') | amDateFormat:'(HH:mm)'}}</span> -->
+                                </p>
+                                <!-- <p class="md-caption ellipsis">by <a href="">Velimir</a></p> -->
+                            </div>
+
+                            <div flex="30" flex-gt-lg="20" layout="row" layout-align="center center">
+                              <!-- <md-button
+                                
+                                aria-label="view entity"
+                                class="md-secondary md-primary"
+                                ng-click="vm.viewEntity(item); $event.stopPropagation();">
+                                  <span>{{translate('btn_detail')}}</span>
+                              </md-button> -->
+                              <md-button
+                                
+                                aria-label="edit entity"
+                                class="md-secondary md-primary"
+                                ng-click="vm.editEntity(item); $event.stopPropagation();">
+                                  <span>{{translate('btn_edit')}}</span>
+                              </md-button>
+                              <!-- <md-button                                hide-gt-md
+                                aria-label="edit entity"
+                                class="md-secondary md-icon-button"
+                                ng-click="vm.editEntity(item)">
+                                  <md-icon class="material-icons">edit</md-icon>
+                              </md-button> -->
+                            </div>
+                          </div>
+                          <md-divider inset></md-divider>
+                        </div>
+
+                    </md-virtual-repeat-container>
+
+                </div>
+            </md-content>
+        </div>
+
+        <!-- info / details -->
+        <md-sidenav
+          class="md-sidenav-right cb-info-sidenav"
+          md-component-id="info-sidenav"
+          md-disable-backdrop
+          md-is-open="vm.isOpenSidenav()"
+          md-is-locked-open="vm.isLockedOpenSidenav()"
+          layout="column">
+
+            <md-toolbar class="cb-transparent cb-border-b">
+                <div class="md-toolbar-tools">
+                    <h3>{{translate('info_label')}}</h3>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="vm.removeSelection()">
+                        <md-icon class="material-icons">close</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-toolbar class="cb-transparent cb-border-b">
+                <div class="md-toolbar-tools">
+                    <span flex></span>
+                    <!-- <md-button class="md-raised" ng-click="vm.viewEntity(vm.selectedModel)">
+                        {{translate('btn_detail')}}
+                    </md-button> -->
+                    <md-button class="md-raised" ng-click="vm.editEntity(vm.selectedModel)">
+                        {{translate('btn_edit')}}
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-content flex layout="column">
+              <div class="md-padding">
+                <div class="kv-list">
+                  <ng-switch 
+                    
+                    ng-repeat="attribute in vm.getDetailAttributes()"
+                    on="attribute.get('field_type')">
+
+                    
+
+                    <!-- tags field -->
+                    <div class="kv-list-item" ng-switch-when="tags">
+                      <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
+                      <div 
+                        class="value" 
+                        ng-if="vm.selectedModel.getField(attribute.get('code')) && vm.selectedModel.getField(attribute.get('code')).length > 0">
+                        <span ng-repeat="val in vm.selectedModel.getField(attribute.get('code'))">
+                          {{val}}
+                          <span ng-if="!$last">,</span>
+                        </span>
+                      </div>
+                      <div class="value" ng-if="!vm.selectedModel.getField(attribute.get('code')) || vm.selectedModel.getField(attribute.get('code')).length == 0">
+                        <span class="md-caption">&ndash;</span>
+                      </div>
+                    </div>
+
+                    <!-- mulitselect field -->
+                    <div class="kv-list-item" ng-switch-when="mulitselect">
+                      <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
+                      <div 
+                        class="value" 
+                        ng-if="vm.selectedModel.getField(attribute.get('code')) && vm.selectedModel.getField(attribute.get('code')).length > 0">
+                        <span ng-repeat="val in vm.selectedModel.getField(attribute.get('code'))">
+                          {{val}}
+                          <span ng-if="!$last">,</span>
+                        </span>
+                      </div>
+                      <div class="value" ng-if="!vm.selectedModel.getField(attribute.get('code')) || vm.selectedModel.getField(attribute.get('code')).length == 0">
+                        <span class="md-caption">&ndash;</span>
+                      </div>
+                    </div>
+
+                    <!-- datetime field -->
+                    <div class="kv-list-item" ng-switch-when="datetime">
+                      <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
+                      <div 
+                        class="value" 
+                        ng-if="vm.selectedModel.getField(attribute.get('code'))">
+                        {{vm.selectedModel.getField(attribute.get('code')) | amDateFormat:'DD/MM/YYYY'}}
+                      </div>
+                      <div class="value" ng-if="!vm.selectedModel.getField(attribute.get('code'))">
+                        <span class="md-caption">&ndash;</span>
+                      </div>
+                    </div>
+
+                    <!-- boolean field -->
+                    <div class="kv-list-item" ng-switch-when="boolean">
+                      <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
+                      <div 
+                        class="value" 
+                        ng-if="vm.selectedModel.getField(attribute.get('code'))">
+                        <ng-switch on="vm.selectedModel.getField(attribute.get('code'))">
+                          <span ng-switch-when="1">{{translate('boolean_true_label')}}</span>
+                          <span ng-switch-when="0">{{translate('boolean_false_label')}}</span>
+                        </ng-switch>
+                      </div>
+                      <div class="value" ng-if="!vm.selectedModel.getField(attribute.get('code'))">
+                        <span class="md-caption">&ndash;</span>
+                      </div>
+                    </div>
+
+                    <!-- text/decimal/integer/select field -->
+                    <div class="kv-list-item" ng-switch-default>
+                      <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
+                      <div 
+                        class="value" 
+                        ng-if="vm.selectedModel.getField(attribute.get('code'))"
+                        ng-bind-html="vm.selectedModel.getField(attribute.get('code'))">
+                      </div>
+                      <div class="value" ng-if="!vm.selectedModel.getField(attribute.get('code'))">
+                        <span class="md-caption">&ndash;</span>
+                      </div>
+                    </div>
+
+
+                  </ng-switch>
+                </div>
+              </div>
+            </md-content>
+        </md-sidenav>
+
+    </div>
+
+</div>
+<div ui-view layout="column" flex ng-show="!vm.isListing()"></div>

@@ -1,0 +1,59 @@
+<div class="quick-form-backdrop" ng-click="qf.backdropDiscard($event)">
+	<div class="quick-form-wrapper">
+		<div class="cb-view" flex layout="column" >
+
+		    <!-- app subheader -->
+		    <md-toolbar class="app-subheader">
+		    	<div class="md-toolbar-tools">
+		            <md-button class="md-icon-button" ng-click="qf.discard()">
+		                <md-icon class="material-icons">close</md-icon>
+		            </md-button>
+		            <h3 class="app-view-title" ng-if="!qf.isNew()">&nbsp;{{qf.getTitle()}}</h3>
+		            <h3 class="app-view-title" ng-if="qf.isNew()">&nbsp;{{$root.translate('new_entity_title')}}</h3>
+		            <span flex></span>
+
+		            <md-button class="md-raised md-accent"
+		                       ng-click="qf.save()"
+		                       ng-disabled="!qf.canSave()"
+		                       aria-label="Save">
+		              {{$root.translate('btn_save')}}
+		            </md-button>
+
+		            <!-- options menu -->
+		            <md-menu md-position-mode="target-right target" >
+		                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+		                    <md-icon class="material-icons">more_vert</md-icon>
+		                </md-button>
+		                <md-menu-content width="4" >
+		                    <md-menu-item ng-repeat-start="item in qf.optionsMenuItems" ng-if="item.label" >
+		                        <md-button ng-click="item.action()" ng-disabled="item.disabled()">
+		                            <md-icon class="material-icons">{{ item.icon }}</md-icon>
+		                            {{ item.label }}
+		                        </md-button>
+		                    </md-menu-item>
+		                    <md-menu-divider ng-repeat-end ng-if="item.divider"></md-menu-divider>
+		                </md-menu-content>
+		            </md-menu>
+
+		        </div>
+		    </md-toolbar>
+
+		    <md-content flex layout="column" class="cb-transparent">
+		    	<form
+		            name="entityForm"
+		    		novalidate
+		    		contact-editor
+		    		model="qf.model"
+		    		attribute-set="qf.attributeSet"
+		    		content-model="qf.contentModel"
+		    		locales="qf.locales"
+		    		locale="qf.locale"
+		    		flex
+		    		layout="column"
+		    		>
+		    	</form>
+
+		    </md-content>
+		</div>
+	</div>
+</div>

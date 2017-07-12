@@ -1,0 +1,109 @@
+<!-- Name / slug -->
+<h3>{{$root.translate('asset_section_title')}}</h3>
+<md-list>
+	<!-- Allowed file types -->
+	<md-list-item class="md-2-line">
+		<div class="md-list-item-text" layout="column">
+			<h3>{{$root.translate('asset_allowed_types_label')}}</h3>
+			<p>{{$root.translate('asset_allowed_types_help')}}</p>
+		</div>
+		<md-checkbox ng-model="fieldCtrl.allowedTypes"
+					 ng-true-value="true"
+					 ng-false-value="false"
+					 class="md-secondary">
+		</md-checkbox>
+	</md-list-item>
+
+</md-list>
+<div ng-show="fieldCtrl.allowedTypes">
+	<md-toolbar class="cb-white cb-border-b">
+		<div class="md-toolbar-tools">
+			<h2>
+				<span>{{$root.translate('asset_select_allowed_types_title')}}</span>
+			</h2>
+		</div>
+	</md-toolbar>
+	<div layout-gt-sm="row" layout="column" style="height: 400px;">
+		<md-content class="cb-white" flex>
+			<md-list>
+				<md-list-item ng-repeat="group in fieldCtrl.assetTypes" 
+							  ng-click="fieldCtrl.toggleGroup(group)"
+							  class="md-2-line">
+					<md-icon class="material-icons md-avatar">{{ group.icon }}</md-icon>
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ group.label }}</h3>
+						<p>{{ group.description }}</p>
+					</div>
+					<md-checkbox ng-checked="fieldCtrl.allowedGroup(group)"
+								 class="md-secondary">
+					</md-checkbox>
+				</md-list-item>
+			</md-list>
+		</md-content>
+		<md-content class="cb-white" flex>
+			<md-list>
+				<md-list-item ng-repeat="type in fieldCtrl.allowedMimeTypes" 
+							  ng-click="fieldCtrl.toggleMimeType(type)"
+							  class="md-2-line">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ type.name }}</h3>
+						<p>{{$root.translate('asset_mime_type_label')}}: {{ type.mime_type }}; {{$root.translate('asset_extension_label')}}: <span ng-repeat="ext in type.extensions">{{ext}}<span ng-if="!$last">, </span></span></p>
+					</div>
+					<md-checkbox ng-checked="fieldCtrl.selectedMimeType(type)"
+								 class="md-secondary">
+					</md-checkbox>
+				</md-list-item>
+			</md-list>
+		</md-content>
+	</div>
+</div>
+
+<md-list>
+	<!-- Allowed file sizes -->
+	<md-list-item class="md-2-line">
+		<div class="md-list-item-text" layout="column">
+			<h3>{{$root.translate('asset_allowed_size_label')}}</h3>
+			<p>{{$root.translate('asset_allowed_size_help')}}</p>
+		</div>
+		<md-checkbox ng-model="fieldCtrl.allowedSizes"
+					 ng-true-value="true"
+					 ng-false-value="false"
+					 class="md-secondary">
+		</md-checkbox>
+	</md-list-item>
+
+</md-list>
+
+<div ng-show="fieldCtrl.allowedSizes">
+	<div layout="row">
+		<md-input-container class="md-block" flex="25">
+			<md-select ng-model="fieldCtrl.sizeLimitOption">
+				<md-option ng-repeat="option in fieldCtrl.limitOptions" value="{{option.value}}">
+				{{option.label}}
+				</md-option>
+			</md-select>
+		</md-input-container>
+		<md-input-container class="md-block" flex="20" flex-offset="5" ng-show="fieldCtrl.sizeLimitOption != 'max'">
+			<label>{{$root.translate('asset_minimum_label')}}</label>
+			<input required type="number" step="1" ng-model="fieldCtrl.minSize" min="0" ng-max="fieldCtrl.getMaxForMin()" />
+		</md-input-container>
+	    <md-input-container class="md-block" flex="10" flex-offset="2.5" ng-if="fieldCtrl.sizeLimitOption != 'max'">
+			<md-select ng-model="fieldCtrl.minSizeFactor">
+				<md-option ng-repeat="option in fieldCtrl.sizeFactors" value="{{option.value}}">
+				{{option.label}}
+				</md-option>
+			</md-select>
+		</md-input-container>
+		<md-input-container class="md-block" flex="20" flex-offset="5" ng-if="fieldCtrl.sizeLimitOption != 'min'">
+			<label>{{$root.translate('asset_maximum_label')}}</label>
+			<input required type="number" step="1" ng-model="fieldCtrl.maxSize" ng-min="fieldCtrl.getMinForMax()" />
+		</md-input-container>
+	    <md-input-container class="md-block" flex="10" flex-offset="2.5" ng-if="fieldCtrl.sizeLimitOption != 'min'">
+			<md-select ng-model="fieldCtrl.maxSizeFactor">
+				<md-option ng-repeat="option in fieldCtrl.sizeFactors" value="{{option.value}}">
+				{{option.label}}
+				</md-option>
+			</md-select>
+		</md-input-container>
+	</div>
+</div>

@@ -1,0 +1,44 @@
+<div class="cb-white cb-pad">
+
+	<!-- General Settings -->
+	<h3>{{$root.translate('content_type_workflow_label')}}</h3>
+
+	<div layout="column">
+
+		<md-input-container>
+			<label>{{$root.translate('content_type_choose_workflow_label')}}</label>
+			<md-select ng-model="editor.model.attributes.workflow_id" ng-disabled="1" required>
+				<md-option value="{{editor.model.attributes.workflow_id}}">
+					{{editor.model.attributes.workflow.attributes.name}}
+				</md-option>
+			</md-select>
+		</md-input-container>
+
+		<md-input-container>
+			<label>{{$root.translate('content_type_default_status_label')}}</label>
+			<md-select ng-model="editor.model.attributes.default_point_id" required>
+				<md-option ng-repeat="point in editor.model.attributes.workflow.attributes.points.models" value="{{point.id}}">
+					{{point.attributes.name}}
+				</md-option>
+			</md-select>
+		</md-input-container>
+
+	</div>
+
+	<md-list>
+		<!-- Localized Workflow -->
+		<md-list-item class="md-2-line">
+			<div class="md-list-item-text" layout="column">
+				<h3>{{$root.translate('content_localized_workflow_label')}}</h3>
+				<p>{{$root.translate('content_localized_workflow_help')}}</p>
+			</div>
+			<md-checkbox ng-model="editor.model.attributes.localized_workflow"
+						 ng-true-value="1"
+						 ng-false-value="0"
+						 ng-disabled="1"
+						 class="md-secondary">
+			</md-checkbox>
+		</md-list-item>
+
+	</md-list>
+</div>

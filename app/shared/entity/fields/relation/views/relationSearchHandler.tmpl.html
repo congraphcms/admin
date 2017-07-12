@@ -1,0 +1,165 @@
+
+<!-- view mode -->
+<div ng-if="!handler.selectionMode">
+
+	<md-toolbar class="cb-list-toolbar" layout="row">
+		<div class="md-toolbar-tools">
+			<span flex></span>
+			<md-button
+				aria-label="Add new relation"
+				class="md-raised"
+		    ng-click="handler.addRelation()"
+				ng-disabled="handler.loadingItems"
+				ng-if="handler.empty || handler.multiple" >
+		    {{handler.$rootScope.translate('btn_add')}}
+	    </md-button>
+		</div>
+	</md-toolbar>
+
+	<md-content flex layout="column" >
+		<md-progress-linear md-mode="query" ng-disabled="!handler.loadingItems"></md-progress-linear>
+
+		<div
+			flex
+			class="no-relation-content relation-listing cb-clickable cb-hover"
+			layout="column"
+			ng-click="handler.addRelation()"
+			layout-align="center center"
+			ng-if="handler.empty && !handler.loadingItems">
+			<div>
+              <md-icon
+                class="material-icons"
+                style="font-size:48px; height:48px; width: 48px; color:rgba(0,0,0,0.12);">
+                note_add
+              </md-icon>
+            </div>
+			<h3 class="md-title" style="margin-bottom:8px;">{{handler.$rootScope.translate('empty_relation_field_notice')}}</h3>
+            <div class="md-body-1">{{handler.$rootScope.translate('empty_relation_field_instructions')}}</div>
+		</div>
+
+		<div class="relation-content relation-listing" ng-if="!handler.empty">
+
+			<div ng-if="handler.loadingItems">{{handler.$rootScope.translate('please_wait_text')}}</div>
+
+			<div ng-if="handler.multiple && !handler.loadingItems" ng-repeat="item in handler.getValue().models" class="repeated-item cb-item" layout flex>
+				<div class="cb-item-inner">
+					<div class="cb-item-text" layout="column">
+						<h3 class="cb-item-title">{{handler.getTitle(handler.getRelation(item))}}</h3>
+					</div>
+					<div class="cb-item-action">
+						<md-button ng-click="handler.removeRelation(item)" >
+					      {{handler.$rootScope.translate('btn_remove')}}
+					    </md-button>
+					</div>
+			    </div>
+			</div>
+
+			<div ng-if="handler.single && !handler.loadingItems" class="repeated-item cb-item" layout flex>
+				<div class="cb-item-inner">
+					<div class="cb-item-text" layout="column">
+						<h3 class="cb-item-title">{{handler.getTitle(handler.getRelation(handler.getValue()))}}</h3>
+					</div>
+					<div class="cb-item-action">
+						<md-button ng-click="handler.removeRelation()" >
+					      {{handler.$rootScope.translate('btn_remove')}}
+					    </md-button>
+					</div>
+			    </div>
+			</div>
+
+		</div>
+
+	</md-content>
+</div>
+
+<!-- selection mode -->
+<div ng-if="handler.selectionMode">
+
+	<md-toolbar class="cb-list-toolbar md-whiteframe-4dp">
+	  <div class="md-toolbar-tools">
+			<md-input-container md-no-float>
+					<input ng-model="handler.searchTerms" type="text" placeholder="{{handler.$rootScope.translate('search_placeholder')}}" cb-on-enter="handler.searchList()">
+			</md-input-container>
+
+			<span flex></span>
+
+			<md-button ng-click="handler.createNew()" >
+				{{handler.$rootScope.translate('btn_new')}}
+			</md-button>
+
+			<md-button ng-click="handler.cancelSelection()" >
+				{{handler.$rootScope.translate('btn_cancel')}}
+			</md-button>
+	  </div>
+	</md-toolbar>
+
+	<!-- body  -->
+	<md-content flex layout="column" >
+		<md-progress-linear md-mode="query" ng-disabled="handler.selectionReady"></md-progress-linear>
+		<div layout class="selection-listing">
+			<md-virtual-repeat-container ng-show="handler.selectionReady" class="selection-listing">
+
+			    <md-list-item
+						layout
+						flex
+						class="md-2-line repeated-item cb-item"
+						ng-class="{selected: handler.isSelected(item)}"
+						md-virtual-repeat="item in handler.dynamicItems"
+			      md-on-demand
+			      ng-click="handler.itemClicked(item)">
+
+			        <md-checkbox
+								ng-checked="handler.isSelected(item)"
+			          ng-show="handler.multipleSelection">
+							</md-checkbox>
+
+			        <!-- <div class="cb-item-media">
+			          <img ng-src="" class="md-avatar" alt="{{todos[0].who}}" />
+			        </div> -->
+
+			        <div class="md-list-item-text">
+			          <h3 class="cb-item-title">{{handler.getTitle(item)}}</h3>
+			        </div>
+
+			    </md-list-item>
+			</md-virtual-repeat-container>
+		</div>
+	</md-content>
+
+	<!-- footer  -->
+	<md-toolbar class="cb-list-footer">
+	  <div class="md-toolbar-tools">
+	    <div class="selection-status"
+	         layout layout-align="start center"
+	         ng-show="handler.hasSelectedItems()">
+	      <md-button class="md-icon-button clear-selected" ng-click="handler.clearSelected()">
+	        <md-icon class="material-icon">close</md-icon>
+	      </md-button>
+	      <span class="separator"></span>
+	      <span class="selection-text">{{ handler.selectedItemsCount() }} {{handler.$rootScope.translate('selected_label')}}</span>
+	    </div>
+	    <span flex></span>
+	    <div class="">
+	      <md-button class="md-raised md-secondary"
+	                 ng-click="handler.handleSelection()"
+	                 ng-disabled="!handler.hasSelectedItems()">
+	        {{handler.$rootScope.translate('btn_done')}}
+	      </md-button>
+	    </div>
+	  </div>
+	</md-toolbar>
+</div>
+
+<cb-multiselect 
+	style="display: none;" 
+	ng-model="handler.entity.attributes.fields[handler.fieldCode]" 
+	name="field-{{handler.fieldCode}}" 
+	ng-required="handler.attribute.attributes.required">
+	
+</cb-multiselect>
+
+<div 
+	ng-messages="handler.form['field-'+handler.fieldCode].$error" 
+	ng-show="handler.form.$submitted || handler.form['field-'+handler.fieldCode].$dirty">
+	<div ng-message="required">{{handler.fieldName}} is required.</div>
+</div>

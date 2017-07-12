@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:ng="http://angularjs.org" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>ConGraph Administration</title>
+
+    <!-- local css/fonts -->
+    <!-- <link rel="stylesheet" href="./dist/css/materialicons.css"> -->
+    <!-- <link rel="stylesheet" href="./dist/css/roboto.css"> -->
+
+    <!-- google cdn css/fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic">
+
+    <!-- <link rel="stylesheet" href="./bower_components/angular-material/angular-material.min.css"/>
+    <link rel="stylesheet" href="./dist/css/main.min.css?v=<?php echo '0.1';?>" media="all" type="text/css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        window.SETTINGS = <%- JSON.stringify(settings) %>
+    </script>
+</head>
+<body>
+
+    <div ui-view id="app" role="application" flex ng-cloak></div>
+
+    <div id="appLoader">
+        <div class="app-loader-wrapper">
+            <p id="loader-text" class="app-loader-text"></p>
+            <span class="app-loader-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </span>
+        </div>
+    </div>
+
+    <!-- main files -->
+    <script src="./assets/app.js"></script>
+    <!-- <script src="./assets/vendor.js"></script> -->
+
+    <script>
+        // angular.element(document).ready(function() {
+        //     angular.bootstrap(document, ['app']);
+        // });
+        window.onload = function(){
+            console.log('onload');
+        };
+    </script>
+
+
+</body>
+</html>

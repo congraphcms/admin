@@ -1,0 +1,17 @@
+<md-input-container class="md-block" flex>
+	<md-radio-group 
+		name="field-{{handler.fieldCode}}" 
+		ng-model="handler.entity.attributes.fields[handler.attribute.attributes.code]"
+		ng-required="handler.attribute.attributes.required"
+		aria-label="fields {{handler.fieldCode}}">
+		<md-radio-button 
+			ng-repeat="option in handler.attribute.get('options')" 
+			value="{{option.value}}" >
+			{{option.label}}
+		</md-radio-button>
+	</md-radio-group>
+	<div ng-messages="handler.form['field-'+handler.fieldCode].$error">
+		<div ng-message="required">{{handler.fieldName}} is required.</div>
+		<div ng-message="unique">{{handler.fieldName}} already taken.</div>
+	</div>
+</md-input-container>

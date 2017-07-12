@@ -1,0 +1,16 @@
+<md-input-container class="md-block" flex>
+	<input 
+		type="number" 
+		name="field-{{handler.fieldCode}}" 
+		ng-model="handler.entity.attributes.fields[handler.attribute.attributes.code]"
+		ng-model-options="{ debounce: 400 }" 
+		ng-required="handler.attribute.attributes.required" 
+		entity-field-unique="handler.entity" 
+		entity-field-attribute="handler.attribute" 
+		step="0.1" 
+		aria-label="fields {{handler.fieldCode}}"/>
+	<div ng-messages="handler.form['field-'+handler.fieldCode].$error">
+		<div ng-message="required">{{handler.fieldName}} is required.</div>
+		<div ng-message="unique">{{handler.fieldName}} already taken.</div>
+	</div>
+</md-input-container>

@@ -1,0 +1,120 @@
+<div class="cb-view" flex layout="column">
+
+    <!-- app subheader -->
+    <md-toolbar class="app-subheader">
+        <div class="md-toolbar-tools">
+            <h3 class="app-view-title">
+                {{translate('content_models_label')}}
+                <span ng-if="vm.detailState() && vm.ready">
+                    &nbsp;/&nbsp;{{vm.selectedModel.attributes.name}}
+                </span>
+            </h3>
+
+            <span flex></span>
+            <!-- <md-button class="md-raised md-accent" ui-sref="app.contentModelNew">Create New</md-button> -->
+        </div>
+    </md-toolbar>
+
+    <div flex layout="row" class="app-view-content">
+
+        <!-- listing -->
+        <div flex layout="column" class="cb-view-sidenav">
+            <!-- header -->
+            <md-toolbar class="cb-toolbar cb-white cb-border-b">
+                <div class="md-toolbar-tools">
+
+                  <md-button
+                    aria-label="Create new content type"
+                    class="md-raised md-accent cb-primary-action"
+                    md-colors="{background: 'blue'}"
+                    ui-sref="app.contentModelNew">
+                    {{translate('btn_new')}}
+                  </md-button>
+
+                  <span flex></span>
+
+                  <md-menu md-position-mode="target-right target">
+                      <md-button class="md-icon-button"
+                                 aria-label="Sort items by"
+                                 ng-click="vm.openSortMenu($mdOpenMenu, $event)">
+                          <md-icon class="material-icons">sort_by_alpha</md-icon>
+                      </md-button>
+                      <md-menu-content width="3">
+                          <md-menu-item ng-repeat="option in vm.sortOptions">
+                              <md-button ng-click="vm.setSortOption(option)">
+                                  <md-icon ng-class="{hidden: vm.sortOption != option}"
+                                           class="material-icons">done</md-icon>
+                                  {{ option.label }}
+                              </md-button>
+                          </md-menu-item>
+                      </md-menu-content>
+                  </md-menu>
+
+                </div>
+            </md-toolbar>
+
+            <!-- body -->
+            <md-content flex>
+
+                <div class="cb-pad" layout="row" layout-align="center center" ng-hide="vm.ready" >
+                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                </div>
+
+                <!-- Empty State -->
+                <div ng-if="vm.empty" ng-show="vm.ready" layout="column" layout-align="center center" flex>
+                    <h2>{{translate('no_content_types_info')}}</h2>
+                    <p>{{translate('no_content_types_help')}}</p>
+                </div>
+
+                <md-list ng-if="!vm.empty && vm.ready">
+
+                    <md-list-item
+                        ng-repeat="item in vm.list"
+                        ng-click="vm.viewContentModel(item)"
+                        class="md-2-line">
+                        <div class="cb-item-loader busy" ng-show="vm.modelBusy(item)">
+                            <md-progress-linear md-mode="query" ></md-progress-linear>
+                        </div>
+
+                        <div class="md-list-item-text">
+                            <h3>{{item.attributes.name}}</h3>
+                            <p>({{item.attributes.plural_name}})</p>
+                        </div>
+
+                        <div class="separator"></div>
+
+                        <!-- OPTIONS -->
+                        <md-menu class="md-secondary" md-position-mode="target-right target">
+                            <md-button aria-label="Open model menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                                <md-icon class="material-icons">more_horiz</md-icon>
+                            </md-button>
+                            <md-menu-content width="3" >
+                                <md-menu-item >
+                                    <md-button ng-disabled="1">
+                                        {{translate('btn_duplicate')}}
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-divider></md-menu-divider>
+                                <md-menu-item>
+                                    <md-button ng-click="vm.deleteContentModel(item)">
+                                        {{translate('btn_delete')}}
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+
+                        <md-divider inset></md-divider>
+                    </md-list-item>
+
+                </md-list>
+
+            </md-content>
+        </div>
+
+        <!-- Content Type Overview -->
+        <div flex>
+            <ui-view></ui-view>
+        </div>
+
+    </div>
+</div>

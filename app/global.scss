@@ -1,0 +1,169 @@
+
+
+#app,
+.app-wrapper,
+.app-view,
+.app-view-content {
+	height: 100%;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+// app subheader
+md-toolbar.md-default-theme:not(.md-menu-toolbar),
+md-toolbar:not(.md-menu-toolbar) {
+
+	&.app-subheader {
+	    background-color: #4f38a8; // cb purple
+	    color: rgba(255,255,255,0.87);
+	}
+}
+
+.app-view-title {
+
+	max-width:100%;
+	width:500px;
+	a {
+		text-decoration: none;
+		color: inherit;
+
+		&:hover {
+			text-decoration: none;
+			color: inherit;
+		}
+	}
+}
+
+@media (max-width: 959px) {
+    .app-view-title {
+    	font-size: 14px!important;
+    }
+}
+
+
+
+.cb-view {
+	position: relative;
+	overflow: hidden;
+	height: 100%;
+	z-index: 0;
+}
+
+.cb-child-view {
+	position: absolute;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 15;
+	display: none;
+}
+
+.cb-view-sidenav {
+	width: 304px;
+	max-width: 304px;
+}
+
+.cb-container {
+  padding: 0 16px ;
+ 	max-width: 1170px;
+	margin: 0 auto;
+}
+
+.cb-nav {
+
+	md-list-item .md-no-style.md-button,
+	md-list-item.md-no-proxy.md-button {
+	    margin: 0;
+	}
+}
+
+.cb-action {
+	.md-toolbar-tools {
+
+		.md-button:first-child,
+		.md-button:first-child,
+		.cb-primary-action {
+			margin: 0;
+		}
+	}
+}
+
+
+// Links
+// ==========================================================================
+
+//
+// Remove the gray background color from active links in IE 10.
+//
+
+a {
+  background-color: transparent;
+}
+
+//
+// Improve readability of focused elements when they are also in an
+// active/hover state.
+//
+
+a:active,
+a:hover {
+  outline: 0;
+}
+
+a {
+	background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+	color: #15c;
+	text-decoration: none;
+
+	&:hover,
+	&:focus {
+		color: #15c;
+		text-decoration: underline;
+	}
+
+	&:focus {
+		// .tab-focus();
+	}
+}
+
+// Code
+// ==========================================================================
+
+code,
+pre,
+.pre-style {
+    background: #f7f7f7;
+    color: #37474f;
+    font: 400 100%/1 Roboto Mono,monospace;
+    padding: 1px 4px;
+}
+
+code {
+    font: 500 90%/1 Roboto Mono,monospace;
+    word-break: break-word;
+}
+
+
+.md-inline-list-icon-label {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: -10px;
+  height: 24px;
+  vertical-align: middle;
+}
+@media (max-width: 600px) {
+	.md-button {
+		min-width: 45px;
+	}
+
+	.md-toolbar-tools {
+		padding: 0 8px;
+	}
+}

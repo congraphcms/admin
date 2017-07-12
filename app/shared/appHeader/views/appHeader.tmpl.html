@@ -1,0 +1,67 @@
+<md-toolbar layout="row" id="app-header">
+    
+    <div class="md-toolbar-tools cb-app-title">
+        <md-button ng-click="ctrl.appSidenavToggle()" 
+                   class="cb-rect-button md-icon-button" 
+                   aria-label="Menu" >
+            <md-icon class="material-icons">menu</md-icon>
+        </md-button>
+        <h1 ng-show="ctrl.$mdMedia('gt-sm')">{{ ctrl.title }}</h1>
+    </div>
+    
+    <div class="md-toolbar-tools cb-search-wrapper" flex="66">
+        <app-search class="app-search" flex></app-search>
+    </div>
+
+    
+    <div class="md-toolbar-tools cb-account-menu-wrapper" flex="33">
+
+        <!-- Account display name -->
+        <span class="md-body-1" ng-show="ctrl.$mdMedia('gt-sm')">{{ctrl.user.name}}</span>
+
+        <!-- Account Menu -->
+        <md-menu md-position-mode="target-right target" md-offset="0 52" ng-if="ctrl.showProfile">
+            <md-button class="md-icon-button cb-user-avatar" 
+                       aria-label="Open account menu" 
+                       ng-click="$mdOpenMenu()">
+                <img src="https://www.gravatar.com/avatar/{{ctrl.getGravatar()}}?s=40">
+            </md-button>
+            <md-menu-content class="acc-menu cb-caret" width="5">
+                <div class="acc-menu-content">
+                    <div class="acc-menu-profile">
+                        <div class="profile-img">
+                            <img ng-src="https://www.gravatar.com/avatar/{{ctrl.getGravatar()}}?s=96">
+                        </div>
+                        <div class="profile-info">
+                            <div class="acc-display">{{ctrl.user.name}}</div>
+                            <div class="acc-email">{{ctrl.user.email}}</div>
+                            <md-button class="acc-button md-raised md-primary">{{ctrl.$rootScope.translate('account_settings_label')}}</md-button>
+                        </div>
+                    </div>
+                    <div class="acc-menu-actions">
+                        <md-button ng-click="ctrl.logout()">{{ctrl.$rootScope.translate('btn_logout')}}</md-button>
+                    </div>
+                </div>
+            </md-menu-content>
+        </md-menu>
+
+        <!-- Settings Menu (y offset 60 -> md-button padding ) -->
+        <md-menu md-position-mode="target-right target" md-offset="0 60" ng-show="ctrl.$mdMedia('gt-xs')">
+            <md-button aria-label="Open settings menu" 
+                       class="md-icon-button" 
+                       ng-click="$mdOpenMenu()">
+                <md-icon class="material-icons">settings</md-icon>
+            </md-button>
+            <md-menu-content width="4" class="cb-caret">
+                <md-menu-item ng-repeat="menuItem in ctrl.settingsMenuItems">
+                    <md-button>
+                        <md-icon class="material-icons">{{ menuItem.icon }}</md-icon>
+                        {{ menuItem.label }}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    
+    </div>
+
+</md-toolbar>

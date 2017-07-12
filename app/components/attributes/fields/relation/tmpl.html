@@ -1,0 +1,43 @@
+<!-- Name / slug -->
+<h3>{{$root.translate('relation_section_title')}}</h3>
+<md-list>
+	<!-- Allowed file types -->
+	<md-list-item class="md-2-line">
+		<div class="md-list-item-text" layout="column">
+			<h3>{{$root.translate('relation_allowed_types_label')}}</h3>
+			<p>{{$root.translate('relation_allowed_types_help')}}</p>
+		</div>
+		<md-checkbox ng-model="fieldCtrl.hasTypeValidation"
+					 ng-true-value="true"
+					 ng-false-value="false"
+					 class="md-secondary">
+		</md-checkbox>
+	</md-list-item>
+
+</md-list>
+<div ng-show="fieldCtrl.hasTypeValidation">
+	<md-toolbar class="cb-white cb-border-b">
+		<div class="md-toolbar-tools">
+			<h2>
+				<span>{{$root.translate('relation_select_allowed_types_title')}}</span>
+			</h2>
+		</div>
+	</md-toolbar>
+	<div layout-gt-sm="row" layout="column" style="height: 400px;">
+		<md-content class="cb-white" flex>
+			<md-list>
+				<md-list-item ng-repeat="type in fieldCtrl.entityTypes" 
+							  ng-click="fieldCtrl.toggleType(type)"
+							  class="md-2-line">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ type.attributes.name }}</h3>
+						<p></p>
+					</div>
+					<md-checkbox ng-checked="fieldCtrl.allowedType(type)"
+								 class="md-secondary">
+					</md-checkbox>
+				</md-list-item>
+			</md-list>
+		</md-content>
+	</div>
+</div>

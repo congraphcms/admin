@@ -1,0 +1,40 @@
+<md-autocomplete md-no-cache="searchCtrl.noCache"
+                 md-autoselect="true"
+                 md-select-on-focus="true"
+                 md-selected-item="searchCtrl.selectedItem"
+                 md-selected-item-change="searchCtrl.selectionChanged()"
+                 md-search-text="searchCtrl.searchText"
+                 md-items="item in searchCtrl.querySearch(searchCtrl.searchText)"
+                 md-item-text="item.getTitle()"
+                 md-min-length="1"
+                 placeholder="{{$root.translate('search_placeholder')}}"
+                 md-menu-class="autocomplete-custom-template" >
+  <md-item-template>
+    <div class="cb-listing-item" layout="column">
+
+      <!-- CASE TEMPLATE -->
+      <div flex class=" cb-item-title" layout ng-if="item.get('entity_type') == 'case'">
+        <md-icon class="md-avatar-icon material-icons cb-item-icon">folder_open</md-icon>
+        <div flex>
+          <p md-highlight-text="searchCtrl.searchText" md-highlight-flags="i" md-truncate>
+            {{item.getCaseTitle()}}
+          </p>
+          <span class="md-caption">Klijent: {{item.getField('case_client').getContactName()}}</span>
+        </div>
+      </div>
+
+      <!-- CONTACT TEMPLATE -->
+      <div flex class=" cb-item-title" layout ng-if="item.get('entity_type') == 'contact'">
+        <md-icon class="md-avatar-icon material-icons cb-item-icon">person</md-icon>
+        <div flex>
+          <p md-highlight-text="searchCtrl.searchText" md-highlight-flags="i" md-truncate>
+            {{item.getContactName()}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </md-item-template>
+  <md-not-found>
+      {{$root.translate('no_items_line_1')}}"{{searchCtrl.searchText}}"{{$root.translate('no_items_line_2')}}
+  </md-not-found>
+</md-autocomplete>

@@ -1,0 +1,72 @@
+
+#app-sidenav {
+	z-index: 90;
+}
+
+#app-sidenav-header {
+	align-items: center;
+	justify-content: center;
+}
+
+#app-sidenav-header {
+	background: #000;
+	color:#fff;
+	padding:0;
+}
+
+#app-sidenav-header .wrap {
+	text-align: center;
+}
+
+#app-sidenav-header h1 {
+	margin:0;
+}
+
+#app-sidenav-header a,
+#app-sidenav-header a:hover,
+#app-sidenav-header a:active {
+	text-decoration: none;
+	color:#aaa;
+}
+
+#app-sidenav-header .cb-brand {}
+#app-sidenav-header .cb-profile {
+	font-size: 14px;
+	color: rgba(255,255,255,0.75);
+}
+#app-sidenav-header .cb-profile .tw{
+	font-weight: 600;
+}
+
+md-sidenav.wide {
+	max-width: 90vw;
+	width: 90vw;
+}
+
+@media screen and (min-width: 768px) {
+  md-sidenav.wide {
+    width: 60vw;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  md-sidenav.wide {
+    width: 40vw;
+  }
+}
+
+@media screen and (min-width: 1380px) {
+  md-sidenav.wide {
+    width: 380px;
+  }
+}
+
+@media screen and (min-width: 1760px) {
+  md-sidenav.wide {
+    width: 450px;
+  }
+}
+
+md-sidenav.no-scroll {
+	overflow: hidden;
+}

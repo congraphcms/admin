@@ -1,0 +1,54 @@
+<div class="cb-view" flex layout="column" >
+
+    <!-- app subheader -->
+    <md-toolbar class="app-subheader cb-border-b">
+        <div class="md-toolbar-tools">
+
+            <md-button class="md-icon-button" ng-click="vm.discard()">
+                <md-icon class="material-icons">arrow_back</md-icon>
+            </md-button>
+
+            <h3 class="app-view-title">
+                <a ui-sref="app.contentModels">Content Models</a> /
+                <a ng-click="vm.discard()">{{vm.contentModel.attributes.name}}</a> /
+                <span>General Settings</span>
+            </h3>
+
+            <span flex></span>
+
+            <md-button
+              aria-label="Save"
+              class="md-raised md-accent"
+              ng-click="vm.save()"
+              ng-disabled="!vm.canSave()">
+              Save
+            </md-button>
+
+            <!-- options menu -->
+            <md-menu md-position-mode="target-right target" >
+                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon class="material-icons">more_vert</md-icon>
+                </md-button>
+                <md-menu-content width="4" >
+                    <md-menu-item ng-repeat-start="item in vm.optionsMenuItems" ng-if="item.label" >
+                        <md-button ng-click="item.action()" ng-disabled="item.disabled()">
+                          <md-icon class="material-icons">{{ item.icon }}</md-icon>
+                          {{ item.label }}
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-divider ng-repeat-end ng-if="item.divider"></md-menu-divider>
+                </md-menu-content>
+            </md-menu>
+
+        </div>
+    </md-toolbar>
+
+    <md-content flex layout-padding class="cb-transparent">
+        <div class="cb-container">
+            <div class="md-whiteframe-1dp">
+                <form novalidate content-model-general-editor model="vm.model"></form>
+            </div>
+        </div>
+    </md-content>
+
+</div>

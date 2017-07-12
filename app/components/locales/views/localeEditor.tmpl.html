@@ -1,0 +1,36 @@
+<div class="cb-white cb-pad">
+
+	<!-- Locale Settings -->
+	<h3>{{$root.translate('locale_settings_label')}}</h3>
+	<div layout="column">
+
+		<md-input-container>
+			<label>{{$root.translate('locale_name_label')}}</label>
+			<input placeholder="{{$root.translate('locale_name_placeholder')}}" required ng-minlength="3" ng-maxlength="50" name="name" ng-model="editor.model.attributes.name">
+			<div ng-messages="editor.form.name.$error">
+				<div ng-message="required">{{$root.translate('locale_name_required_error')}}</div>
+				<div ng-message="minlength">{{$root.translate('locale_name_length_error')}}</div>
+			</div>
+			<div class="cb-input-hint md-caption"></div>
+		</md-input-container>
+
+		<md-input-container>
+			<label>{{$root.translate('locale_code_label')}}</label>
+			<input placeholder="{{$root.translate('locale_code_placeholder')}}" required ng-minlength="2" ng-maxlength="50" name="code" ng-model="editor.model.attributes.code" locale-code-unique="editor.model" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
+			<div ng-messages="editor.form.code.$error">
+				<div ng-message="required">{{$root.translate('locale_code_required_error')}}</div>
+				<div ng-message="minlength">{{$root.translate('locale_code_length_error')}}</div>
+				<div ng-message="unique">{{$root.translate('locale_code_unique_error')}}</div>
+			</div>
+			<div class="cb-input-hint md-caption"></div>
+		</md-input-container>
+
+		<md-input-container>
+			<label>{{$root.translate('locale_description_label')}}</label>
+			<input placeholder="{{$root.translate('locale_description_placeholder')}}" name="description" ng-model="editor.model.attributes.description">
+			<div class="cb-input-hint md-caption"></div>
+		</md-input-container>
+
+	</div>
+
+</div>

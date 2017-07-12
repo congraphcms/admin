@@ -1,0 +1,20 @@
+<md-input-container class="md-block" flex>
+	<div ng-repeat="option in handler.attribute.get('options')">
+		<md-checkbox 
+			ng-checked="handler.exists(option)" 
+			ng-click="handler.toggle(option)"
+			aria-label="fields {{handler.fieldCode}}">
+			{{option.label}}
+		</md-checkbox>
+	</div>
+	<input 
+		type="hidden" 
+		name="field-{{handler.fieldCode}}"
+		ng-model="handler.entity.attributes.fields[handler.attribute.attributes.code]"
+		ng-required="handler.attribute.attributes.required"
+		aria-label="fields {{handler.fieldCode}}" />
+	<div ng-messages="handler.form['field-'+handler.fieldCode].$error">
+		<div ng-message="required">{{handler.fieldName}} is required.</div>
+		<div ng-message="unique">{{handler.fieldName}} already taken.</div>
+	</div>
+</md-input-container>

@@ -1,0 +1,341 @@
+<div class="cb-view" layout="row" layout-fill ng-show="vm.stateActive()">
+
+	<!-- settings page (ui-view) -->
+    <div layout="column" flex>
+
+	    <!-- app subheader -->
+	    <md-toolbar class="app-subheader cb-border-b"  ng-if="!vm.listDetail()">
+	    	<div class="md-toolbar-tools">
+	    		<md-button class="md-icon-button">
+	                <a ui-sref="app.contentModelList"><md-icon class="material-icons">arrow_back</md-icon></a>
+	            </md-button>
+	            <h3 class="app-view-title" ng-if="!vm.isNew()">
+	                <a ui-sref="app.contentModelList">{{translate('content_models_label')}}</a> / {{vm.model.attributes.name}}
+	            </h3>
+	        </div>
+	    </md-toolbar>
+
+	    <md-content layout="column" flex class="app-view-content cb-transparent" style="overflow-y:visible">
+
+	    	<div class="cb-container" ng-show="vm.loadingModel">
+	    		<div class="cb-pad" layout="row" layout-sm="column" layout-align="space-around">
+					<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+				</div>
+	    	</div>
+
+	    	<div class="cb-container" ng-show="vm.modelError">
+	    		<h3>{{translate('content_type_dont_exist')}}</h3>
+	    	</div>
+
+			<div
+        class="cb-container"
+        style="padding-bottom:60px;"
+        ng-show="!vm.loadingModel && !vm.modelError">
+
+      	<!-- GENRAL -->
+				<section>
+					<h3 class="md-display-1">{{translate('content_type_general_settings_label')}}</h3>
+					<div layout="row">
+
+						<div flex="30">
+
+			              <md-list>
+			              	<md-list-item class="md-2-line" ng-show="!vm.model.attributes.attribute_sets.models.length">
+			              		<div class="md-list-item-text" layout="column">
+					                  <h3>{{translate('content_type_not_completed_warning')}}</h3>
+					                  <p>{{translate('content_type_not_completed_help')}}</p>
+			                  	</div>
+			                </md-list-item>	
+			                <md-list-item>
+			                  <md-button
+			                    class="md-raised md-primary md-list-item-content"
+			                    create-entity-link
+			                    attribute-sets="vm.model.attributes.attribute_sets" 
+			                    content-model="vm.model"
+			                    ng-disabled="!vm.model.attributes.attribute_sets.models.length">
+			                    <md-icon class="material-icons">add</md-icon>
+			                    <span class="md-inline-list-icon-label">{{translate('btn_new')}} {{vm.model.get('name')}}</span>
+			                  </md-button>
+			                </md-list-item>
+			                <md-list-item >
+			                  <md-button
+			                    class="md-primary md-list-item-content"
+			                    ui-sref="app.entities.type.list({type: vm.model.attributes.endpoint})"
+			                    ng-disabled="!vm.model.attributes.attribute_sets.models.length">
+			                    <md-icon class="material-icons">list</md-icon>
+			                    <span class="md-inline-list-icon-label">{{translate('btn_view_all')}} {{vm.model.get('plural_name')}}</span>
+			                  </md-button>
+			                </md-list-item>
+			                <md-divider ></md-divider>
+			                <md-list-item >
+			                  <md-button class="md-list-item-content" ng-disabled="true">
+			                    <md-icon class="material-icons">delete_forever</md-icon>
+			                    <span class="md-inline-list-icon-label">{{translate('btn_delete')}}</span>
+			                  </md-button>
+			                </md-list-item>
+			              </md-list>
+
+						</div>
+
+						<!-- spacer -->
+						<div flex="5"></div>
+
+						<div flex="65">
+
+							<md-whiteframe class="md-whiteframe-1dp" layout="column" style="background:white">
+								<div class="md-padding">
+									<h4>{{vm.model.get('name')}} {{translate('content_model_label')}}</h4>
+								</div>
+
+								<md-list>
+
+									<md-list-item class="md-2-line">
+										<div class="md-list-item-text" flex="40">
+											<h3>{{translate('content_type_name_label')}}</h3>
+										</div>
+										<div class="md-list-item-text" flex="60">
+											<h3>{{vm.model.attributes.name}}</h3>
+										</div>
+									</md-list-item>
+									<md-divider></md-divider>
+
+									<md-list-item class="md-2-line">
+										<div class="md-list-item-text" flex="40">
+											<h3>{{translate('content_type_plural_label')}}</h3>
+										</div>
+										<div class="md-list-item-text" flex="60">
+											<h3>{{vm.model.attributes.plural_name}}</h3>
+										</div>
+									</md-list-item>
+									<md-divider></md-divider>
+
+									<md-list-item class="md-2-line">
+										<div class="md-list-item-text" flex="40">
+											<h3>{{translate('content_type_code_label')}}</h3>
+										</div>
+										<div class="md-list-item-text" flex="60">
+											<h3>{{vm.model.attributes.code}}</h3>
+										</div>
+									</md-list-item>
+									<md-divider></md-divider>
+
+									<md-list-item class="md-2-line">
+										<div class="md-list-item-text" flex="40">
+											<h3>{{translate('content_type_endpoint_label')}}</h3>
+										</div>
+										<div class="md-list-item-text" flex="60">
+											<h3>{{vm.model.attributes.endpoint}}</h3>
+										</div>
+									</md-list-item>
+									<md-divider></md-divider>
+
+									<md-list-item class="md-2-line">
+										<div class="md-list-item-text" flex="40">
+											<h3>{{translate('content_type_localized_label')}}</h3>
+										</div>
+										<div class="md-list-item-text" flex="60">
+											<h3 ng-if="vm.model.attributes.localized" style="color: #009e55;">Yes</h3>
+											<h3 ng-if="!vm.model.attributes.localized">No</h3>
+										</div>
+									</md-list-item>
+									<md-divider></md-divider>
+
+									<md-list-item class="md-2-line">
+										<div class="md-list-item-text" flex="40">
+											<h3>{{translate('content_type_mulitple_sets_label')}}</h3>
+										</div>
+										<div class="md-list-item-text" flex="60">
+											<h3 ng-if="!vm.model.attributes.multiple_sets" style="color: #009e55;">Yes</h3>
+											<h3 ng-if="vm.model.attributes.multiple_sets">No</h3>
+										</div>
+									</md-list-item>
+
+								</md-list>
+
+								<md-divider></md-divider>
+
+								<div class="md-padding" layout="row" layout-align="end center">
+									<md-button class="md-primary" ng-click="vm.editGeneral()">{{translate('btn_edit')}}</md-button>
+								</div>
+
+	  						</md-whiteframe>
+						</div>
+
+					</div>
+				</section>
+				<md-divider style="margin:32px 0;"></md-divider>
+
+      	<!-- ATTRIBUTE SETS -->
+				<section>
+					<h3 class="md-display-1">{{translate('content_type_attribute_sets_label')}}</h3>
+					<div layout="row">
+
+						<div flex="30">
+							<p>{{translate('content_type_attribute_set_description')}}</p>
+              <md-list>
+                <md-list-item>
+                  <md-button
+                    aria-label="Add new attribute set"
+                    class="md-raised md-primary md-list-item-content"
+                    ng-click="vm.addAttributeSet()">
+                    <md-icon class="material-icons">add</md-icon>
+                    <span class="md-inline-list-icon-label">{{translate('btn_new')}} {{translate('content_type_attribute_set_label')}}</span>
+                  </md-button>
+                </md-list-item>
+              </md-list>
+						</div>
+
+						<!-- spacer -->
+						<div flex="5"></div>
+
+						<div flex="65">
+							<md-whiteframe class="md-whiteframe-1dp" layout="column" style="background:white">
+
+			          <md-toolbar class="cb-white cb-border-b">
+									<div class="md-toolbar-tools">
+										<h2>{{translate('content_type_sets_label')}}</h2>
+										<span flex></span>
+									</div>
+								</md-toolbar>
+								<md-content style="max-height: 400px;">
+
+									<!-- Empty state -->
+									<div ng-if="!vm.attributeSets.length" layout="column" layout-align="center center" style="padding:40px">
+										<p>{{translate('content_type_no_sets_warning')}}<br/>{{translate('content_type_no_sets_help')}}</p>
+									</div>
+
+									<!-- List -->
+									<md-list>
+
+										<md-list-item ng-click="null" ng-repeat="set in vm.attributeSets.models">
+
+											<div flex="40">
+												<div class="cb-item-loader busy" ng-show="vm.setBusy(set)">
+													<md-progress-linear md-mode="query" ></md-progress-linear>
+												</div>
+												<p>{{set.attributes.name}}</p>
+											</div>
+
+                      <p flex="40">
+                        <code>{{set.attributes.code}}</code>
+                      </p>
+
+                      <span flex></span>
+
+											<!-- EDIT -->
+											<md-button
+			          				aria-label="edit field"
+												class="md-secondary"
+												ng-click="vm.editAttributeSet(set)">
+												{{translate('btn_edit')}}
+											</md-button>
+
+
+
+											<!-- OPTIONS -->
+											<md-menu class="md-secondary" md-position-mode="target-right target">
+												<md-button aria-label="Open set menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+													<md-icon class="material-icons">more_horiz</md-icon>
+												</md-button>
+												<md-menu-content width="3" >
+													<md-menu-item >
+														<md-button ng-disabled="vm.model.attributes.default_set_id == set.id" ng-click="vm.setDefaultAttributeSet(set)">
+															{{translate('content_type_btn_set_default_set')}}
+														</md-button>
+													</md-menu-item>
+													<md-menu-divider></md-menu-divider>
+													<md-menu-item >
+														<md-button ng-disabled="1">
+															{{translate('btn_duplicate')}}
+														</md-button>
+													</md-menu-item>
+													<md-menu-divider></md-menu-divider>
+													<md-menu-item>
+														<md-button ng-click="vm.deleteAttributeSet(set)">
+															{{translate('btn_delete')}}
+														</md-button>
+													</md-menu-item>
+												</md-menu-content>
+											</md-menu>
+
+										</md-list-item>
+
+										<md-divider ng-show="!$last"></md-divider>
+									</md-list>
+								</md-content>
+	  						</md-whiteframe>
+						</div>
+
+					</div>
+				</section>
+        <md-divider style="margin:32px 0;"></md-divider>
+
+      	<!-- WORKFLOW -->
+				<section>
+					<h3 class="md-display-1">{{translate('content_type_workflow_label')}}</h3>
+					<div layout="row">
+
+						<div flex="30"></div>
+
+						<!-- spacer -->
+						<div flex="5"></div>
+
+						<div flex="65">
+							<md-whiteframe class="md-whiteframe-1dp" layout="column" style="background:white">
+								<div class="md-padding">
+									<h4>{{vm.workflow.attributes.name}}</h4>
+									<p>{{vm.workflow.attributes.description}}</p>
+								</div>
+
+								<md-list>
+
+									<md-list-item class="md-2-line">
+
+										<div class="md-list-item-text" flex="40" style="margin-top:0">
+											<h3>{{translate('content_type_workflow_statuses_label')}}</h3>
+										</div>
+
+										<div class="md-list-item-text" flex="60">
+											<p class="status-summary" ng-repeat="point in vm.workflow.attributes.points.models">
+												<i class="status-badge"
+												   ng-class="{trashed: point.attributes.deleted, published: point.attributes.public, draft: !point.attributes.deleted && !point.attributes.public}"></i>
+												<span class="status-text" >{{point.attributes.name}}</span>
+											</p>
+										</div>
+
+									</md-list-item>
+									<md-divider></md-divider>
+
+									<md-list-item class="md-2-line">
+										<div class="md-list-item-text" flex="40">
+											<h3>{{translate('content_type_workflow_default_status_label')}}</h3>
+										</div>
+										<div class="md-list-item-text" flex="60">
+											<p class="status-summary">
+												<i class="status-badge"
+												   ng-class="{trashed: vm.defaultPoint.attributes.deleted, published: vm.defaultPoint.attributes.public, draft: !vm.defaultPoint.attributes.deleted && !vm.defaultPoint.attributes.public}"></i>
+												<span class="status-text" >{{vm.defaultPoint.attributes.name}}</span>
+											</p>
+										</div>
+									</md-list-item>
+								</md-list>
+								<md-divider></md-divider>
+
+								<div class="md-padding" layout="row" layout-align="end center">
+									<md-button class="md-primary" ng-click="vm.editWorkflow()">{{translate('btn_edit')}}</md-button>
+								</div>
+
+	  						</md-whiteframe>
+						</div>
+
+					</div>
+				</section>
+
+			</div>
+
+	    </md-content>
+	</div>
+
+</div>
+
+<div ui-view layout="column" flex ></div>

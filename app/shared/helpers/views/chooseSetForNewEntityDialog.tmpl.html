@@ -1,0 +1,37 @@
+<md-dialog aria-label="Choose set for new entity"  ng-cloak>
+  <form>
+    <md-toolbar class="cb-white">
+      <div class="md-toolbar-tools">
+        <h2>{{$root.translate('choose_attribute_set_modal_title')}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h4>{{$root.translate('choose_attribute_set_modal_help')}}</h4>
+        <div layout="row">
+          <md-input-container flex>
+            <label>{{$root.translate('choose_attribute_set_modal_label')}}</label>
+            <md-select ng-model="selectedSetId">
+              <md-option ng-repeat="set in attributeSets.models" value="{{set.id}}">
+                {{set.attributes.name}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        {{$root.translate('btn_cancel')}}
+      </md-button>
+      <md-button class="md-raised md-primary" ng-click="answer()" ng-disabled="!selectedSet"  md-autofocus>
+        {{$root.translate('btn_ok')}}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

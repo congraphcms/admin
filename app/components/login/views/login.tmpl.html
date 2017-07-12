@@ -1,0 +1,57 @@
+<!-- <div class="app-wrapper" flex layout="row">
+
+    <div flex layout="column">
+
+		<div ui-view flex layout="column" class="app-view"></div>
+
+	</div>
+</div> -->
+
+<div class="app-wrapper" flex layout="column">
+	<div layout="column" flex layout-align="center center">
+		<div class="cb-white md-whiteframe-2dp login-wrap">
+			<md-toolbar class="cb-transparent cb-border-b">
+				<div class="md-toolbar-tools">
+					<h2>
+						<span>{{translate('login_title')}}</span>
+					</h2>
+				</div>
+			</md-toolbar>
+			<div layout="column" layout-margin>
+				<ng-form name="loginForm" layout="column" flex cb-on-enter="vm.login()">
+					<md-input-container>
+						<label>{{translate('email_label')}}</label>
+						<input type="email" name="email" ng-model="vm.email" required>
+						<div ng-messages="loginForm.email.$error">
+							<div ng-message="required">{{translate('email_required_error')}}</div>
+							<div ng-message="email">{{translate('email_invalid_error')}}</div>
+						</div>
+					</md-input-container>
+					<md-input-container>
+						<label>{{translate('password_label')}}</label>
+						<input type="password" name="pass__" ng-model="vm.password" required ng-minlength="3">
+						<div ng-messages="loginForm.pass__.$error">
+							<div ng-message="required">{{translate('password_required_error')}}</div>
+							<div ng-message="minlength">{{translate('password_minlength_error')}}</div>
+						</div>
+					</md-input-container>
+
+					<div class="login-error">
+						<div ng-messages="vm.errors">
+							<div ng-message="serverError">{{vm.errors.serverErrorMessage}}</div>
+						</div>
+					</div>
+
+				</ng-form>
+
+			</div>
+
+			<md-toolbar class="cb-white">
+
+				<md-button class="md-primary md-raised" ng-click="vm.login()" ng-disabled="vm.busy">
+					{{translate('btn_login')}}
+				</md-button>
+			</md-toolbar>
+		</div>
+	</div>
+</div>

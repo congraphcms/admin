@@ -1,0 +1,257 @@
+<!-- AttributeEditor -->
+<div ng-if="editor.isNew()" ng-show="editor.activeStep == 1 || editor.activeStep == 2">
+
+	<!-- Type OLD -->
+	<!-- <div class="md-whiteframe-1dp" ng-show="editor.activeStep == 32">
+
+		<md-toolbar class="cb-white cb-border-b">
+			<div class="md-toolbar-tools">
+				<h3>Choose Field Type</h3>
+			</div>
+		</md-toolbar>
+
+		<md-content class="cb-white">
+			<md-list>
+				<md-list-item ng-repeat="(type, typeDef) in editor.fieldSelection"
+							  ng-click="editor.selectField(typeDef)"
+							  class="md-2-line">
+					<md-icon class="material-icons md-avatar">{{ typeDef.icon || "text_fields" }}</md-icon>
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ typeDef.label }}</h3>
+						<p>{{ typeDef.description }}</p>
+					</div>
+					<md-divider inset></md-divider>
+				</md-list-item>
+			</md-list>
+		</md-content>
+	</div> -->
+
+	<!-- Type NEW -->
+	<div class="" ng-show="editor.activeStep == 1">
+		<!-- <div class="">
+			<span style="display:block;width:100px;border-bottom:3px solid #00e5ff;"></span>
+			<h2 class="md-display-1">Getting Started</h2>
+			<p class="md-subhead" style="max-width:580px">Content is stored in entries which consist of highly modular and flexible fields. This allows to move away from the page-centric model which is very limiting in terms of content presentation</p>
+			<md-button class="md-raised md-primary" style="min-width:200px">Learn more</md-button>
+		</div> -->
+
+		<div layout="row" layout-wrap>
+
+			<!-- type card -->
+			<div
+				flex="25"
+				style="padding:8px;"
+				ng-class="{disabled: typeDef.disabled}"
+				ng-repeat="(type, typeDef) in editor.fieldSelection">
+				<div
+					layout="column"
+					class="md-whiteframe-1dp"
+					ng-mouseenter="cardClassHover = 'md-whiteframe-6dp'"
+					ng-mouseleave="cardClassHover = ''"
+					ng-class="cardClassHover"
+					style="background: #fff; padding:16px; min-height:100%; cursor: pointer; transition-duration: 0.2s; transition-timing-function: ease-in-out; transition-property: all;"
+					ng-click="editor.selectField(typeDef)" >
+
+					<div layout="column" flex>
+						<div>
+							<md-icon class="material-icons" ng-style="{'font-size': '48px', height: '48px'}">{{ typeDef.icon }}</md-icon>
+						</div>
+						<h3 class="md-headline">{{ typeDef.label }}</h3>
+						<p>{{ typeDef.description }}</p>
+					</div>
+
+					<span flex></span>
+
+					<div layout="row" layout-align="end center">
+						<md-button class="md-icon-button md-primary">
+							<md-icon class="material-icons">arrow_forward</md-icon>
+						</md-button>
+					</div>
+
+				</div>
+			</div>
+			<!-- END type card -->
+
+		</div>
+	</div>
+
+	<div class="md-whiteframe-1dp" ng-show="editor.activeStep == 2">
+		<md-toolbar class="cb-white cb-border-b">
+			<div class="md-toolbar-tools">
+				<md-button class="md-icon-button" ng-click="editor.prevStep()">
+	                <md-icon class="material-icons">arrow_back</md-icon>
+	            </md-button>
+				<h3>{{$root.translate('choose_field_type_title')}}</h3>
+			</div>
+		</md-toolbar>
+
+		<md-content class="cb-white">
+			<md-list>
+				<md-list-item ng-repeat="(type, typeDef) in editor.selectedField.sub_choices"
+							  ng-click="editor.selectFieldSubType(typeDef)"
+							  class="md-2-line">
+					<md-icon class="material-icons md-avatar">{{ typeDef.icon || "text_fields" }}</md-icon>
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ typeDef.label }}</h3>
+						<p>{{ typeDef.description }}</p>
+					</div>
+					<md-divider inset></md-divider>
+				</md-list-item>
+			</md-list>
+		</md-content>
+	</div>
+
+</div>
+
+<!-- AttributeEditor -->
+<div class="md-whiteframe-1dp" ng-show="editor.activeStep == 3">
+
+	<div >
+		<md-toolbar class="cb-white cb-border-b">
+			<div class="md-toolbar-tools">
+				<md-button class="md-icon-button" ng-click="editor.prevStep()">
+	                <md-icon class="material-icons">arrow_back</md-icon>
+	            </md-button>
+
+				<h3>{{$root.translate('choose_input_type_title')}}</h3>
+			</div>
+		</md-toolbar>
+
+		<md-content class="cb-white">
+			<md-list>
+				<md-list-item ng-repeat="(type, typeDef) in editor.fieldTypes[editor.attributeModel.attributes.field_type].input_choice"
+							  ng-click="editor.selectInput(typeDef)"
+							  class="md-2-line">
+					<md-icon class="material-icons md-avatar">{{ typeDef.icon || "text_fields" }}</md-icon>
+					<div class="md-list-item-text" layout="column">
+						<h3>{{ typeDef.label }}</h3>
+						<p>{{ typeDef.description }}</p>
+					</div>
+					<md-divider inset></md-divider>
+				</md-list-item>
+			</md-list>
+		</md-content>
+	</div>
+
+</div>
+
+
+<div class="md-whiteframe-1dp" ng-show="editor.activeStep == 4">
+	<div class="cb-white cb-pad">
+
+			<!-- Name / slug -->
+			<h3>{{$root.translate('name_code_section_title')}}</h3>
+			<div layout="column">
+
+				<md-input-container class="md-block">
+					<label>{{$root.translate('attribute_name_label')}}</label>
+					<input placeholder="{{$root.translate('attribute_name_placeholder')}}" required ng-minlength="3" ng-maxlength="50" name="admin_label" ng-model="editor.attributeModel.attributes.admin_label">
+					<div ng-messages="editor.form.admin_label.$error">
+						<div ng-message="required">{{$root.translate('attribute_name_required_error')}}</div>
+						<div ng-message="minlength">{{$root.translate('attribute_name_length_error')}}</div>
+					</div>
+					<div class="cb-input-hint md-caption">{{$root.translate('attribute_name_help')}}</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>{{$root.translate('attribute_code_label')}}</label>
+					<input placeholder="{{$root.translate('attribute_code_placeholder')}}" required ng-minlength="3" ng-maxlength="50" cb-attribute-code-unique="editor.attributeModel" name="code" ng-model="editor.attributeModel.attributes.code" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
+					<div ng-messages="editor.form.code.$error">
+						<div ng-message="required">{{$root.translate('attribute_code_required_error')}}</div>
+						<div ng-message="minlength">{{$root.translate('attribute_code_length_error')}}</div>
+						<div ng-message="unique">{{$root.translate('attribute_code_unique_error')}}</div>
+					</div>
+					<div class="cb-input-hint md-caption">{{$root.translate('attribute_code_help')}}</div>
+				</md-input-container>
+
+			</div>
+
+			<!-- Description -->
+			<md-input-container class="md-block">
+				<label>{{$root.translate('attribute_description_label')}}</label>
+				<textarea ng-model="editor.attributeModel.attributes.admin_notice" name="admin_notice" md-maxlength="150" rows="2" columns="1" ></textarea>
+				<div ng-messages="editor.form.admin_notice.$error">
+					<div ng-message="md-maxlength">{{$root.translate('attribute_description_length_error')}}</div>
+				</div>
+			</md-input-container>
+
+			<!-- Rules -->
+			<h3>{{$root.translate('rules_section_title')}}</h3>
+			<md-list>
+				<!-- is Required -->
+				<md-list-item class="md-2-line">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{$root.translate('attribute_required_label')}}</h3>
+						<p>{{$root.translate('attribute_required_help')}}</p>
+					</div>
+					<md-checkbox ng-model="editor.attributeModel.attributes.required"
+								 ng-true-value="1"
+								 ng-false-value="0"
+								 class="md-secondary">
+					</md-checkbox>
+				</md-list-item>
+
+				<!-- is Unique -->
+				<md-list-item class="md-2-line" ng-if="editor.fieldTypes[editor.attributeModel.attributes.field_type].can_be_unique">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{$root.translate('attribute_unique_label')}}</h3>
+						<p>{{$root.translate('attribute_unique_help')}}</p>
+					</div>
+					<md-checkbox ng-model="editor.attributeModel.attributes.unique"
+								 ng-disabled="!editor.isNew()"
+								 ng-true-value="1"
+								 ng-false-value="0"
+								 class="md-secondary">
+					</md-checkbox>
+				</md-list-item>
+
+				<!-- is Localized -->
+				<md-list-item class="md-2-line">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{$root.translate('attribute_localized_label')}}</h3>
+						<p>{{$root.translate('attribute_localized_help')}}</p>
+					</div>
+					<md-checkbox ng-model="editor.attributeModel.attributes.localized"
+								 ng-disabled="!editor.isNew()"
+								 ng-true-value="1"
+								 ng-false-value="0"
+								 class="md-secondary">
+					</md-checkbox>
+				</md-list-item>
+
+				<!-- is Filterable -->
+				<md-list-item class="md-2-line"  ng-if="editor.fieldTypes[editor.attributeModel.attributes.field_type].can_be_filter">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{$root.translate('attribute_filterable_label')}}</h3>
+						<p>{{$root.translate('attribute_filterable_help')}}</p>
+					</div>
+					<md-checkbox ng-model="editor.attributeModel.attributes.filterable"
+								 ng-true-value="1"
+								 ng-false-value="0"
+								 class="md-secondary">
+					</md-checkbox>
+				</md-list-item>
+
+				<!-- is Searchable -->
+				<md-list-item class="md-2-line"  ng-if="editor.fieldTypes[editor.attributeModel.attributes.field_type].can_be_used_in_search">
+					<div class="md-list-item-text" layout="column">
+						<h3>{{$root.translate('attribute_searchable_label')}}</h3>
+						<p>{{$root.translate('attribute_searchable_help')}}</p>
+					</div>
+					<md-checkbox ng-model="editor.attributeModel.attributes.searchable"
+								 ng-disabled="!editor.isNew()"
+								 ng-true-value="1"
+								 ng-false-value="0"
+								 class="md-secondary">
+					</md-checkbox>
+				</md-list-item>
+
+			</md-list>
+
+			<!-- Specific field type settings -->
+			<field-editor id="field-editor"></field-editor>
+
+			<!-- Attribute options -->
+
+	</div>
+</div>

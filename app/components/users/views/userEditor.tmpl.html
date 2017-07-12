@@ -1,0 +1,78 @@
+<div class="cb-white cb-pad">
+
+  <!-- User Settings -->
+  <h3>{{$root.translate('user_settings_label')}}</h3>
+  <div layout="column">
+
+    <md-input-container>
+      <label>{{$root.translate('user_name_label')}}</label>
+      <input placeholder="{{$root.translate('user_name_placeholder')}}" required ng-minlength="3" ng-maxlength="50" name="name" ng-model="editor.model.attributes.name">
+      <div ng-messages="editor.form.name.$error">
+        <div ng-message="required">{{$root.translate('user_name_required_error')}}</div>
+        <div ng-message="minlength">{{$root.translate('user_name_length_error')}}</div>
+      </div>
+      <div class="cb-input-hint md-caption"></div>
+    </md-input-container>
+
+    <md-input-container>
+      <label>{{$root.translate('user_email_label')}}</label>
+      <input 
+        placeholder="{{$root.translate('user_email_placeholder')}}" 
+        type="email" 
+        name="email" 
+        ng-model="editor.model.attributes.email" 
+        ng-disabled="!editor.isNew()"
+        required 
+        user-email-unique="editor.model" 
+        ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }" />
+      <div ng-messages="editor.form.email.$error">
+        <div ng-message="required">{{$root.translate('user_email_required_error')}}</div>
+        <div ng-message="email">{{$root.translate('user_email_invalid_error')}}</div>
+        <div ng-message="unique">{{$root.translate('user_email_unique_error')}}</div>
+      </div>
+      <div class="cb-input-hint md-caption"></div>
+    </md-input-container>
+
+    <md-input-container ng-if="editor.isNew()">
+      <label>{{$root.translate('user_password_label')}}</label>
+      <input type="password" name="password" required ng-minlength="5" ng-model="editor.model.attributes.password">
+      <div ng-messages="editor.form.password.$error">
+        <div ng-message="required">{{$root.translate('user_password_required_error')}}</div>
+        <div ng-message="minlength">{{$root.translate('user_password_length_error')}}</div>
+      </div>
+
+      <div class="cb-input-hint md-caption"></div>
+    </md-input-container>
+
+    <p ng-if="!editor.isNew()">
+      <a ui-sref=".password" style="cursor:pointer;">{{$root.translate('user_btn_change_password')}}</a>
+    </p>
+
+  </div>
+
+</div>
+
+<div class="cb-white cb-pad">
+
+  <!-- User Settings -->
+  <h3>{{$root.translate('user_roles_label')}}</h3>
+  <div layout="column">
+    <md-list>
+        <md-list-item 
+          class="md-2-line" 
+          ng-repeat="role in editor.roles.models"
+          ng-click="editor.toggleRole(role)">
+          <div class="md-list-item-text" layout="column">
+            <h3>{{role.attributes.name}}</h3>
+            <p>{{role.attributes.description}}</p>
+          </div>
+          <md-checkbox 
+                 ng-checked="editor.userHasRole(role)"
+                 class="md-secondary">
+          </md-checkbox>
+        </md-list-item>
+      </md-list>
+
+  </div>
+
+</div>

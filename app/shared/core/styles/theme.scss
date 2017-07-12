@@ -1,0 +1,264 @@
+.cb-white {
+	background-color: #fff;
+}
+
+.cb-pad {
+	padding: 24px 16px 16px;
+}
+
+.cb-clickable {
+	cursor: pointer;
+	outline: none;
+	&.cb-hover {
+		&:hover {
+			background: rgba(0,0,0,0.12);
+		}
+	}
+}
+
+
+md-toolbar {
+
+	&.cb-white {
+		background-color: #fff;
+		color: rgba(0,0,0,0.87);
+
+		md-icon,
+		.md-button:not(.md-raised) {
+		    color: rgba(0, 0, 0, 0.87);
+		}
+
+		.md-button[disabled] md-icon {
+			color: rgba(0,0,0,0.26);
+    		fill: rgba(0,0,0,0.26);
+		}
+	}
+
+    &.cb-light {
+		background-color: #eeeeee;
+		color: rgba(0,0,0,0.87);
+
+		md-icon,
+		.md-button:not(.md-raised) {
+		    color: rgba(0, 0, 0, 0.87);
+		}
+	}
+
+	&.cb-transparent {
+		background-color: transparent;
+		color: rgba(0,0,0,0.87);
+
+		md-icon,
+		.md-button:not(.md-raised) {
+		    color: rgba(0, 0, 0, 0.87);
+		}
+	}
+
+	.cb-tab-link {
+		height: 100%;
+		padding: 18px;
+		cursor: pointer;
+		outline: none;
+		&.active {
+			border-bottom: 2px solid #4f38a8;
+		}
+	}
+}
+
+.cb-border-b {
+	border-bottom:1px solid rgba(0,0,0,0.12);
+}
+
+md-content {
+
+	&.cb-transparent {
+	    background-color: transparent;
+	    color: rgba(0,0,0,0.87);
+
+	    .md-subheader.md-default-theme,
+		.md-subheader {
+		    background-color: transparent;
+		}
+	}
+
+	&.cb-white {
+		background-color: #fff;
+		color: rgba(0,0,0,0.87);
+	}
+
+	&.cb-light {
+		background-color: #eeeeee;
+		color: rgba(0,0,0,0.87);
+	}
+
+}
+
+md-menu-content {
+	&.cb-caret {
+		&:before {
+			content: " ";
+			display: block;
+		    position: absolute;
+		    top: -8px;
+		    right: 12px;
+		    border-color: transparent;
+		    border-bottom-color: #fff;
+		    border-style: dashed dashed solid;
+		    border-width: 0 8px 8px;
+		    z-index: 1;
+		    height: 0;
+		    width: 0;
+		}
+	}
+}
+
+.title-accent {
+	display:block;
+	width:100px;
+	border-bottom:3px solid #00e5ff;
+}
+
+.detail-head {
+}
+
+.detail-title {
+  display: flex;
+  flex-direction: row;
+  margin: 1em 0;
+  
+  .detail-num {}
+  .dash { margin:0 8px;}
+  .detail-desc {
+    &.detail-desc-empty {
+      color:rgba(0,0,0,.24);
+    }
+  }
+}
+
+.detail-action-row {
+  margin: 0 0 1rem 0;
+}
+
+.detail-info {
+  border:1px solid #ccc;
+  margin-bottom: 2em;
+  
+  .detail-info-nums {}
+  .detail-info-other {}
+}
+
+.detail-people {
+	background: #fff;
+	margin-bottom: 2em;
+	md-list {
+		padding:0;
+	}
+}
+
+
+// key-value-list
+.kv-list {
+  display: flex;
+  flex-direction: column;
+  
+  .kv-list-item {
+    display:flex;
+    flex-direction: row;
+    line-height: 24px;
+    padding: 6px 0;
+    
+    .key {
+      flex: 0 0 120px;
+      padding-right:16px;
+      color:rgba(0,0,0,.54);
+    }
+    
+    .value {
+      flex: 1 1 auto;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      line-height: 24px;
+    }
+  }
+
+  &.vertical {
+  	.kv-list-item {
+	    flex-direction: column;
+	    line-height: 24px;
+	    padding: 6px 0;
+	    
+	    .key {
+	      flex: 0 0 30px;
+	      padding-right:16px;
+	      color:rgba(0,0,0,.54);
+	    }
+	    
+	    .value {
+	      flex: 1 1 auto;
+	      overflow:hidden;
+	      line-height: 24px;
+	      padding-left: 24px;
+	      
+
+	      .value-item {
+	      	display: block;
+	      	margin-bottom: 8px;
+	      }
+	    }
+	  }
+  }
+}
+
+
+// c numbers
+.num-c-wrap {
+  display: flex;
+  flex-direction: column;
+  
+  .num-c {
+    display: block;
+    
+    &.num-c-current {
+    }
+    
+    &.num-c-prev {
+      padding-left: 16px;
+      border-left: 1px dotted rgba(0,0,0,0.12);
+    }
+  }
+}
+
+
+// case view - left sidenav 
+.case-sidenav-left {
+	// width: 64px;
+	flex: 0 0 64px;
+	background-color: #eee;
+	color: rgba(0,0,0,.87);
+
+
+	.md-button.md-default-theme.md-primary.md-raised, 
+	.md-button.md-primary.md-raised, 
+	.md-button.md-default-theme.md-primary.md-fab, 
+	.md-button.md-primary.md-fab {
+	    color: rgba(255,255,255,0.87);
+	    background-color: #999;
+	}
+}
+
+.md-autocomplete-suggestions-container {
+	.autocomplete-custom-template li {
+	  border-bottom: 1px solid #ccc;
+	  height: auto;
+	  padding-top: 16px;
+	  padding-bottom: 16px;
+	  white-space: normal;
+	  line-height: 1
+	}
+	.autocomplete-custom-template li:last-child {
+	  border-bottom-width: 0;
+	}
+}
+
+
+

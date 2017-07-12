@@ -1,0 +1,124 @@
+<div class="cb-white cb-pad">
+
+	<!-- General Settings -->
+	<h3>{{$root.translate('content_type_general_settings_label')}}</h3>
+	<div layout-gt-sm="row" layout="column">
+		
+		<md-input-container flex>
+			<label>{{$root.translate('content_type_name_label')}}</label>
+			<input placeholder="{{$root.translate('content_type_name_placeholder')}}" required ng-minlength="3" ng-maxlength="50" name="name" ng-model="editor.model.attributes.name">
+			<div ng-messages="editor.form.name.$error">
+				<div ng-message="required">{{$root.translate('content_type_name_required_error')}}</div>
+				<div ng-message="minlength">{{$root.translate('content_type_name_length_error')}}</div>
+			</div>
+			<div class="cb-input-hint md-caption"></div>
+		</md-input-container>
+
+		<md-input-container flex>
+			<label>{{$root.translate('content_type_name_label')}}</label>
+			<input placeholder="{{$root.translate('content_type_plural_placeholder')}}" required ng-minlength="3" ng-maxlength="50" name="plural_name" ng-model="editor.model.attributes.plural_name" >
+			<div ng-messages="editor.form.plural_name.$error">
+				<div ng-message="required">{{$root.translate('content_type_plural_required_error')}}</div>
+				<div ng-message="minlength">{{$root.translate('content_type_plural_length_error')}}</div>
+			</div>
+			<div class="cb-input-hint md-caption"></div>
+		</md-input-container>
+
+	</div>
+
+	<div layout-gt-sm="row" layout="column">
+		
+		<md-input-container flex>
+			<label>{{$root.translate('content_type_code_label')}}</label>
+			<input placeholder="{{$root.translate('content_type_code_placeholder')}}" required ng-minlength="3" ng-maxlength="50" name="code" ng-model="editor.model.attributes.code" content-model-code-unique="editor.model" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
+			<div ng-messages="editor.form.code.$error">
+				<div ng-message="required">{{$root.translate('content_type_code_required_error')}}</div>
+				<div ng-message="minlength">{{$root.translate('content_type_code_length_error')}}</div>
+				<div ng-message="unique">{{$root.translate('content_type_code_unique_error')}}</div>
+			</div>
+			<div class="cb-input-hint md-caption"></div>
+		</md-input-container>
+
+		<md-input-container flex>
+			<label>{{$root.translate('content_type_endpoint_label')}}</label>
+			<input placeholder="{{$root.translate('content_type_endpoint_placeholder')}}" required ng-minlength="3" ng-maxlength="50" name="endpoint" content-model-endpoint-unique="editor.model" ng-model="editor.model.attributes.endpoint" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
+			<div ng-messages="editor.form.endpoint.$error">
+				<div ng-message="required">{{$root.translate('content_type_endpoint_required_error')}}</div>
+				<div ng-message="minlength">{{$root.translate('content_type_endpoint_length_error')}}</div>
+				<div ng-message="unique">{{$root.translate('content_type_endpoint_unique_error')}}</div>
+			</div>
+			<div class="cb-input-hint md-caption">{{$root.translate('content_type_endpoint_help')}}</div>
+		</md-input-container>
+
+	</div>
+
+	<md-list>
+		<!-- Localized -->
+		<md-list-item class="md-2-line">
+			<div class="md-list-item-text" layout="column">
+				<h3>{{$root.translate('content_type_localized_inverse_label')}}</h3>
+				<p>{{$root.translate('content_type_localized_help')}}</p>
+			</div>
+			<md-checkbox ng-model="editor.model.attributes.localized"
+						 ng-true-value="0"
+						 ng-false-value="1"
+						 class="md-secondary">
+			</md-checkbox>
+		</md-list-item>
+
+		<!-- Multiple sets -->
+		<!-- <md-list-item class="md-2-line">
+			<div class="md-list-item-text" layout="column">
+				<h3>Only one set</h3>
+				<p>Allow only one attribute set for this model type.</p>
+			</div>
+			<md-checkbox ng-model="editor.model.attributes.multiple_sets"
+						 ng-true-value="0"
+						 ng-false-value="1"
+						 class="md-secondary">
+			</md-checkbox>
+		</md-list-item> -->
+
+	</md-list>
+
+	<!-- General Settings -->
+	<h3>{{$root.translate('content_type_workflow_label')}}</h3>
+
+	<div layout-gt-sm="row" layout="column">
+		<md-input-container flex>
+			<label>{{$root.translate('content_type_choose_workflow_label')}}</label>
+			<md-select ng-model="editor.model.attributes.workflow_id" required>
+				<md-option ng-repeat="workflow in editor.workflows.models" value="{{workflow.id}}">
+					{{workflow.attributes.name}}
+				</md-option>
+			</md-select>
+		</md-input-container>
+
+		<md-input-container flex>
+			<label>{{$root.translate('content_type_default_status_label')}}</label>
+			<md-select ng-model="editor.model.attributes.default_point_id" ng-disabled="!editor.selectedWorkflow" required>
+				<md-option ng-repeat="point in editor.selectedWorkflow.attributes.points.models" value="{{point.id}}">
+					{{point.attributes.name}}
+				</md-option>
+			</md-select>
+		</md-input-container>
+	</div>
+
+	<!-- Localized Workflow -->
+	<!-- <md-list>
+		
+		<md-list-item class="md-2-line">
+			<div class="md-list-item-text" layout="column">
+				<h3>Allow different statuses for different locales</h3>
+				<p>i.e. one locale can be published without other locales.</p>
+			</div>
+			<md-checkbox ng-model="editor.model.attributes.localized_workflow"
+						 ng-true-value="1"
+						 ng-false-value="0"
+						 ng-disabled="!editor.model.attributes.localized"
+						 class="md-secondary">
+			</md-checkbox>
+		</md-list-item>
+
+	</md-list> -->
+</div>

@@ -1,0 +1,18 @@
+<cb-field
+	ng-repeat="attribute in walker.attributeSet.attributes.attributes.models" 
+	ng-class="{'cb-field-error': walker.fieldInvalid(attribute), complex: walker.isComplexField(attribute)}">
+	<cb-field-title>
+		<h2>{{attribute.attributes.admin_label}}</h2>
+		<p>{{attribute.attributes.admin_notice}}</p>
+	</cb-field-title>
+	<cb-field-input class="cb-field-complex-input">
+		<entity-field-renderer
+			entity="walker.entity"
+			attribute="attribute"
+			locale="walker.locale"
+			locales="walker.locales">
+		</entity-field-renderer>
+	</cb-field-input>
+	<cb-field-actions>
+	</cb-field-actions>
+</cb-field>

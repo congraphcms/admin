@@ -1,0 +1,73 @@
+<div class="cb-view" flex layout="column">
+
+    <!-- app subheader -->
+    <!-- <md-toolbar class="app-subheader">
+    	<div class="md-toolbar-tools">
+            <h3 class="app-view-title">Welcome to CookBook</h3>
+            <span flex></span>
+        </div>
+    </md-toolbar> -->
+
+    <md-content flex layout="column" class="app-view-content" style="overflow-y:visible">
+
+		<section class="" style="background:#f6f6f6;padding:50px 0;">
+			<div class="cb-container" >
+
+				<div layout="row">
+
+					<div flex="50">
+
+						<h3 class="md-title">{{translate('app_name')}}</h3>
+						<span style="display:block;width:100px;border-bottom:3px solid #00e5ff;"></span>
+						<h2 class="md-display-2">{{translate('welcome_message')}}</h2>
+						<p class="md-subhead">{{translate('welcome_text')}}</p>
+
+						<!-- <md-button class="md-raised md-primary"
+								   style="min-width:200px">
+							{{translate('Learn more')}}
+						</md-button> -->
+
+						<div layout="row" style="margin-top:32px">
+							<md-card ng-repeat="item in vm.contentModelCards"
+									 ng-mouseenter="cardClassHover = 'md-whiteframe-z3'"
+									 ng-mouseleave="cardClassHover = ''"
+									 ng-class="cardClassHover"
+                   ng-click="vm.getCardSref(item.key)"
+									 flex="50"
+									 style="transition:all 0.2s ease-in-out;cursor:pointer;">
+								<md-card-title layout="column">
+									<md-card-title-media>
+										<div class="md-media-sm card-media">
+                      <md-icon class="material-icon">playlist_add_check</md-icon>
+										</div>
+									</md-card-title-media>
+									<md-card-title-text>
+										<span class="md-headline">{{ item.title }}</span>
+									</md-card-title-text>
+								</md-card-title>
+								<md-card-content>
+		          			<p>{{ item.description }}</p>
+		          	</md-card-content>
+								<md-card-actions layout="row" layout-align="end center">
+									<md-button class="md-icon-button md-primary">
+										<md-icon class="material-icons">arrow_forward</md-icon>
+									</md-button>
+								</md-card-actions>
+							</md-card>
+						</div>
+
+					</div>
+
+					<!-- spacer -->
+					<div flex="10"></div>
+
+					<div flex="40"></div>
+
+				</div>
+
+			</div>
+		</section>
+
+    </md-content>
+
+</div>

@@ -1,0 +1,62 @@
+<div class="cb-view" flex layout="column" >
+
+    <!-- app subheader -->
+    <md-toolbar class="app-subheader">
+        <div class="md-toolbar-tools">
+          <div flex="60" layout layout-align="start center">
+            <md-button class="md-icon-button" ng-click="vm.discard()">
+                <md-icon class="material-icons">arrow_back</md-icon>
+            </md-button>
+            <h3 class="app-view-title" md-truncate>
+              <a ui-sref="^">{{vm.contentModel.get('plural_name')}}</a>&nbsp;/&nbsp;
+              <span ng-if="!vm.isNew()">{{vm.getTitle()}}</span>
+              <span ng-if="vm.isNew()">{{translate('new_label')}} {{vm.contentModel.get('name')}}</span>
+            </h3>
+          </div>
+
+          <div flex="40" layout layout-align="end center">
+            <div>
+              <md-button class="md-raised md-accent"
+                         ng-click="vm.save()"
+                         ng-disabled="!vm.canSave()"
+                         aria-label="Save">
+                {{translate('btn_save')}}
+              </md-button>
+              <!-- options menu -->
+              <md-menu md-position-mode="target-right target" flex="nogrow">
+                  <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                      <md-icon class="material-icons">more_vert</md-icon>
+                  </md-button>
+                  <md-menu-content width="4" >
+                      <md-menu-item ng-repeat-start="item in vm.optionsMenuItems" ng-if="item.label" >
+                          <md-button ng-click="item.action()" ng-disabled="item.disabled()">
+                              <md-icon class="material-icons">{{ item.icon }}</md-icon>
+                              {{ item.label }}
+                          </md-button>
+                      </md-menu-item>
+                      <md-menu-divider ng-repeat-end ng-if="item.divider"></md-menu-divider>
+                  </md-menu-content>
+              </md-menu>
+            </div>
+          </div>
+
+        </div>
+    </md-toolbar>
+
+    <md-content flex layout="column" class="cb-transparent">
+    	<form
+        name="entityForm"
+    		novalidate
+    		entity-editor
+    		model="vm.model"
+    		attribute-set="vm.attributeSet"
+    		content-model="vm.contentModel"
+    		locales="vm.locales"
+    		locale="vm.locale"
+    		flex
+    		layout="column"
+    		>
+    	</form>
+
+    </md-content>
+</div>

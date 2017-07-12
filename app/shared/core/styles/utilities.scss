@@ -1,0 +1,59 @@
+
+.hidden {
+	visibility: hidden;
+}
+
+.cb_menu_caret {
+	display: block;
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    border-color: transparent;
+    border-bottom-color: #fff;
+    border-style: dashed dashed solid;
+    border-width: 0 8.5px 8.5px;
+    z-index: 1;
+    height: 0;
+    width: 0;
+}
+
+.container {
+  width: 90vw;
+  margin: 0 auto;
+}
+
+
+@media screen and (min-width: 768px) {
+  .container {
+    width: 80vw;
+  }
+}
+
+// @media screen and (min-width: 960px) {
+//   .container {
+//     width: 80vw;
+//   }
+// }
+
+@media screen and (min-width: 1280px) {
+  .container {
+    width: 960px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+
+.case-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0;
+}
+
+.cl {
+  white-space: pre-line;
+}

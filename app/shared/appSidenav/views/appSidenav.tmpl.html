@@ -1,0 +1,101 @@
+<md-sidenav layout="column" 
+            class="md-sidenav-left md-whiteframe-4dp" 
+            id="app-sidenav" 
+            md-component-id="appSidenav" >
+
+    <md-toolbar class="md-tall" id="app-sidenav-header">
+        <div class="wrap">
+            <h1 class="cb-brand">{{$root.translate('app_name')}}</h1>
+            <!-- <div class="cb-profile">
+                API First CMS - <a href="#" class="tw" target="_blank">@cookbookcms</a>
+            </div> -->
+        </div>
+    </md-toolbar>
+
+    <md-content layout="column" role="navigation">
+        
+        <md-list class="cb-nav">
+            <md-list-item ui-sref="app.dashboard" >
+                <md-icon class="material-icons">dashboard</md-icon>
+                <p>{{$root.translate('dashboard_label')}}</p>
+            </md-list-item>
+            <md-divider></md-divider>
+
+            <!-- CONTENT -->            
+            <md-subheader class="md-no-sticky">{{$root.translate('content_label')}}</md-subheader>
+            
+            <md-list-item ng-repeat="entityTypeModel in ctrl.entityTypes" ng-click="ctrl.goToEntityList(entityTypeModel)" >
+                <md-icon class="material-icons" >folder_open</md-icon>
+                <p>{{ entityTypeModel.attributes.plural_name }}</p>
+                <md-button class="md-secondary md-icon-button" ng-if="ctrl.typeOk(entityTypeModel)">
+                    <md-icon class="material-icons" aria-label="Create new">add</md-icon>
+                </md-button>
+                <md-button class="md-secondary md-icon-button" ng-if="!ctrl.typeOk(entityTypeModel)">
+                    <md-icon class="material-icons" >warning</md-icon>
+                    <md-tooltip md-delay="600" md-direction="left">
+                      {{ctrl.getWarningTooltip(entityTypeModel)}}
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+
+            <md-divider></md-divider>
+
+            <!-- CONTENT MODEL -->
+            <md-subheader class="md-no-sticky">
+                {{$root.translate('content_model_label')}}
+            </md-subheader>
+            <md-list-item ui-sref="app.contentModels">
+                <md-icon class="material-icons">receipt</md-icon>
+                <p>Entity Types</p>
+                <md-button class="md-secondary md-icon-button" >
+                    <md-icon class="material-icons" aria-label="Create new">add</md-icon>
+                </md-button>
+            </md-list-item>
+            <md-list-item ui-sref="app.attributes">
+                <md-icon class="material-icons">input</md-icon>
+                <p>Attributes</p>
+                <md-button class="md-secondary md-icon-button">
+                    <md-icon class="material-icons" aria-label="Create new">add</md-icon>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-icon class="material-icons">rotate_90_degrees_ccw</md-icon>
+                <p>Workflow</p>
+            </md-list-item>
+            <md-list-item ui-sref="app.locales">
+                <md-icon class="material-icons">language</md-icon>
+                <p>Locales</p>
+            </md-list-item>
+            <md-divider></md-divider>
+
+            <!-- ACCESS / USERS  -->
+            <md-subheader class="md-no-sticky">{{$root.translate('access_label')}}</md-subheader>
+            <md-list-item ui-sref="app.users">
+                <md-icon class="material-icons">group</md-icon>
+                <p>{{$root.translate('users_label')}}</p>
+            </md-list-item>
+            <md-list-item >
+                <md-icon class="material-icons">folder_shared</md-icon>
+                <p>Roles</p>
+            </md-list-item>
+            <md-list-item >
+                <md-icon class="material-icons">verified_user</md-icon>
+                <p>Permissions</p>
+            </md-list-item>
+            <md-divider></md-divider>
+
+            <!-- API / SETTINGS  -->
+            <md-subheader class="md-no-sticky">API</md-subheader>
+            <md-list-item >
+                <md-icon class="material-icons">share</md-icon>
+                <p>API keys</p>
+            </md-list-item>
+            <md-list-item >
+                <md-icon class="material-icons">done</md-icon>
+                <p>Status</p>
+            </md-list-item>
+            <md-divider></md-divider>
+        </md-list>
+
+    </md-content>
+</md-sidenav>
