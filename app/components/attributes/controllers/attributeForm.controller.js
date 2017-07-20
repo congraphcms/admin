@@ -153,6 +153,7 @@ export default class AttributeFormController {
 
   save() {
     let vm = this;
+    let isNew = vm.isNew();
 
     let editor = vm.EditorRegistry.get(vm.model);
     editor.save().then(function(data){
@@ -171,9 +172,12 @@ export default class AttributeFormController {
         vm.$state.go('app.attributes.edit', {id: data.id});
       }
 
-      if(vm.isNew()) {
+      console.log('add new attributes', vm.attributes)
+      if(isNew) {
+        console.log('new attribute added');
         vm.attributes.push(data);
       }
+      console.log('add new attributes', vm.attributes)
       
       // vm.$state.go('app.attributeEdit', {id: fieldId});
     }, function(errors){

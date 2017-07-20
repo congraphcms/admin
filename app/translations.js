@@ -41,9 +41,9 @@ export default {
 		'file_size_label': 'Size',
 		'file_type_label': 'Type',
 		'empty_asset_field_notice': 'No data',
-		'empty_asset_field_instructions': 'Kliknite ovde ili na dugme \'Dodaj\' kako biste dodali dokument',
-		'empty_relation_field_notice': 'Bez podataka',
-		'empty_relation_field_instructions': 'Kliknite ovde ili na dugme \'Dodaj\' kako biste dodali relacije',
+		'empty_asset_field_instructions': 'Click here or on \'Add\' button to add a file.',
+		'empty_relation_field_notice': 'No relation',
+		'empty_relation_field_instructions': 'Click here or on \'Add\' button to add a relation.',
 		'please_wait_text': 'Please wait...',
 		'library_label': 'Library',
 		'upload_label': 'Upload',
@@ -87,6 +87,7 @@ export default {
 		
 		// listing general
 		'no_items_label': 'No Items',
+		'no_items_info': 'Use the "NEW" button to create one.',
 		'sort_by_label': 'Sort items by',
 		'select_locale_label': 'Select locale',
 		'info_label': 'Info',

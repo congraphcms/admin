@@ -150,6 +150,9 @@
               class="md-2-line"
               ng-click="null"
               ng-repeat="attribute in editor.attributes.models | availableAttributes:editor.model.attributes.attributes:editor.contentModel">
+              <div class="cb-item-loader busy" ng-show="editor.attributeBusy(attribute)">
+                <md-progress-linear md-mode="query" ></md-progress-linear>
+              </div>
               <md-icon class="md-avatar-icon material-icons">
                 {{ editor.getAttributeIcon(attribute) }}
               </md-icon>

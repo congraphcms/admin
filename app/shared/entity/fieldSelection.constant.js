@@ -17,12 +17,12 @@ export default {
         "icon": "local_offer",
         "value": "tags"
       },
-      "id": {
-        "label": "ID field",
-        "description": "Self generated unique field.",
-        "icon": "lock_outline",
-        "value": "tags"
-      }
+      // "id": {
+      //   "label": "ID field",
+      //   "description": "Self generated unique field.",
+      //   "icon": "lock_outline",
+      //   "value": "tags"
+      // }
     }
   },
   "number": {

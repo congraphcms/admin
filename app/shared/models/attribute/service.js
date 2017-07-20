@@ -9,12 +9,19 @@
  * @makes attributes available for app
  */
 
-export default function AttributesService(AttributeRepository, $log, $q) {
+export default function AttributesService(AttributeRepository, $rootScope, $log, $q) {
+  let _attributes = false;
+  let _defered = false;
+
+  $rootScope.$on('attributeDeleted', function(ev, attr) {
+    if(!_attributes) { return; }
+
+    var deleted = _attributes.findWhere({id: attr.get('id')});
+    _attributes.remove(deleted);
+
+  });
 
   return self = {
-
-    _attributes: false,
-    _defered: false,
 
     /**
      * Get all attributes
@@ -23,33 +30,33 @@ export default function AttributesService(AttributeRepository, $log, $q) {
 
       var self = this;
 
-      if(self._defered) {
-        return self._defered.promise;
+      if(_defered) {
+        return _defered.promise;
       }
 
-      self._defered = $q.defer();
+      _defered = $q.defer();
       
       AttributeRepository.get()
         .then(
           function(attributes){
-            self._attributes = attributes;
-            self._defered.resolve(self._attributes);
+            _attributes = attributes;
+            _defered.resolve(_attributes);
             return attributes;
           }, 
           function(errors){
-            self._defered.reject(errors);
+            _defered.reject(errors);
             return errors;
           }
         );
 
-      return self._defered.promise;
+      return _defered.promise;
     },
 
     getById: function(id) {
       var self = this;
       var defered = $q.defer();
 
-      if(!self._attributes) {
+      if(!_attributes) {
         self.getAll().then(function(attributes){
           var attribute = attributes.findWhere({id: id});
           if(attribute){
@@ -66,7 +73,7 @@ export default function AttributesService(AttributeRepository, $log, $q) {
         return defered.promise;
       }
 
-      var attribute = self._attributes.findWhere({id: id});
+      var attribute = _attributes.findWhere({id: id});
       if(attribute){
         defered.resolve(attribute);
       } else {
@@ -80,7 +87,7 @@ export default function AttributesService(AttributeRepository, $log, $q) {
       var self = this;
       var defered = $q.defer();
 
-      if(!self._attributes) {
+      if(!_attributes) {
         self.getAll().then(function(attributes){
           var attribute = attributes.findWhere({code: code});
           if(attribute){
@@ -97,7 +104,7 @@ export default function AttributesService(AttributeRepository, $log, $q) {
         return defered.promise;
       }
 
-      var attribute = self._attributes.findWhere({code: code});
+      var attribute = _attributes.findWhere({code: code});
       if(attribute){
         defered.resolve(attribute);
       } else {
@@ -113,6 +120,7 @@ export default function AttributesService(AttributeRepository, $log, $q) {
 
 AttributesService.$inject = [
   'AttributeRepository',
+  '$rootScope',
   '$log',
   '$q'
 ];

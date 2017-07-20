@@ -66,8 +66,8 @@ export default function ContentModelRouterConfig($stateProvider) {
       controllerAs: 'vm',
       resolve: {
         contentModel: resolveContentModel,
-        attributeSet: resolveAttributeSet,
-        attributes: resolveAttributes
+        attributeSet: resolveAttributeSet
+        // attributes: resolveAttributes
       }
     })
 
@@ -135,7 +135,7 @@ function resolveAttributeModel(attributes, AttributeRepository, $stateParams) {
     return AttributeRepository.newModel();
   }
 
-  var attribute = attributesCollection.findWhere({id: parseInt($stateParams.attributeId)});
+  var attribute = attributes.findWhere({id: parseInt($stateParams.attributeId)});
 
   return attribute;
 }

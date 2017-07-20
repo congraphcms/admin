@@ -7,7 +7,7 @@
 		entity-field-unique="handler.entity" 
 		entity-field-attribute="handler.attribute" 
 		aria-label="fields {{handler.fieldCode}}" >
-	<div ng-messages="handler.form['field-'+handler.fieldCode].$error">
+	<div ng-messages="handler.form['field-'+handler.fieldCode].$error" ng-show="handler.form.$submitted">
 		<div ng-message="required">{{handler.fieldName}} is required.</div>
 		<div ng-message="unique">{{handler.fieldName}} already taken.</div>
 	</div>

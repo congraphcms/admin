@@ -1,0 +1,24 @@
+<div flex layout="column" layout-align="center center" class="plupload-inner">
+
+		<div>
+			<md-icon 
+				class="material-icons"
+				style="font-size:48px; height:48px; width: 48px; color:rgba(0,0,0,0.12);">
+				cloud_upload
+			</md-icon>
+		</div>
+		<h3 class="md-title">{{plda.$rootScope.translate('uploader_drag_instructions')}}</h3>
+		<p class="md-body-1">{{plda.$rootScope.translate('uploader_instructions_separator')}}</p>
+		<md-button
+			aria-label="Browse for files"
+			class="md-raised md-primary md-list-item-content"
+			plupload 
+			params="plda.params" 
+			multi-params="plda.multiParams" 
+			instance="plda.instance" 
+			uploader-id="plda.uploaderId" 
+			meta="plda.meta"
+			auto-upload="1">
+			<span class="md-inline-list-icon-label">{{plda.$rootScope.translate('btn_choose_file')}}</span>
+		</md-button>
+</div>

@@ -60,7 +60,7 @@
 			                <md-list-item >
 			                  <md-button
 			                    class="md-primary md-list-item-content"
-			                    ui-sref="app.entities.type.list({type: vm.model.attributes.endpoint})"
+			                    ui-sref="app.entities.type({type: vm.model.attributes.endpoint})"
 			                    ng-disabled="!vm.model.attributes.attribute_sets.models.length">
 			                    <md-icon class="material-icons">list</md-icon>
 			                    <span class="md-inline-list-icon-label">{{translate('btn_view_all')}} {{vm.model.get('plural_name')}}</span>

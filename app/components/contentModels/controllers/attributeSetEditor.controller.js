@@ -8,6 +8,7 @@ export default class AttributeSetEditorController {
     AttributeRepository, 
     EditorRegistry,
     fieldSelection,
+    $mdDialog,
     $scope, 
     $rootScope, 
     $state, 
@@ -31,6 +32,8 @@ export default class AttributeSetEditorController {
     vm.$q = $q;
     vm.$timeout = $timeout;
     vm.$compile = $compile;
+
+    vm.$mdDialog = $mdDialog;
 
     vm.EditorRegistry = EditorRegistry;
 
@@ -58,6 +61,7 @@ export default class AttributeSetEditorController {
     vm.deregister = vm.EditorRegistry.register(this, vm.model);
     // vm.loadingAttributes = true;
     // vm.getAttributes();
+    vm.busyAttributes = [];
   }
 
   getAttributes() {
@@ -136,6 +140,65 @@ export default class AttributeSetEditorController {
     vm.$state.go('.attribute', {attributeId: attribute.id});
   }
 
+  attributeBusy(model) {
+    let vm = this;
+    return _.indexOf(vm.busyAttributes, model.id) != -1;
+  }
+
+  addBusyAttribute(model) {
+    let vm = this;
+    if(_.indexOf(vm.busyAttributes, model.id) == -1) {
+      vm.busyAttributes.push(model.id);
+    }
+  }
+
+  removeBusyAttribute(model) {
+    let vm = this;
+    let index = _.indexOf(vm.busyAttributes, model.id);
+    if(index != -1) {
+      vm.busyAttributes.splice(index, 1);
+    }
+  }
+
+  deleteAttribute(attribute) {
+    let vm = this;
+    vm.deleteAttributeDialog().then(function() {
+      vm.addBusyAttribute(attribute);
+      vm.AttributeRepository.delete(attribute).then(
+        function(result){
+          vm.attributes.remove(attribute);
+          vm.removeBusyAttribute(attribute);
+          // vm.applySort();
+          // optionaly change collection (filter, sort etc) 
+          vm.list = vm.attributes.models;
+        }, function(errors){
+          vm.removeBusyAttribute(attribute);
+          throw new Error('Failed to delete attribute.');
+        }
+      );
+    }, function() {
+
+    });
+    
+  }
+
+  deleteAttributeDialog(ev) {
+    let vm = this;
+    let title = 'Delete attribute?';
+    let text = 'This will result in lost of all data that is related to this attribute. Do you really want to delete this attribute?';
+    let confirmDiscardDialog = 
+      vm.$mdDialog.confirm()
+          .parent(angular.element(document.body))
+          .title(title)
+          .textContent(text)
+          .ariaLabel('Delete attribute dialog')
+          .targetEvent(ev)
+          .ok('Delete')
+          .cancel('Cancel');
+
+    return vm.$mdDialog.show(confirmDiscardDialog);
+  }
+
   isNew() {
     return this.model.isNew();
   }
@@ -187,6 +250,7 @@ AttributeSetEditorController.$inject = [
   'AttributeRepository', 
   'EditorRegistry',
   'fieldSelection',
+  '$mdDialog',
   '$scope', 
   '$rootScope', 
   '$state', 

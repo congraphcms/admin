@@ -143,6 +143,7 @@
 
 .cb-field-error {
   background: #ffebee;
+  position: relative;
   
   &:after {
     content: " ";

@@ -32,13 +32,13 @@ export default {
         "complex": true,
         "value": "html_editor"
       },
-      "id_generator": {
-        "label": "ID field",
-        "description": "Self generated ID field.",
-        "icon": "lock_outline",
-        "complex": false,
-        "value": "id_generator"
-      }
+      // "id_generator": {
+      //   "label": "ID field",
+      //   "description": "Self generated ID field.",
+      //   "icon": "lock_outline",
+      //   "complex": false,
+      //   "value": "id_generator"
+      // },
       // "markdown": {
       //   "label": "Markdown Editor (Markdown)",
       //   "description": "Rich text editor with markdown formating options.",
