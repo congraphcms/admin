@@ -105,6 +105,7 @@ export default class AttributeSetFormController {
       }
 
       vm.$rootScope.$broadcast('cb.entityTypes.refresh');
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: vm.contentModel.id});
     }, function(errors){
 
@@ -115,11 +116,13 @@ export default class AttributeSetFormController {
     let vm = this;
     let editor = vm.EditorRegistry.get(vm.model);
     if(editor.form.$pristine) {
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: vm.contentModel.id});
       return;
     }
 
     vm.discardDialog().then(function() {
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: vm.contentModel.id});
     }, function() {
 

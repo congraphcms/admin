@@ -285,7 +285,7 @@ export default class EntityEditorController{
       $event.preventDefault();
       return;
     }
-
+    editor.deregister();
     editor.$state.go('^.edit', {locale: locale.get('code'), attributeSet: editor.model.attributes.attribute_set.attributes.code}, { reload: true });
   }
 

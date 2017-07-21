@@ -7,7 +7,7 @@
 
 		<md-input-container>
 			<label>{{$root.translate('content_type_choose_workflow_label')}}</label>
-			<md-select ng-model="editor.model.attributes.workflow_id" ng-disabled="1" required>
+			<md-select ng-model="editor.model.attributes.workflow_id" name="workflow" ng-disabled="1">
 				<md-option value="{{editor.model.attributes.workflow_id}}">
 					{{editor.model.attributes.workflow.attributes.name}}
 				</md-option>
@@ -16,7 +16,7 @@
 
 		<md-input-container>
 			<label>{{$root.translate('content_type_default_status_label')}}</label>
-			<md-select ng-model="editor.model.attributes.default_point_id" required>
+			<md-select ng-model="editor.model.attributes.default_point_id" name="default_status" ng-required="true">
 				<md-option ng-repeat="point in editor.model.attributes.workflow.attributes.points.models" value="{{point.id}}">
 					{{point.attributes.name}}
 				</md-option>

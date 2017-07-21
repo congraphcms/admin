@@ -28,6 +28,9 @@ import entityFieldRenderer from './directives/entityFieldRenderer.directive.js';
 import entityFieldWalker from './directives/entityFieldWalker.directive.js';
 import EntityFieldWalkerController from './controllers/entityFieldWalker.controller.js';
 
+import NullEmptyValidator from './directives/nullEmpty.validator.js';
+import ArrayEmptyValidator from './directives/arrayEmpty.validator.js';
+
 export default 'app.shared.entity';
 
 angular
@@ -49,4 +52,6 @@ angular
   .directive('cbDatepicker', cbDatepicker)
   .directive('cbMultiselect', cbMultiselect)
   .directive('entityFieldRenderer', entityFieldRenderer)
-  .directive('entityFieldWalker', entityFieldWalker);
+  .directive('entityFieldWalker', entityFieldWalker)
+  .directive('nullEmpty', NullEmptyValidator)
+  .directive('arrayEmpty', ArrayEmptyValidator);

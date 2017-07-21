@@ -159,25 +159,27 @@ export default class AttributeFormController {
     editor.save().then(function(data){
 
       vm.$rootScope.$broadcast('attributeSaved', data);
+      
+      if(isNew) {
+        vm.attributes.push(data);
+      }
 
       if(vm.isNested()) {
         vm.model = data;
         vm.optionsMenuItems = vm.getOptionsMenuItems();
         vm.editor = vm.EditorRegistry.get(vm.model);
+        vm.editor.deregister();
         vm.$state.go('^');
       } else {
         vm.model = data;
         vm.optionsMenuItems = vm.getOptionsMenuItems();
         vm.editor = vm.EditorRegistry.get(vm.model);
-        vm.$state.go('app.attributes.edit', {id: data.id});
+        
+        if(isNew) {
+          vm.editor.deregister();
+          vm.$state.go('app.attributes.edit', {id: data.id});
+        }
       }
-
-      console.log('add new attributes', vm.attributes)
-      if(isNew) {
-        console.log('new attribute added');
-        vm.attributes.push(data);
-      }
-      console.log('add new attributes', vm.attributes)
       
       // vm.$state.go('app.attributeEdit', {id: fieldId});
     }, function(errors){
@@ -195,6 +197,7 @@ export default class AttributeFormController {
     vm.deleteDialog().then(function() {
       let editor = vm.EditorRegistry.get(vm.model);
       editor.delete().then(function(result){
+        editor.deregister();
         vm.$rootScope.$broadcast('attributeDeleted', vm.model);
         vm.$state.go('^');
       }, function(result){
@@ -207,11 +210,13 @@ export default class AttributeFormController {
     let vm = this;
     let editor = vm.EditorRegistry.get(vm.model);
     if(editor.form.$pristine) {
-     vm.$state.go('^');
+      editor.deregister();
+      vm.$state.go('^');
       return;
     }
 
     vm.discardDialog().then(function() {
+      editor.deregister();
       vm.$state.go('^');
     }, function() {
       

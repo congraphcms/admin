@@ -1,15 +1,14 @@
 <md-input-container class="md-block" flex>
 	<md-chips 
 		name="field-{{handler.fieldCode}}"
-		ng-model="handler.entity.attributes.fields[handler.attribute.attributes.code]"
-		ng-model-options="{ debounce: 400 }" 
-		ng-required="handler.attribute.attributes.required" 
+		ng-model="handler.entity.attributes.fields[handler.attribute.attributes.code]" 
+		array-empty="handler.attribute" 
 		entity-field-unique="handler.entity" 
 		entity-field-attribute="handler.attribute" 
 		aria-label="fields {{handler.fieldCode}}">
 	</md-chips>
 	<div ng-messages="handler.form['field-'+handler.fieldCode].$error" ng-show="handler.form.$submitted">
-		<div ng-message="required">{{handler.fieldName}} is required.</div>
+		<div ng-message="empty">{{handler.fieldName}} is required.</div>
 		<div ng-message="unique">{{handler.fieldName}} already taken.</div>
 	</div>
 </md-input-container>

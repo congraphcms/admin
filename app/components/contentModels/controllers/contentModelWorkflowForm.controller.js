@@ -76,6 +76,7 @@ export default class ContentModelWorkflowFormController {
 
   canSave() {
     let editor = this.EditorRegistry.get(this.model);
+    console.log('canSave', editor)
     return editor && ! editor.busy && editor.form.$valid;
   }
 
@@ -88,7 +89,7 @@ export default class ContentModelWorkflowFormController {
       let replaceData = vm.model.getData({include: 'default_point_id, default_point', nestIncluded: true});
 
       vm.contentModel.set(replaceData);
-
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: vm.contentModel.id});
       // vm.$state.go('app.attributeEdit', {id: fieldId});
     }, function(errors){
@@ -100,11 +101,13 @@ export default class ContentModelWorkflowFormController {
     let vm = this;
     let editor = vm.EditorRegistry.get(vm.model);
     if(editor.form.$pristine) {
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: vm.contentModel.id});
       return;
     }
 
     vm.discardDialog().then(function() {
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: vm.contentModel.id});
     }, function() {
 

@@ -146,6 +146,20 @@ cb-field.complex cb-field-actions {
       order: 2; 
 }
 
+cb-field.complex.cb-field-error div[ng-messages] {
+  padding: 24px;
+  background: #ffebee;
+  font-size: 12px;
+  line-height: 14px;
+  color: rgb(221,44,0);
+}
+
+.validation-messages {
+  font-size: 12px;
+  line-height: 14px;
+  color: rgb(221,44,0);
+}
+
 @media screen and (-ms-high-contrast: active) {
   cb-field {
     border: 1px solid #fff; 

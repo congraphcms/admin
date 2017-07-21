@@ -87,6 +87,7 @@ export default class ContentModelGeneralFormController {
       let replaceData = vm.model.getData({include: 'name, plural_name, code, endpoint, multiple_sets'});
       vm.contentModel.set(replaceData);
       vm.$rootScope.$broadcast('cb.entityTypes.refresh');
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: vm.contentModel.id});
       
     }, function(errors){
@@ -98,11 +99,13 @@ export default class ContentModelGeneralFormController {
     let vm = this;
     let editor = vm.EditorRegistry.get(vm.model);
     if(editor.form.$pristine) {
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: vm.contentModel.id});
       return;
     }
 
     vm.discardDialog().then(function() {
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: vm.contentModel.id});
     }, function() {
 

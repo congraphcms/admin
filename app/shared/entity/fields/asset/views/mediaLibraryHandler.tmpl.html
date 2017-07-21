@@ -247,7 +247,13 @@
 	</md-toolbar>
 </div>
 
-<cb-multiselect style="display: none;" ng-model="handler.entity.attributes.fields[handler.fieldCode]" name="field-{{handler.fieldCode}}" ng-required="handler.attribute.attributes.required" ></cb-multiselect>
+<cb-multiselect 
+	style="display: none;" 
+	ng-model="handler.entity.attributes.fields[handler.fieldCode]" 
+	name="field-{{handler.fieldCode}}" 
+	ng-required="handler.attribute.attributes.required" >
+	
+</cb-multiselect>
 <div ng-messages="handler.form['field-'+handler.fieldCode].$error" ng-show="handler.form.$submitted || handler.form['field-'+handler.fieldCode].$dirty">
 	<div ng-message="required">{{handler.fieldName}} is required.</div>
 </div>

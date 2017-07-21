@@ -2,7 +2,7 @@
 	<md-radio-group 
 		name="field-{{handler.fieldCode}}" 
 		ng-model="handler.entity.attributes.fields[handler.attribute.attributes.code]"
-		ng-required="handler.attribute.attributes.required"
+    	null-empty="handler.attribute.get('required')"
 		aria-label="fields {{handler.fieldCode}}">
 		<md-radio-button 
 			value="1" >
@@ -13,8 +13,12 @@
 			No
 		</md-radio-button>
 	</md-radio-group>
-	<div ng-messages="handler.form['field-'+handler.fieldCode].$error">
-		<div ng-message="required">{{handler.fieldName}} is required.</div>
-		<div ng-message="unique">{{handler.fieldName}} already taken.</div>
-	</div>
+	
 </md-input-container>
+<div 
+	class="validation-messages" 
+	ng-messages="handler.form['field-'+handler.fieldCode].$error" 
+	ng-hide="handler.form['field-'+handler.fieldCode].$untouched && !handler.form.$submitted">
+	<div ng-message="empty">{{handler.fieldName}} is required.</div>
+	<div ng-message="unique">{{handler.fieldName}} already taken.</div>
+</div>

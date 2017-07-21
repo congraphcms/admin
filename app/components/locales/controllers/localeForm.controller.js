@@ -110,7 +110,7 @@ export default class LocaleFormController {
 
   save() {
     let vm = this;
-
+    let isNew = vm.isNew();
     let editor = vm.EditorRegistry.get(vm.model);
     editor.save().then(function(data){
 
@@ -119,7 +119,10 @@ export default class LocaleFormController {
       vm.model = data;
       vm.optionsMenuItems = vm.getOptionsMenuItems();
       vm.editor = vm.EditorRegistry.get(vm.model);
-      vm.$state.go('app.locales.edit', {id: data.id});
+      if(isNew){
+        vm.editor.deregister();
+        vm.$state.go('app.locales.edit', {id: data.id});
+      }
       
     }, function(errors){
 
@@ -137,6 +140,7 @@ export default class LocaleFormController {
       let editor = vm.EditorRegistry.get(vm.model);
       editor.delete().then(function(result){
         vm.$rootScope.$broadcast('localeDeleted', vm.model);
+        editor.deregister();
         vm.$state.go('app.locales');
       }, function(result){
         console.warn('Delete failed there should be notification to user in this case.');
@@ -148,11 +152,13 @@ export default class LocaleFormController {
     let vm = this;
     let editor = vm.EditorRegistry.get(vm.model);
     if(editor.form.$pristine) {
+      editor.deregister();
       vm.$state.go('app.locales');
       return;
     }
 
     vm.discardDialog().then(function() {
+      editor.deregister();
       vm.$state.go('app.locales');
     }, function() {
 

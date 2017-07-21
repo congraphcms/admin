@@ -116,14 +116,18 @@ export default class UserFormController {
 
   save() {
     let vm = this;
-
+    let isNew = vm.isNew();
     let editor = vm.EditorRegistry.get(vm.model);
     editor.save().then(function(data){
       vm.$rootScope.$broadcast('userSaved', data);
       vm.model = data;
       vm.optionsMenuItems = vm.getOptionsMenuItems();
       vm.editor = vm.EditorRegistry.get(vm.model);
-      vm.$state.go('app.user', {id: data.id});
+      
+      if(isNew){
+        vm.editor.deregister();
+        vm.$state.go('app.users.edit', {id: data.id});
+      }
       
     }, function(errors){
 
@@ -141,6 +145,7 @@ export default class UserFormController {
       let editor = vm.EditorRegistry.get(vm.model);
       editor.delete().then(function(result){
         vm.$rootScope.$broadcast('userDeleted', vm.model);
+        editor.deregister();
         vm.$state.go('app.users');
       }, function(result){
         console.warn('Delete failed there should be notification to user in this case.');
@@ -152,11 +157,13 @@ export default class UserFormController {
     let vm = this;
     let editor = vm.EditorRegistry.get(vm.model);
     if(editor.form.$pristine) {
+      editor.deregister();
       vm.$state.go('app.users');
       return;
     }
 
     vm.discardDialog().then(function() {
+      editor.deregister();
       vm.$state.go('app.users');
     }, function() {
 

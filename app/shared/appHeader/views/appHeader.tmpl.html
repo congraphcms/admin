@@ -35,7 +35,7 @@
                         <div class="profile-info">
                             <div class="acc-display">{{ctrl.user.name}}</div>
                             <div class="acc-email">{{ctrl.user.email}}</div>
-                            <md-button class="acc-button md-raised md-primary">{{ctrl.$rootScope.translate('account_settings_label')}}</md-button>
+                            <md-button ui-sref="app.users.edit({id: ctrl.user.id})" class="acc-button md-raised md-primary">{{ctrl.$rootScope.translate('account_settings_label')}}</md-button>
                         </div>
                     </div>
                     <div class="acc-menu-actions">

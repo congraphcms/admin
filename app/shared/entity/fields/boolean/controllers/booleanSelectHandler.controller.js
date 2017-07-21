@@ -38,7 +38,11 @@ export default class BooleanSelectHandlerController{
   setDefaultValue() {
     var handler = this;
     var defaultValue = parseInt(!!handler.attribute.get('default_value'));
-    handler.entity.setField(handler.fieldCode, defaultValue);
+    if(defaultValue === 0 || defaultValue === 1){
+      handler.entity.setField(handler.fieldCode, defaultValue);
+      return;
+    }
+    handler.entity.setField(handler.fieldCode, null);
   }
 }
 

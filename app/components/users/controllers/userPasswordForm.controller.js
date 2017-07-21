@@ -49,7 +49,7 @@ export default class UserPasswordFormController {
 
     let editor = vm.EditorRegistry.get(vm.model.id+'pass');
     editor.save().then(function(data){
-
+      editor.deregister();
       vm.$state.go('^', {id: vm.model.id});
       
     }, function(errors){
@@ -59,6 +59,8 @@ export default class UserPasswordFormController {
 
   discard(ev) {
     let vm = this;
+    let editor = vm.EditorRegistry.get(vm.model.id+'pass');
+    editor.deregister();
     vm.$state.go('^');
     return;
   }

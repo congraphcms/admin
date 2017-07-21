@@ -85,6 +85,7 @@ export default class ContentModelNewFormController {
       // vm.optionsMenuItems = vm.getOptionsMenuItems();
       // vm.editor = vm.EditorRegistry.get(vm.model);
       vm.$rootScope.$broadcast('cb.entityTypes.refresh');
+      editor.deregister();
       vm.$state.go('app.contentModels.detail', {id: data.id});
       // vm.$state.go('app.attributeEdit', {id: fieldId});
     }, function(errors){
@@ -96,11 +97,13 @@ export default class ContentModelNewFormController {
     let vm = this;
     let editor = vm.EditorRegistry.get(vm.model);
     if(editor.form.$pristine) {
+      editor.deregister();
       vm.$state.go('app.contentModels');
       return;
     }
 
     vm.discardDialog().then(function() {
+      editor.deregister();
       vm.$state.go('app.contentModels');
     }, function() {
 

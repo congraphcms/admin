@@ -62,6 +62,7 @@ export default class EntityFormController {
       event.stopPropagation();
       
     });
+    console.log('entityForm ctrl inited', vm);
   }
 
   openEntityQuickForm(formSettings) {
@@ -188,7 +189,8 @@ export default class EntityFormController {
       vm.optionsMenuItems = vm.getOptionsMenuItems();
       vm.$rootScope.$broadcast('entitySaved', data);
       if(newEntity){
-        vm.$state.go('^.edit', {id: data.get('id'), locale: vm.locale.get('code')});
+        vm.editor.deregister();
+        vm.$state.go('^.edit', {id: data.get('id'), locale: vm.locale.get('code')}, {reload: true});
       }
       
     }, function(errors){
@@ -208,6 +210,7 @@ export default class EntityFormController {
     vm.deleteDialog().then(function() {
       vm.editor.delete().then(function(result){
         vm.$rootScope.$broadcast('entityDeleted', vm.model);
+        vm.editor.deregister();
         vm.$state.go('^');
       }, function(result){
         console.warn('Delete failed there should be notification to user in this case.');
@@ -218,11 +221,13 @@ export default class EntityFormController {
   discard(ev) {
     var vm = this;
     if(vm.editor.form.$pristine) {
+      vm.editor.deregister();
       vm.$state.go('^');
       return;
     }
 
     vm.discardDialog().then(function() {
+      vm.editor.deregister();
       vm.$state.go('^');
     }, function() {
       

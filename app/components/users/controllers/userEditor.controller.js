@@ -124,6 +124,18 @@ export default class UserEditorController {
 
     return promise;
   }
+  
+  delete() {
+    let vm = this;
+    let defered = vm.$q.defer();
+
+    if(vm.isNew()) {
+      defered.reject('can\'t delete unsaved field.');
+      return defered.promise;
+    }
+
+    return vm.UserRepository.delete(vm.model);
+  }
 }
 
 UserEditorController.$inject = [
