@@ -1,9 +1,9 @@
 // import $ from 'jquery';
 
-export default class ContactQuickFormController {
+export default class EntityQuickFormController {
 
   constructor(
-    ContactQuickForm, 
+    EntityQuickForm, 
     EditorRegistry, 
     LocalesService,
     $mdDialog, 
@@ -16,7 +16,7 @@ export default class ContactQuickFormController {
 
     var qf = this;
 
-    qf.ContactQuickForm = ContactQuickForm;
+    qf.EntityQuickForm = EntityQuickForm;
     qf.EditorRegistry = EditorRegistry;
 
     qf.$scope = $scope;
@@ -41,15 +41,14 @@ export default class ContactQuickFormController {
     var qf = this;
     qf.getEditor();
 
-    qf.$rootScope.$on('contactSaved', function(event, editor, entity){
-      console.log('qf contactSaved');
-      
+    qf.$rootScope.$on('editor.entitySaved', function(event, editor, entity){
+      console.log('qf entitySaved', editor, qf.editor);
       if(editor == qf.editor) {
         qf.model = entity;
         // ctrl.optionsMenuItems = ctrl.getOptionsMenuItems();
         qf.getEditor();
         console.log('qf emit qf saved');
-        qf.ContactQuickForm.resolve(qf.instance, entity);
+        qf.EntityQuickForm.resolve(qf.instance, entity);
         // qf.$scope.$emit('quickFormSaved', qf.instance, entity);
 
         // qf._close();
@@ -106,14 +105,14 @@ export default class ContactQuickFormController {
 
   discardDialog(ev) {
     var qf = this;
-    var title = (qf.model.isNew())?'Discard this contact?':'Discard changes?';
-    var text = (qf.model.isNew())?'Do you really want to discard the contact?':'Do you really want to discard the changes?';
+    var title = (qf.model.isNew())?'Discard this entity?':'Discard changes?';
+    var text = (qf.model.isNew())?'Do you really want to discard the entity?':'Do you really want to discard the changes?';
     var confirmDiscardDialog = 
       qf.$mdDialog.confirm()
           .parent(angular.element(document.body))
           .title(title)
           .textContent(text)
-          .ariaLabel('Discard contact dialog')
+          .ariaLabel('Discard entity dialog')
           .targetEvent(ev)
           .ok('Discard')
           .cancel('Cancel');
@@ -131,12 +130,12 @@ export default class ContactQuickFormController {
 
   _close() {
     console.log('_close ctrl', this);
-    this.ContactQuickForm.cancel(this.instance);
+    this.EntityQuickForm.cancel(this.instance);
   }
 }
 
-ContactQuickFormController.$inject = [
-  'ContactQuickForm',
+EntityQuickFormController.$inject = [
+  'EntityQuickForm',
   'EditorRegistry',
   'LocalesService',
   '$mdDialog',

@@ -41,7 +41,7 @@ export default function EntityEditorDirective(){
   }
 
   function link(scope, element, attrs, ctrls) {
-
+    console.log('EntityEditorDirective', scope);
   }
 }
 

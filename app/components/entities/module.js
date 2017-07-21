@@ -28,7 +28,6 @@ export default 'app.components.entities';
 angular
   .module('app.components.entities', [
     ngSanitize
-  	// contactsComponentModule
   ])
   .controller('EntityListingController', EntityListingController)
   .controller('EntityFormController', EntityFormController)

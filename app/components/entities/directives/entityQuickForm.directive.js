@@ -1,12 +1,12 @@
 /**
  * @ngdoc directive
- * @name contactQuickForm
- * @module app.components.contacts
+ * @name entityQuickForm
+ * @module app.components.entities
  *
  * @restrict EA
  *
  * @description
- * `<contact-quick-form></contact-quick-form>`.
+ * `<entity-quick-form></entity-quick-form>`.
  *
  * @usage
  *
@@ -26,9 +26,9 @@ export default function EntityQuickFormDirective($timeout){
       model: "=",
       attributeSet: "=",
       contentModel: "=",
-      instance: "="
-      // locales: "=",
-      // locale: "="
+      instance: "=",
+      locales: "=",
+      locale: "="
     },
     controller: 'EntityQuickFormController',
     controllerAs: 'qf',
@@ -44,11 +44,11 @@ export default function EntityQuickFormDirective($timeout){
   }
 
   function preLink(element, attrs) {
-
+    console.log('preLink EntityQuickFormDirective');
   }
 
   function postLink(scope, element, attrs, ctrl) {
-
+    console.log('postLink EntityQuickFormDirective', scope, ctrl)
   }
 }
 

@@ -65,28 +65,28 @@ export default class EntityFormController {
     console.log('entityForm ctrl inited', vm);
   }
 
-  openEntityQuickForm(formSettings) {
-    var self = this;
-    formSettings.parent = self.$element;
-    formSettings.scope = self.$scope.$new();
+  // openEntityQuickForm(formSettings) {
+  //   var self = this;
+  //   formSettings.parent = self.$element;
+  //   formSettings.scope = self.$scope.$new();
 
-    var instance = self.EntityQuickForm.open(formSettings);
+  //   var instance = self.EntityQuickForm.open(formSettings);
 
-    var deregister = self.$scope.$on('quickFormSaved', function(event, inst, entity){
-      if(instance != inst) {
-        return;
-      }
+  //   var deregister = self.$scope.$on('quickFormSaved', function(event, inst, entity){
+  //     if(instance != inst) {
+  //       return;
+  //     }
 
-      deregister();
-      deregister = null;
+  //     deregister();
+  //     deregister = null;
 
-      self.$scope.$broadcast('quickFormSaved', formSettings.model, entity);
-    });
+  //     self.$scope.$broadcast('quickFormSaved', formSettings.model, entity);
+  //   });
 
-    // self.$timeout(function(){
-    //   self.EntityQuickForm.close(qForm);
-    // }, 3000);
-  }
+  //   // self.$timeout(function(){
+  //   //   self.EntityQuickForm.close(qForm);
+  //   // }, 3000);
+  // }
 
   getLocale() {
     var vm = this;

@@ -1,18 +1,18 @@
 
 /**
  * @ngdoc service
- * @name ContactQuickForm
- * @module app.components.contacts
+ * @name EntityQuickForm
+ * @module app.components.entities
  *
  * @description
  *
- * @returns an instance of contact quick form service
+ * @returns an instance of entity quick form service
  */
 
 require('./../styles/quickForm.scss');
 
 import angular from 'angular';
-import template from './../views/entityQuickForm.tmpl.html';
+import template from './../views/quickForm.tmpl.html';
 
 export default function EntityQuickForm($log, $q, $compile) {
 
@@ -71,19 +71,29 @@ export default function EntityQuickForm($log, $q, $compile) {
       if(!options.contentModel) {
         throw new Error('Can not open quick form without content model defined in options');
       }
-
+      if(!options.locales) {
+        throw new Error('Can not open quick form without locales defined in options');
+      }
+      if(!options.locale) {
+        throw new Error('Can not open quick form without locale defined in options');
+      }
+      console.log('open quickForm', options);
       var instance = {
         // parent: options.parent,
         scope: options.scope,
         model: options.model,
         attributeSet: options.attributeSet,
         contentModel: options.contentModel,
-        defered: $q.defer()
+        defered: $q.defer(),
+        locales: options.locales,
+        locale: options.locale
       };
 
       instance.scope.model = instance.model;
       instance.scope.attributeSet = instance.attributeSet;
       instance.scope.contentModel = instance.contentModel;
+      instance.scope.locales = instance.locales;
+      instance.scope.locale = instance.locale;
 
       this._renderInstance(instance);
 

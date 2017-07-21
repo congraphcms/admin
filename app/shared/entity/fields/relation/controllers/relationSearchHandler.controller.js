@@ -7,8 +7,10 @@ export default class RelationSearchHandlerController{
     EntityRepository, 
     AttributeSetsService,
     EntityTypesService, 
+    EntityTypeCollection,
     EntityModel,
     ChooseSetService,
+    ChooseEntityTypeService,
     EntityQuickForm,
     AppSettings, 
     $scope, 
@@ -32,8 +34,10 @@ export default class RelationSearchHandlerController{
     handler.EntityRepository = EntityRepository;
     handler.AttributeSetsService = AttributeSetsService;
     handler.EntityTypesService = EntityTypesService;
+    handler.EntityTypeCollection = EntityTypeCollection;
     handler.EntityModel = EntityModel;
     handler.ChooseSetService = ChooseSetService;
+    handler.ChooseEntityTypeService = ChooseEntityTypeService;
     handler.EntityQuickForm = EntityQuickForm;
     handler.AppSettings = AppSettings;
 
@@ -392,55 +396,120 @@ export default class RelationSearchHandlerController{
   createNew() {
     var handler = this;
     // get content model
-    var entityTypeId = handler.allowedTypes[0];
-    var contentModel = false;
-    var cmPromise = handler.EntityTypesService.getById(entityTypeId).then(function(type) {
-      contentModel = type;
+    handler.getEntityTypeForNewEntity().then(function(contentModel){
+      handler.getAttributeSetForNewEntity(contentModel).then(function(attributeSet){
+
+        var model = new handler.EntityModel();
+        
+        model.setEntityType(contentModel);
+        model.setAttributeSet(attributeSet);
+        
+        var defaultPoint = contentModel.get('default_point');
+        var status = defaultPoint.get('status');
+        
+        model.set('status', status);
+        if(handler.locale) {
+          console.log('handler locale', handler.locale);
+          model.set('locale', handler.locale.get('code'));
+        }
+        
+        var formSettings = {
+          model: model,
+          attributeSet: attributeSet,
+          contentModel: contentModel,
+          locales: handler.locales,
+          locale: handler.locale,
+          scope: handler.$scope.$new()
+        };
+        
+        handler.EntityQuickForm.open(formSettings).then(
+          function(payload){
+            console.log('qf saved', payload);
+            handler.selectedItems = [payload];
+            handler.handleSelection();
+          }, 
+          function(msg){
+            console.log('qf canceled', msg);
+          }
+        );
+      });
     });
+  }
 
+  getEntityTypeForNewEntity(){
+    let handler = this;
+    // get content model
+    let entityTypeId = (handler.allowedTypes.length === 1)?handler.allowedTypes[0]: false;
+    let contentModel = false;
+    let contentModels = false;
+    let cmPromise = false;
+    let defered = handler.$q.defer();
 
+    if(!entityTypeId) {
+      cmPromise = handler.EntityTypesService.getAll().then(function(types){
+        if(handler.allowedTypes.length > 0) {
+          contentModels = [];
+          _.each(handler.allowedTypes, function(typeID){
+            let model = types.findWhere({id: typeID});
+            if(model) {
+              contentModels.push(model);
+            }
+          });
+        }else {
+          contentModels = types;
+        }
+        
+        contentModels = new handler.EntityTypeCollection(contentModels);
+        // modal for choosing entity type
+        handler.ChooseEntityTypeService.choose(contentModels)
+          .then(
+            function(type){
+              contentModel = type;
+              defered.resolve(contentModel);
+            }, function(){
+              defered.reject();
+              return;
+            }
+          );
+      });
+    }else{
+      cmPromise = handler.EntityTypesService.getById(entityTypeId).then(function(type) {
+        contentModel = type;
+        defered.resolve(contentModel);
+        // return contentModel
+      });
+    }
+
+    return defered.promise;
+  }
+
+  getAttributeSetForNewEntity(contentModel) {
     // get attribute sets
-    var attributeSets = false;
-    var attributeSet = false;
-    var asPromise = handler.AttributeSetsService.getByType(entityTypeId).then(function(sets){
-      attributeSets = sets;
-    });
+    let handler = this;
+    let defered = handler.$q.defer();
+    
+    let asPromise = handler.AttributeSetsService.getByType(contentModel.get('id'));
+    
 
-    handler.$q.all([cmPromise, asPromise]).then(function(){
+    asPromise.then(function(attributeSets){
       // open modal for attribute set choice
       handler.ChooseSetService.choose(attributeSets, contentModel)
         .then(
           function(set){
-            attributeSet = set;
-            // create form settings (model, attribute set, content model)
-            var model = new handler.EntityModel();
-            model.setEntityType(contentModel);
-            model.setAttributeSet(attributeSet);
-            var defaultPoint = contentModel.get('default_point');
-            var status = defaultPoint.get('status');
-            model.set('status', status);
-            var formSettings = {
-              model: model,
-              attributeSet: attributeSet,
-              contentModel: contentModel,
-              scope: handler.$scope.$new()
-            };
-            
-            handler.EntityQuickForm.open(formSettings).then(
-              function(payload){
-                console.log('qf saved', payload);
-                handler.selectedItems = [payload];
-                handler.handleSelection();
-              }, 
-              function(msg){
-                console.log('qf canceled', msg);
-              }
-            );
+            let attributeSet = set;
+            defered.resolve(attributeSet);
+            return set;
           }, function(){
+            defered.reject();
             return;
           }
         );
+    }, function(){
+      defered.reject();
+      return;
     });
+
+    return defered.promise;
   }
 
   addRelation() {
@@ -503,8 +572,10 @@ RelationSearchHandlerController.$inject = [
   'EntityRepository',
   'AttributeSetsService',
   'EntityTypesService',
+  'EntityTypeCollection',
   'EntityModel',
   'ChooseSetService',
+  'ChooseEntityTypeService',
   'EntityQuickForm',
   'AppSettings',
   '$scope',

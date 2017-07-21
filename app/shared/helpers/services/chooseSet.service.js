@@ -79,7 +79,7 @@ export default function ChooseAttributeSetService($mdDialog, $q){
         return defered.promise;
       }
 
-      chosenSet = this.getDefaultSet();
+      chosenSet = this.getDefaultSet(attributeSets, contentModel);
       defered.resolve(chosenSet);
       return defered.promise;
 

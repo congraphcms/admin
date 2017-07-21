@@ -8,6 +8,7 @@
 
 import cbOnEnter from './directives/cbOnEnter.directive.js';
 import ChooseSetService from './services/chooseSet.service.js';
+import ChooseEntityTypeService from './services/chooseEntityType.service.js';
 import {createEntityLink, CreateEntityLinkController} from './directives/createEntityLink.directive.js';
 
 export default 'app.shared.helpers';
@@ -17,4 +18,5 @@ angular
   .directive('cbOnEnter', cbOnEnter)
   .controller('CreateEntityLinkController', CreateEntityLinkController)
   .directive('createEntityLink', createEntityLink)
-  .service('ChooseSetService', ChooseSetService);
+  .service('ChooseSetService', ChooseSetService)
+  .service('ChooseEntityTypeService', ChooseEntityTypeService);

@@ -176,6 +176,8 @@ export default class EntityEditorController{
       editor.statusColor = {color: editor.getStatusColor(editor.currentWorkflowPoint)};
       editor.form.$setPristine(true);
 
+      editor.$rootScope.$broadcast('editor.entitySaved', editor, result);
+
       return result;
     }, function(errors){
       console.error("SAVE ENTITY ERROR", errors);
