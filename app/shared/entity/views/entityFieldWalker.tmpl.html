@@ -1,5 +1,5 @@
 <cb-field
-	ng-repeat="attribute in walker.attributeSet.attributes.attributes.models" 
+	ng-repeat="attribute in walker.setAttributes" 
 	ng-class="{'cb-field-error': walker.fieldInvalid(attribute), complex: walker.isComplexField(attribute)}">
 	<cb-field-title>
 		<h2>{{attribute.attributes.admin_label}}</h2>

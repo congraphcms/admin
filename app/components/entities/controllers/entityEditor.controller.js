@@ -21,8 +21,6 @@ export default class EntityEditorController{
     /* jshint validthis: true */
     var editor = this;
 
-    console.log('EntityEditorController', editor);
-
     editor.fieldTypes = fieldTypes;
     editor.fieldSelection = fieldSelection;
 
@@ -209,6 +207,9 @@ export default class EntityEditorController{
         return;
       }
       editor.translations[locale.get('code')] = false;
+      if(!editor.model || !editor.model.id) {
+        return;
+      }
       editor.EntityRepository.get(editor.model.id, {locale: locale.get('code')})
         .then(function(data){
           editor.translations[locale.get('code')] = data;

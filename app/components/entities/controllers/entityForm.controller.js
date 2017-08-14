@@ -5,6 +5,7 @@ export default class EntityFormController {
     entityModel,
     attributeSet,
     contentModel,
+    attributes,
     locales,
     defaultLocale,
     AttributeSetsService,
@@ -28,6 +29,7 @@ export default class EntityFormController {
     vm.model = entityModel;
     vm.attributeSet = attributeSet;
     vm.contentModel = contentModel;
+    vm.attributes = attributes;
     vm.locales = locales;
     vm.defaultLocale = defaultLocale;
     vm.AttributeSetsService = AttributeSetsService;
@@ -62,7 +64,6 @@ export default class EntityFormController {
       event.stopPropagation();
       
     });
-    console.log('entityForm ctrl inited', vm);
   }
 
   // openEntityQuickForm(formSettings) {
@@ -272,6 +273,7 @@ EntityFormController.$inject = [
   'entityModel',
   'attributeSet',
   'contentModel',
+  'attributes',
   'locales',
   'defaultLocale',
   'AttributeSetsService',

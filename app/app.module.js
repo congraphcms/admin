@@ -68,7 +68,7 @@ export default angular
 
       if (toState.requireAuth && !cbOAuth.isAuthenticated()) {
         event.preventDefault();
-        console.error('Not Authorized', cbOAuth.isAuthenticated());
+        console.warn('Not Authorized', cbOAuth.isAuthenticated());
         $state.go('login', {redirect: toState, redirectParams: toStateParams}, {reload: true});
         return;
       }
@@ -84,5 +84,10 @@ export default angular
         cbOAuth.getOwner();
       }
   
+    });
+
+    $rootScope.$on('oauth:error', function(event, errors) {
+      console.log('oauth:error handler');
+      $state.go('login', {reload: true});
     });
   }]);

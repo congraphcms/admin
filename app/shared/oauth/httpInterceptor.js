@@ -7,7 +7,7 @@ export function cbOAuthRejectExpiredToken($q, $rootScope, cbOAuth) {
       // Inject `Authorization` header.
       if (config.url.indexOf('api/') !== -1 && !config.headers.hasOwnProperty('Authorization')){
         if(!cbOAuth.isAuthenticated()) {
-          console.log('not authenticated', config, cbOAuth);
+          // console.log('not authenticated', config, cbOAuth);
           $rootScope.$emit('oauth:error', {
             error: 'not_authorized',
             message: 'You must log in first.',
@@ -26,7 +26,7 @@ export function cbOAuthRejectExpiredToken($q, $rootScope, cbOAuth) {
         }
         config.headers.Authorization = cbOAuth.getAuthorizationHeader();
         if(cbOAuth.accessTokenExpired()) {
-          console.log('token expired', config, cbOAuth);
+          // console.log('token expired', config, cbOAuth);
           return $q.reject(
             {
               config: config, 
@@ -46,13 +46,12 @@ export function cbOAuthRejectExpiredToken($q, $rootScope, cbOAuth) {
 cbOAuthRejectExpiredToken.$inject = ['$q', '$rootScope', 'cbOAuth'];
 
 export function cbOAuthRefreshExpiredToken($q, $rootScope, cbOAuth) {
-  console.log('cbOAuthRefreshExpiredToken');
+  // console.log('cbOAuthRefreshExpiredToken');
   return {
     requestError: function(rejection) {
       var defered = $q.defer();
-      console.log('cbOAuthRefreshExpiredToken -> requestError', rejection);
-      // Catch `access_denied` and `unauthorized` errors.
-      // The token isn't removed here so it can be refreshed when the `access_denied` error occurs.
+      // console.log('cbOAuthRefreshExpiredToken -> requestError', rejection);
+      // 
       if (rejection.data && 'token_expired' === rejection.data.error) {
 
         if(cbOAuth.refreshingToken) {
@@ -68,13 +67,13 @@ export function cbOAuthRefreshExpiredToken($q, $rootScope, cbOAuth) {
         return defered.promise;
 
         function resolveRefreshToken(response) {
-          console.log('resolveRefreshToken', response);
+          // console.log('resolveRefreshToken', response);
           rejection.config.headers.Authorization = cbOAuth.getAuthorizationHeader();
           defered.resolve(rejection.config);
         }
 
         function rejectRefreshToken(response) {
-          console.log('rejectRefreshToken', response);
+          // console.log('rejectRefreshToken', response);
           cbOAuth.removeToken();
           $rootScope.$emit('oauth:error', {
             error: 'not_authorized',
@@ -90,23 +89,28 @@ export function cbOAuthRefreshExpiredToken($q, $rootScope, cbOAuth) {
       return $q.reject(rejection);
     },
 
-    // responseError: function(rejection) {
-    //   var defered = $q.defer();
-    //   // Catch `access_denied` and `unauthorized` errors.
-    //   // The token isn't removed here so it can be refreshed when the `access_denied` error occurs.
-    //   if (401 === rejection.status && rejection.data && 'access_denied' === rejection.data.error) {
-    //     console.log('cb interceptor', rejection);
-    //     if(OAuth.isAuthenticated() && rejection.config.url.indexOf('api/')){
-    //       OAuth.getRefreshToken().then(function(response){
+    responseError: function(rejection) {
+      var defered = $q.defer();
+      console.log('responseError interceptor', rejection);
+      // Catch `access_denied` and `unauthorized` errors.
+      // The token isn't removed here so it can be refreshed when the `access_denied` error occurs.
+      if (401 === rejection.status && rejection.data && 'access_denied' === rejection.data.error) {
+        console.log('cb interceptor', rejection);
+        if(cbOAuth.isAuthenticated() && rejection.config.url.indexOf('api/')){
+          cbOAuth.removeToken();
+          $rootScope.$emit('oauth:error', {
+            error: 'not_authorized',
+            message: 'Your session has expired. Please log in.',
+            data: {
+              config: rejection.config
+            }
+          });
+          defered.reject(rejection);
+        }
+      }
 
-    //       }, function(response){
-
-    //       });
-    //     }
-    //   }
-
-    //   return $q.reject(rejection);
-    // }
+      return $q.reject(rejection);
+    }
   };
 }
 

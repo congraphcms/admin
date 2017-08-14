@@ -25,6 +25,7 @@ function EntityFieldWalker(){
     scope: {
       entity: "=",
       attributeSet: "=",
+      attributes: "=",
       contentModel: "=",
       form: "=",
       locale: "=",

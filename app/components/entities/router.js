@@ -133,6 +133,8 @@ function resolveNewEntityAttributeSet(entityModel, contentModel, attributeSets, 
 
   entityModel.setAttributeSet(attributeSet);
 
+
+
   return attributeSet;
 }
 

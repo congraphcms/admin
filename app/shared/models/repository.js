@@ -14,6 +14,7 @@ function RepositoryFactory(AppSettings, $http, $q, Client){
       this.client = null;
       this.Model = CB.Model;
       this.Collection = CB.Collection;
+      this.endpoint = endpoint;
 
       this.createClient(endpoint);
     }
@@ -46,9 +47,7 @@ function RepositoryFactory(AppSettings, $http, $q, Client){
         params = id;
       }
       params || (params = {});
-      if(!_.isUndefined(params.id)){
-        id = params.id;
-      }
+
       if(params instanceof this.Model){
         params = {};
       }else{
@@ -73,7 +72,7 @@ function RepositoryFactory(AppSettings, $http, $q, Client){
 
         return defered.promise;
       }
-
+      
       this.client.get(params)
         .then(function(data){
           var response = data.data;

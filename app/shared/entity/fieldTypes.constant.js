@@ -300,5 +300,26 @@ export default {
       }
     },
     "default_input": "media_library"
-  }
+  },
+  "location":{
+    "can_have_default_value":false,
+    "can_be_unique":false,
+    "can_be_filter":false,
+    "can_be_used_in_search":false,
+    "can_be_localized":true,
+    "has_options":false,
+    "has_multiple_values":false,
+    "has_input_choice": false,
+    "editor": "location",
+    "input_choice": {
+      "location": {
+        "label": "Location selector",
+        "description": "",
+        "icon": "title",
+        "complex": false,
+        "value": "location"
+      }
+    },
+    "default_input": "location"
+  },
 }

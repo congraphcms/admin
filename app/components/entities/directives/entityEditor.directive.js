@@ -6,7 +6,7 @@
  * @restrict A
  *
  * @description
- * `<form case-editor></form>`.
+ * `<form entity-editor></form>`.
  *
  * @usage
  *
@@ -25,6 +25,7 @@ export default function EntityEditorDirective(){
     scope: {
       model: "=",
       attributeSet: "=",
+      attributes: "=",
       contentModel: "=",
       locales: "=",
       locale: "="

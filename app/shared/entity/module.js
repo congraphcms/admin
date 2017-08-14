@@ -18,6 +18,7 @@ import datetimeFieldsHandlersModule from './fields/datetime/module.js';
 import choiceFieldsHandlersModule from './fields/choice/module.js';
 import booleanFieldsHandlersModule from './fields/boolean/module.js';
 import assetFieldsHandlersModule from './fields/asset/module.js';
+import locationFieldsHandlersModule from './fields/location/module.js';
 
 import fieldTypes from './fieldTypes.constant.js';
 import fieldSelection from './fieldSelection.constant.js';
@@ -43,7 +44,8 @@ angular
     datetimeFieldsHandlersModule,
     choiceFieldsHandlersModule,
     booleanFieldsHandlersModule,
-    assetFieldsHandlersModule
+    assetFieldsHandlersModule,
+    locationFieldsHandlersModule
   ])
   .constant('fieldTypes', fieldTypes)
   .constant('fieldSelection', fieldSelection)

@@ -223,8 +223,7 @@ export default class EntityListingController {
         entity_type: vm.contentModel.get('code')
       }),
       offset: (pageNumber) * vm.pageSize,
-      limit: vm.pageSize,
-      include: 'fields.case_client'
+      limit: vm.pageSize
     });
 
     return vm.EntityRepository.get(query);

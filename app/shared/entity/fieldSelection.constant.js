@@ -119,6 +119,8 @@ export default {
     "label": "Location",
     "description": "Reference to other objects in system.",
     "icon": "place",
-    "disabled" : true
+    "disabled" : false,
+    "value": "location",
+    "sub_choices": false
   }
 }
