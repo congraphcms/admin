@@ -114,7 +114,7 @@ export default class MediaUploaderController{
     // handle PLUPLOAD error
     mu.$scope.$on('PLUPLOAD.error', function(e, data){
       // check if event is triggered by uploader of this directive
-      if(data.uploader.id != mu.instance.id){
+      if(!mu.instance || !mu.instance.id || data.uploader.id != mu.instance.id){
         return;
       }
 
@@ -134,10 +134,13 @@ export default class MediaUploaderController{
     // ------------------------
 
     mu.clearSelected = function(){
+      if(mu.selection === false) return;
       mu.selection = [];
     };
     
     function addSelected(item) {
+      if(mu.selection === false) return;
+
       if ( mu.selection.indexOf(item) !== -1 ) {
         return false;
       }
@@ -145,21 +148,28 @@ export default class MediaUploaderController{
     }
     
     function removeSelected(item) {
+      if(mu.selection === false) return;
+      
       mu.selection.splice(mu.selection.indexOf(item), 1);
     }
     
     mu.selectedItemsCount = function(){
+      if(mu.selection === false) return 0;
+      
       return mu.selection.length;
     };
     
     mu.hasSelectedItems = function(){
+      if(mu.selection === false) return false;
+      
       return mu.selectedItemsCount() > 0;
     }
     
     mu.isSelected = function(item) {
-      if(!item) return;
+      if(!item) return false;
+      if(mu.selection === false) return false;
 
-      return _.findWhere(mu.selection, {id: item.id}) !== undefined;
+      return _.findWhere(mu.selection, {id: item.id}) !== undefined && !this.selectionDisabled();;
     }
     
     mu.itemClicked = function(item) {
@@ -266,6 +276,11 @@ export default class MediaUploaderController{
       mu.instance.stop();
       mu.instance.start();
     }
+  }
+
+  selectionDisabled(){
+    var mu = this;
+    return mu.selection === false;
   }
 }
 MediaUploaderController.$inject = [

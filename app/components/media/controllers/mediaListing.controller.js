@@ -2,8 +2,11 @@
 import _ from 'underscore';
 import moment from 'moment';
 import angular from 'angular';
-import FileFormController from './fileForm.controller.js'
-import fileFormTemplate from './../views/fileForm.tmpl.html'
+import FileFormController from './fileForm.controller.js';
+import fileFormTemplate from './../views/fileForm.tmpl.html';
+
+import UploadFormController from './uploadForm.controller.js';
+import uploadFormTemplate from './../views/uploadForm.tmpl.html';
 
 export default class MediaListingController {
   constructor(
@@ -61,6 +64,10 @@ export default class MediaListingController {
     // sort menu 
     vm.sortOptions = [
       {
+        'sort': 'created_at',
+        'label': 'Last created'
+      },
+      {
         'sort': 'name',
         'label': 'Name'
       },
@@ -71,10 +78,6 @@ export default class MediaListingController {
       {
         'sort': 'extension',
         'label': 'Type'
-      },
-      {
-        'sort': 'created_at',
-        'label': 'Last created'
       }
     ];
     vm.sortOption = vm.sortOptions[0];
@@ -109,6 +112,7 @@ export default class MediaListingController {
     vm.getFiles().then(function(results){
       // store collection
       vm.filesCollection  = results;
+      console.log('get files', vm.filesCollection);
       vm.applySort();
       // optionaly change collection (filter, sort etc) 
       vm.list = vm.filesCollection.models;
@@ -145,12 +149,38 @@ export default class MediaListingController {
 
   selectModel(item, event) {
     let vm = this;
-    console.log(event)
     vm.selectedModel = item;
   }
 
   removeSelection() {
     this.selectedModel  = null;
+  }
+
+  addFiles(event) {
+    if(event) {
+      event.stopPropagation();
+    }
+    
+    var vm = this;
+
+    vm.$mdDialog.show({
+      controller: UploadFormController,
+      controllerAs: 'fc',
+      template: uploadFormTemplate,
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose:true,
+      bindToController: true,
+      locals: {
+        // fileModel: file
+      }
+    })
+    .then(function(newFiles) {
+      newFiles.each(function(file) {
+        vm.filesCollection.add(file, {at:0});
+      });
+      
+    });
   }
 
   editFile(file, event) {
@@ -199,12 +229,10 @@ export default class MediaListingController {
 
   applySort() {
     let vm = this;
-    vm.filesCollection.comparator = vm.sortOption.sort;
-    vm.filesCollection.sort();
   };
 
   getFiles() {
-    return this.FileRepository.get();
+    return this.FileRepository.get({sort: '-created_at'});
   }
 
   deleteFile(file, event) {

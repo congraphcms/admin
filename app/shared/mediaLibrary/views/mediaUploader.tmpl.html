@@ -5,7 +5,7 @@
 			class="plupload-dir" 
 			plupload-droparea 
 			instance="mu.instance" 
-			dropareaid="plupload-dd-area" 
+			drop-element="mu.$element" 
 			params="mu.params"
 			layout="column"
 			flex>
@@ -42,7 +42,7 @@
 			<div class="cb-item-inner" ng-if="item.status == 'uploaded'">
 
 				<md-checkbox ng-checked="mu.isSelected(item.model)"
-			                     ng-show="mu.multipleSelection"></md-checkbox>
+			                     ng-show="mu.multipleSelection && !mu.selectionDisabled()"></md-checkbox>
 
 				<div class="cb-item-media">
 		          <img 

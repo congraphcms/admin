@@ -27,7 +27,8 @@ function pluploadDroparea($state){
 			'instance': '=?',
 			'uploaderId': '=?',
 			'meta': '=?',
-			'infoText': '=?'
+			'infoText': '=?',
+			'dropElement': '=?'
 		},
 	    controller: 'PluploadDropareaController',
 	    controllerAs: 'plda',
@@ -40,7 +41,11 @@ function pluploadDroparea($state){
 					}
 
 					var defaultParams = {};
-					defaultParams.drop_element = iAttrs.dropareaid;
+					if(controller.dropElement){
+						defaultParams.drop_element = controller.dropElement[0];
+					}
+					
+					console.log('plda dropareaid', defaultParams.drop_element)
 
 					if(!controller.params){
 						controller.params = {};

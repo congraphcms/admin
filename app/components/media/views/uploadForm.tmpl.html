@@ -1,0 +1,41 @@
+<md-dialog aria-label="Add new file" class="md-padding" ng-cloak>
+  <ng-form name="form">
+    <md-toolbar class="cb-white">
+      <div class="md-toolbar-tools">
+        <h2>{{$root.translate('file_upload_modal_title')}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="fc.rejectForm()">
+          <md-icon class="material-icons" aria-label="{{$root.translate('close_file_form')}}">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content" style="width: 750px; max-width: 90vw;">
+
+        <media-uploader 
+          files="fc.uploaderFiles" 
+          selection="fc.selectedItems" 
+          multiple-selection="fc.multipleSelection"
+          params="fc.uploaderParams">
+        </media-uploader>
+
+      </div>
+    </md-dialog-content>
+    <md-dialog-content >
+      <div class="md-dialog-content" layout="row" >
+        <span flex></span>
+        <md-button class="md-raised" ng-click="fc.resolveForm()" md-autofocus>
+          {{$root.translate('btn_done')}}
+        </md-button>
+      </div>
+    </md-dialog-content>
+  </ng-form>
+
+  <div 
+    class="bottom-sheet-loader fade" 
+    layout="row" 
+    layout-align="center center"
+    ng-if="fc.busy">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+</md-dialog>

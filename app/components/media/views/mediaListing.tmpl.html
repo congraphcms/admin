@@ -21,7 +21,7 @@
             <md-menu-item ng-repeat="option in vm.sortOptions">
                 <md-button ng-click="vm.setSortOption(option)">
                     <md-icon ng-class="{'hidden': vm.sortOption != option}" class="material-icons">done</md-icon>
-                    {{ translate(option) }}
+                    {{ translate(option.label) }}
                 </md-button>
             </md-menu-item>
         </md-menu-content>
@@ -93,13 +93,10 @@
               <md-icon class="material-icons">filter_list</md-icon>
           </md-button>
           <md-button
-            aria-label="Create a new entity"
+            aria-label="Upload files"
             class="md-raised md-accent cb-primary-action"
             md-colors="{background: 'blue'}"
-            create-entity-link
-            attribute-sets="vm.attributeSets"
-            content-model="vm.contentModel"
-            locale="vm.locale">
+            ng-click="vm.addFiles($event)">
               {{translate('btn_add')}}
           </md-button>
         </div>
