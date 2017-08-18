@@ -77,7 +77,23 @@ function FileModelFactory(AppSettings, cbOAuth, $q){
       var mimeParts = mime.split('/');
 
       return mimeParts[0];
-    }
+    },
+
+    isImage: function() {
+      return this.getType() == 'image';
+    },
+
+    isVideo: function() {
+      return this.getType() == 'video';
+    },
+
+    isAudio: function() {
+      return this.getType() == 'audio';
+    },
+
+    isDocument: function() {
+      return !this.isImage() && !this.isVideo() && !this.isAudio();
+    },
 
   });
 

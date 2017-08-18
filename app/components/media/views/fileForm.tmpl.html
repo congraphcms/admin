@@ -1,0 +1,51 @@
+<md-dialog aria-label="Add new file" class="md-padding" ng-cloak>
+  <ng-form name="form">
+    <md-toolbar class="cb-white">
+      <div class="md-toolbar-tools">
+        <h2>{{$root.translate('file_form_modal_title')}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="fc.rejectForm()">
+          <md-icon class="material-icons" aria-label="{{$root.translate('close_file_form')}}">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div class="container">
+          <div layout="column">
+
+            <md-input-container class="md-block">
+              <label>{{$root.translate('file_caption_label')}}</label>
+              <input type="text" name="caption" ng-model="fc.model.attributes.caption">
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <label>{{$root.translate('file_description_label')}}</label>
+              <textarea name="description" ng-model="fc.model.attributes.description" rows="2" columns="1" ></textarea>
+            </md-input-container>
+
+          </div>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-content >
+      <div class="md-dialog-content" layout="row" >
+        <span flex></span>
+        <md-button ng-click="fc.rejectForm()">
+          {{$root.translate('btn_cancel')}}
+        </md-button>
+        <md-button class="md-raised md-primary" ng-click="fc.save()" ng-disabled="!form.$valid"  md-autofocus>
+          {{$root.translate('btn_save')}}
+        </md-button>
+      </div>
+    </md-dialog-content>
+  </ng-form>
+
+  <div 
+    class="bottom-sheet-loader fade" 
+    layout="row" 
+    layout-align="center center"
+    ng-if="fc.busy">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+</md-dialog>

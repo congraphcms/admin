@@ -17,6 +17,7 @@ import attributesComponent from './components/attributes/module.js';
 import contentModelsComponent from './components/contentModels/module.js';
 import localesComponent from './components/locales/module.js';
 import usersComponent from './components/users/module.js';
+import mediaComponent from './components/media/module.js';
 
 /**
  * @ngdoc module
@@ -37,7 +38,8 @@ export default angular
     attributesComponent,
     contentModelsComponent,
     localesComponent,
-    usersComponent
+    usersComponent,
+    mediaComponent
   ])
   .factory('AppSettings', SettingsFactory)
   .config(routerConfig)

@@ -272,5 +272,17 @@ export default {
 		'user_roles_label': 'Roles',
 		'user_change_password_label': 'Change password',
 		'user_password_settings_label': 'User Password',
+
+		// media library
+		'media_label': 'Media',
+		'file_extension_label': 'Extension',
+		'file_mime_type_label': 'Mime type',
+		'file_created_at_label': 'Created',
+		'file_updated_at_label': 'Updated',
+		'file_name_label': 'Filename',
+		'file_caption_label': 'Caption',
+		'file_description_label': 'Description',
+
+		'file_form_modal_title': 'Edit File',
 	}
 };

@@ -40,6 +40,19 @@
 
             <md-divider></md-divider>
 
+            <!-- MEDIA -->
+            <md-subheader class="md-no-sticky">
+                {{$root.translate('media_label')}}
+            </md-subheader>
+            <md-list-item ui-sref="app.media">
+                <md-icon class="material-icons">receipt</md-icon>
+                <p>Media Library</p>
+                <md-button class="md-secondary md-icon-button" >
+                    <md-icon class="material-icons" aria-label="Create new">add</md-icon>
+                </md-button>
+            </md-list-item>
+            <md-divider></md-divider>
+
             <!-- CONTENT MODEL -->
             <md-subheader class="md-no-sticky">
                 {{$root.translate('content_model_label')}}

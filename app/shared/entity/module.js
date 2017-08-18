@@ -45,7 +45,7 @@ angular
     choiceFieldsHandlersModule,
     booleanFieldsHandlersModule,
     assetFieldsHandlersModule,
-    locationFieldsHandlersModule
+    // locationFieldsHandlersModule
   ])
   .constant('fieldTypes', fieldTypes)
   .constant('fieldSelection', fieldSelection)
