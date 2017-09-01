@@ -6,19 +6,19 @@
  * Location Fields Handlers (attributes)
  */
 
-// import LocationHandlerController from './controllers/locationHandler.controller.js';
+import LocationHandlerController from './controllers/locationHandler.controller.js';
 
-// import locationHandler from './directives/locationHandler.directive.js';
+import locationHandler from './directives/locationHandler.directive.js';
 
-// import 'angular-simple-logger';
-// import 'angular-google-maps';
+import ngMap from 'ngmap';
 
-// export default 'app.shared.entity.location';
+console.log('NGMAP', ngMap);
 
-// angular
-//   .module('app.shared.entity.location', [
-//   	'nemLogging',
-//   	'uiGmapgoogle-maps'
-//   ])
-//   .controller('LocationHandlerController', LocationHandlerController)
-//   .directive('locationHandler', locationHandler);
+export default 'app.shared.entity.location';
+
+angular
+  .module('app.shared.entity.location', [
+  	ngMap
+  ])
+  .controller('LocationHandlerController', LocationHandlerController)
+  .directive('locationHandler', locationHandler);

@@ -53,10 +53,34 @@
 </div>
 
 <div class="cb-white cb-pad">
-
   <!-- User Settings -->
   <h3>{{$root.translate('user_roles_label')}}</h3>
-  <div layout="column">
+
+  <md-input-container class="md-block" flex>
+    <div ng-repeat="role in editor.roles.models">
+      <md-checkbox 
+        ng-checked="editor.userHasRole(role)"
+        ng-click="editor.toggleRole(role)"
+        aria-label="role.get('name') role">
+        {{role.get('name')}}
+      </md-checkbox>
+    </div>
+    <input 
+      type="hidden" 
+      name="roles"
+      ng-model="editor.model.attributes.roles"
+      array-empty="handler.attribute"
+      aria-label="user roles" />
+  </md-input-container>
+  <div 
+    class="validation-messages" 
+    ng-messages="editor.form.roles.$error" 
+    ng-hide="editor.form.roles.$untouched && !editor.form.$submitted">
+    <div ng-message="empty">User needs to have a role assigned.</div>
+  </div>
+
+  
+  <!-- <div layout="column">
     <md-list>
         <md-list-item 
           class="md-2-line" 
@@ -73,6 +97,6 @@
         </md-list-item>
       </md-list>
 
-  </div>
+  </div> -->
 
 </div>

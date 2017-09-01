@@ -25,6 +25,7 @@ export default function EntityQuickFormDirective($timeout){
     scope: {
       model: "=",
       attributeSet: "=",
+      attributes: "=",
       contentModel: "=",
       instance: "=",
       locales: "=",

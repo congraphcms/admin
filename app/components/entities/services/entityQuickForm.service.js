@@ -64,6 +64,10 @@ export default function EntityQuickForm($log, $q, $compile) {
         throw new Error('Can not open quick form without model in options');
       }
 
+      if(!options.attributes) {
+        throw new Error('Can not open quick form without attributes defined in options');
+      }
+
       if(!options.attributeSet) {
         throw new Error('Can not open quick form without attribute set defined in options');
       }
@@ -83,6 +87,7 @@ export default function EntityQuickForm($log, $q, $compile) {
         scope: options.scope,
         model: options.model,
         attributeSet: options.attributeSet,
+        attributes: options.attributes,
         contentModel: options.contentModel,
         defered: $q.defer(),
         locales: options.locales,
@@ -91,6 +96,7 @@ export default function EntityQuickForm($log, $q, $compile) {
 
       instance.scope.model = instance.model;
       instance.scope.attributeSet = instance.attributeSet;
+      instance.scope.attributes = instance.attributes;
       instance.scope.contentModel = instance.contentModel;
       instance.scope.locales = instance.locales;
       instance.scope.locale = instance.locale;

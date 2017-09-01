@@ -6,6 +6,7 @@ export default class RelationSearchHandlerController{
   constructor(
     EntityRepository, 
     AttributeSetsService,
+    AttributesService,
     EntityTypesService, 
     EntityTypeCollection,
     EntityModel,
@@ -32,6 +33,7 @@ export default class RelationSearchHandlerController{
     handler.$timeout = $timeout;
 
     handler.EntityRepository = EntityRepository;
+    handler.AttributesService = AttributesService;
     handler.AttributeSetsService = AttributeSetsService;
     handler.EntityTypesService = EntityTypesService;
     handler.EntityTypeCollection = EntityTypeCollection;
@@ -396,42 +398,45 @@ export default class RelationSearchHandlerController{
   createNew() {
     var handler = this;
     // get content model
-    handler.getEntityTypeForNewEntity().then(function(contentModel){
-      handler.getAttributeSetForNewEntity(contentModel).then(function(attributeSet){
+    handler.getAttributesForNewEntity().then(function(attributes){
+      handler.getEntityTypeForNewEntity().then(function(contentModel){
+        handler.getAttributeSetForNewEntity(contentModel).then(function(attributeSet){
 
-        var model = new handler.EntityModel();
-        
-        model.setEntityType(contentModel);
-        model.setAttributeSet(attributeSet);
-        
-        var defaultPoint = contentModel.get('default_point');
-        var status = defaultPoint.get('status');
-        
-        model.set('status', status);
-        if(handler.locale) {
-          console.log('handler locale', handler.locale);
-          model.set('locale', handler.locale.get('code'));
-        }
-        
-        var formSettings = {
-          model: model,
-          attributeSet: attributeSet,
-          contentModel: contentModel,
-          locales: handler.locales,
-          locale: handler.locale,
-          scope: handler.$scope.$new()
-        };
-        
-        handler.EntityQuickForm.open(formSettings).then(
-          function(payload){
-            console.log('qf saved', payload);
-            handler.selectedItems = [payload];
-            handler.handleSelection();
-          }, 
-          function(msg){
-            console.log('qf canceled', msg);
+          var model = new handler.EntityModel();
+          
+          model.setEntityType(contentModel);
+          model.setAttributeSet(attributeSet);
+          
+          var defaultPoint = contentModel.get('default_point');
+          var status = defaultPoint.get('status');
+          
+          model.set('status', status);
+          if(handler.locale) {
+            console.log('handler locale', handler.locale);
+            model.set('locale', handler.locale.get('code'));
           }
-        );
+          
+          var formSettings = {
+            model: model,
+            attributes: attributes,
+            attributeSet: attributeSet,
+            contentModel: contentModel,
+            locales: handler.locales,
+            locale: handler.locale,
+            scope: handler.$scope.$new()
+          };
+          
+          handler.EntityQuickForm.open(formSettings).then(
+            function(payload){
+              console.log('qf saved', payload);
+              handler.selectedItems = [payload];
+              handler.handleSelection();
+            }, 
+            function(msg){
+              console.log('qf canceled', msg);
+            }
+          );
+        });
       });
     });
   }
@@ -512,6 +517,25 @@ export default class RelationSearchHandlerController{
     return defered.promise;
   }
 
+  getAttributesForNewEntity(){
+    // get attribute sets
+    let handler = this;
+    let defered = handler.$q.defer();
+    
+    let aPromise = handler.AttributesService.getAll();
+    
+
+    aPromise.then(function(attributes){
+        defered.resolve(attributes);
+        return attributes;
+      }, function(){
+        defered.reject();
+        return;
+      });
+
+    return defered.promise;
+  }
+
   addRelation() {
     var handler = this;
     handler.dynamicItems.resetItems();
@@ -571,6 +595,7 @@ export default class RelationSearchHandlerController{
 RelationSearchHandlerController.$inject = [
   'EntityRepository',
   'AttributeSetsService',
+  'AttributesService',
   'EntityTypesService',
   'EntityTypeCollection',
   'EntityModel',

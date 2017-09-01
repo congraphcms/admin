@@ -316,7 +316,7 @@ export default {
         "label": "Location selector",
         "description": "",
         "icon": "title",
-        "complex": false,
+        "complex": true,
         "value": "location"
       }
     },
