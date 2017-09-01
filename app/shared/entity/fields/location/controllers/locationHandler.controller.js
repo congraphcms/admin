@@ -1,9 +1,12 @@
+import _ from 'underscore';
 
 export default class LocationController{
-  constructor($scope, $rootScope, $state, $stateParams, $q, $timeout) {
+  constructor(NgMap, $scope, $rootScope, $state, $stateParams, $q, $timeout) {
 
     /* jshint validthis: true */
-    var handler = this;
+    let handler = this;
+
+    handler.NgMap = NgMap;
 
     handler.$scope = $scope;
     handler.$rootScope = $rootScope;
@@ -19,29 +22,202 @@ export default class LocationController{
   }
 
   init() {
-    var handler = this;
+    let handler = this;
+
+    console.log('location handler init', handler.entity);
   
     handler.fieldCode = handler.attribute.get('code');
     handler.fieldName = handler.attribute.get('admin_label');
     handler.required = handler.attribute.get('required');
     handler.unique = handler.attribute.get('unique');
 
-    if(handler.entity.isNew()) {
-      handler.setDefaultValue();
-    }
+    handler.mapParams = {
+      control: {},
+      center: [40.74349,-73.990822],
+      zoom: 15,
+      options: {
+        dragging: true,
+        disableDoubleClickZoom: true
+      },
+      bounds: {},
+      markers: [],
+      idkey: 'selectMap'
+    };
 
+    handler.markerParams = {
+      control: {},
+      id: 0,
+      position: [40.7451, -73.9680],
+      draggable: true,
+      show: false
+    };
+
+    _.bindAll(handler, 'onMarkerDrag');
+
+    handler.setDefaultValue();
+
+    handler.$scope.$watch('handler.selectedAddress', function(newVal, oldVal){
+      console.log('selectedAddress changed: new, old', newVal, oldVal)
+      if(newVal == oldVal) return;
+      handler.setValue(newVal);
+    });
+
+    handler.NgMap.getMap('map-'+handler.fieldCode).then(function(map) {
+      console.log('MAP MAP');
+      handler.map = map;
+      handler.mapCenter = map.getCenter();
+      handler.$timeout(function(){
+        handler.mapResize();
+      }, 0);
+ 
+      // console.log(map.getCenter());
+      // console.log('markers', map.markers);
+      // console.log('shapes', map.shapes);
+    });
+  }
+
+  mapResize() {
+    let handler = this;
+
+    // handler.mapCenter = handler.map.getCenter();
+    google.maps.event.trigger(handler.map, "resize");
+    handler.map.setCenter(handler.mapCenter);
   }
 
   setDefaultValue() {
-    var handler = this;
-    var defaultValue = handler.attribute.get('default_value');
-    if(defaultValue) {
-      handler.entity.setField(handler.fieldCode, defaultValue);
+    let handler = this;
+    
+    if(handler.entity.isNew()) {
+      handler.setValue(null);
     }
+
+    handler.selectedAddress = handler.getValue();
+
+    if(handler.selectedAddress == null) {
+      return;
+    }
+
+    handler.markerParams.position = [handler.selectedAddress.geometry.location.lat, handler.selectedAddress.geometry.location.lng];
+  }
+
+  searchForAddress(val) {
+    let handler = this,
+        deferred = handler.$q.defer(),
+        geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({
+        address: val
+    }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            deferred.resolve(results);
+            return
+        }
+        console.log('error with google api', results, status);
+        deferred.reject('error with google api');
+    });
+
+    return deferred.promise;
+  }
+
+  selectionChanged(item) {
+    if(!item || !item.geometry) return;
+
+    let handler = this,
+        lat = item.geometry.location.lat(),
+        lng = item.geometry.location.lng();
+
+      handler._updateMarker(lat, lng);
+      handler.searchText = null;
+      if (item.geometry.location instanceof google.maps.LatLng) {
+        // var location = {
+        //     lat: obj.geometry.location.lat(),
+        //     lng: obj.geometry.location.lng()
+        // };
+        let location = {
+            lat: lat,
+            lng: lng
+        };
+        item.geometry.location = location;
+      }
+      handler.selectedAddress = item;
+  }
+
+  _updateMarker(lat, lng) {
+    let handler = this;
+    
+    handler.$timeout(function() {
+        handler.markerParams.position = [lat, lng];
+    }, 0);
+    handler._centerOn(lat, lng);
+  }
+
+  _centerOn(lat, lng) {
+    let handler = this;
+    
+    handler.$timeout(function() {
+      handler.map.panTo(new google.maps.LatLng(lat, lng));
+    }, 0);
+  }
+
+  onMarkerDrag(marker) {
+    let handler = this,
+        lat = marker.latLng.lat(),
+        lng = marker.latLng.lng();
+
+    // console.log('onMarkerDrag', handler, lat, lng);
+    handler._setAddressFromLatLng(lat, lng);
+  }
+
+  _setAddressFromLatLng(lat, lng) {
+    let handler = this,
+        latLng = new google.maps.LatLng(lat, lng),
+        geocoder = new google.maps.Geocoder(),
+        result = null;
+
+    geocoder.geocode({
+      'latLng': latLng
+    }, function(results, status) {
+      handler.$scope.$apply(function(){
+        if (status == google.maps.GeocoderStatus.OK) {
+          result = results[0];
+
+          console.log('_setAddressFromLatLng result', result);
+
+          // to avoid snppaing marker to road (gmaps behavoir)
+          // update result lat, lng
+          let obj = angular.copy(result);
+          if (obj.geometry.location instanceof google.maps.LatLng) {
+            // var location = {
+            //     lat: obj.geometry.location.lat(),
+            //     lng: obj.geometry.location.lng()
+            // };
+            let location = {
+                lat: lat,
+                lng: lng
+            };
+            obj.geometry.location = location;
+          }
+
+          handler.selectedAddress = obj;
+        }
+      });
+      
+    });
+  }
+
+  getValue() {
+    var handler = this;
+    return handler.entity.getField(handler.fieldCode);
+  }
+
+  setValue(value) {
+    var handler = this;
+    handler.entity.setField(handler.fieldCode, value);
   }
 }
 
 LocationController.$inject = [
+  'NgMap',
   '$scope',
   '$rootScope',
   '$state',

@@ -34,6 +34,8 @@ export default class EntityQuickFormController {
 
     console.log('qf instance', qf.$scope.instance);
 
+    console.log('qf', qf);
+
     qf.init();
   }
 

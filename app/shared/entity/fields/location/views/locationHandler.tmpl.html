@@ -1,1 +1,47 @@
-<h1>This is location handler</h1>
+
+<md-autocomplete flex 
+    md-input-name="addressSearch"
+    md-no-cache="handler.noCache"
+    md-selected-item-change="handler.selectionChanged(item)"
+    md-search-text="handler.searchText"
+    md-items="item in handler.searchForAddress(handler.searchText)"
+    md-item-text="item.formatted_address" 
+    md-floating-label="Search for address">
+  <md-item-template>
+    <span md-highlight-text="handler.searchText">{{item.formatted_address}}</span>
+  </md-item-template>
+</md-autocomplete>
+<md-input-container class="md-block">
+	<label>Selected Address</label>
+	<input ng-model="handler.selectedAddress.formatted_address" disabled="true">
+</md-input-container>
+<md-input-container>
+	<label>Latitude</label>
+	<input ng-model="handler.selectedAddress.geometry.location.lat" disabled="true">
+</md-input-container>
+<md-input-container>
+	<label>Longitude</label>
+	<input ng-model="handler.selectedAddress.geometry.location.lng" disabled="true">
+</md-input-container>
+<div map-lazy-load="https://maps.google.com/maps/api/js">
+  <ng-map 
+    zoom="{{handler.mapParams.zoom}}"
+    class="map"
+    id="{{'map-'+ handler.fieldCode}}">
+
+    <marker 
+    	position="{{handler.markerParams.position}}" 
+    	centered="1"
+    	draggable="{{handler.markerParams.draggable}}"
+    	on-dragend="handler.onMarkerDrag()">
+    </marker>
+  </ng-map>
+</div>
+<a ng-click="handler.mapResize()">resize</a>
+
+<!-- dragging="{{handler.mapParams.dragging}}"
+    bounds="{{handler.mapParams.bounds}}"
+    events="{{handler.mapParams.events}}"
+    options="{{handler.mapParams.options}}"
+    pan="{{handler.mapParams}}"
+    control="{{handler.mapParams.control}}" -->

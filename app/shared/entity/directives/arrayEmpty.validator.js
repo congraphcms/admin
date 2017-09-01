@@ -45,9 +45,14 @@ export default function ArrayEmptyValidator($q, $parse){
       ngModelCtrl.$validators.empty = function(modelValue) {
         var attribute = ctrl.getAttribute(scope);
 
-        if(!attribute.get('required') || (_.isArray(modelValue) && modelValue.length > 0)) {
+        if(_.isArray(modelValue) && modelValue.length > 0) {
           return true;
         }
+
+        if(_.isObject(attribute) && !attribute.get('required')) {
+          return true;
+        }
+        
         return false;
       }
     }

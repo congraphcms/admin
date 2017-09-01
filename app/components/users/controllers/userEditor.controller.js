@@ -74,7 +74,7 @@ export default class UserEditorController {
   userHasRole(role) {
     let vm = this;
     let userRoles = vm.model.attributes.roles;
-    if(userRoles.length == 0) {
+    if(! (userRoles instanceof vm.RoleCollection)) {
       vm.model.attributes.roles = new vm.RoleCollection();
       userRoles = vm.model.attributes.roles;
     }

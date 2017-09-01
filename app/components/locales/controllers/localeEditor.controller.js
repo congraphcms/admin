@@ -96,6 +96,18 @@ export default class LocaleEditorController {
 
     return promise;
   }
+
+  delete() {
+    let vm = this;
+    let defered = vm.$q.defer();
+
+    if(vm.isNew()) {
+      defered.reject('can\'t delete unsaved field.');
+      return defered.promise;
+    }
+
+    return vm.LocaleRepository.delete(vm.model);
+  }
 }
 
 LocaleEditorController.$inject = [
