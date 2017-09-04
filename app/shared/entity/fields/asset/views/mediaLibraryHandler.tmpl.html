@@ -4,45 +4,45 @@
 		<div class="md-toolbar-tools">
 			<span flex></span>
 			<md-button class="md-raised md-secondary"
-		                 ng-click="handler.addAsset()" ng-disabled="handler.loadingItems" ng-if="handler.empty || handler.multiple" >
-		        {{handler.$rootScope.translate('btn_add')}}
-		    </md-button>
+						 ng-click="handler.addAsset()" ng-disabled="handler.loadingItems" ng-if="handler.empty || handler.multiple" >
+				{{handler.$rootScope.translate('btn_add')}}
+			</md-button>
 		</div>
 	</md-toolbar>
 	<md-content flex layout="column" class="relation-listing">
 		<md-progress-linear md-mode="query" ng-disabled="!handler.loadingItems"></md-progress-linear>
 		<!-- Empty State -->
-        <div 
-        	ng-if="handler.empty && !handler.loadingItems" 
-        	ng-click="handler.addAsset()" 
-        	layout="column" 
-        	layout-align="center center" 
-        	class="cb-clickable cb-hover"
-        	flex>
-            <div>
-              <md-icon
-                class="material-icons"
-                style="font-size:48px; height:48px; width: 48px; color:rgba(0,0,0,0.12);">
-                note_add
-              </md-icon>
-            </div>
-            <h3 class="md-title" style="margin-bottom:8px;">{{handler.$rootScope.translate('empty_asset_field_notice')}}</h3>
-            <div class="md-body-1">{{handler.$rootScope.translate('empty_asset_field_instructions')}}</div>
-        </div>
+		<div 
+			ng-if="handler.empty && !handler.loadingItems" 
+			ng-click="handler.addAsset()" 
+			layout="column" 
+			layout-align="center center" 
+			class="cb-clickable cb-hover"
+			flex>
+			<div>
+			  <md-icon
+				class="material-icons"
+				style="font-size:48px; height:48px; width: 48px; color:rgba(0,0,0,0.12);">
+				note_add
+			  </md-icon>
+			</div>
+			<h3 class="md-title" style="margin-bottom:8px;">{{handler.$rootScope.translate('empty_asset_field_notice')}}</h3>
+			<div class="md-body-1">{{handler.$rootScope.translate('empty_asset_field_instructions')}}</div>
+		</div>
 
-        <!-- Not Empty -->
+		<!-- Not Empty -->
 		<div class="relation-content" ng-if="!handler.empty" layout="column" flex>
 
 			<!-- Loading Items -->
 			<div 
-	        	ng-if="handler.loadingItems" 
-	        	layout="column" 
-	        	layout-align="center center" 
-	        	flex>
-	            <h3 class="md-title" style="margin-bottom:8px;">{{handler.$rootScope.translate('please_wait_text')}}</h3>
-	        </div>
+				ng-if="handler.loadingItems" 
+				layout="column" 
+				layout-align="center center" 
+				flex>
+				<h3 class="md-title" style="margin-bottom:8px;">{{handler.$rootScope.translate('please_wait_text')}}</h3>
+			</div>
 
-	        <!-- Multiple Items -->
+			<!-- Multiple Items -->
 			<div 
 				ng-if="handler.multiple && !handler.loadingItems" 
 				style="padding: 8px;"
@@ -52,44 +52,83 @@
 
 				<div 
 					ng-repeat="item in handler.getValue().models" 
-		        	class="cb-media-item md-whiteframe-1dp actionable" 
-		        	ng-class="{'cb-media-last-item': ($index%3 == 2)}"
-		        	layout="column">
-		        	
-		        	<div class="cb-media-wrap" layout layout-align="center center">
-		        		<md-progress-circular 
-		        			ng-if="handler.getFileType(handler.getAsset(item)) == 'image' && !handler.isLoaded(handler.getAsset(item))" 
-		        			md-diameter="20px">
-		        			
-		        		</md-progress-circular>
-			        	<img 
-				          	ng-src="{{handler.getAdminImage(handler.getAsset(item))}}" 
-				          	ng-if="handler.getFileType(handler.getAsset(item)) == 'image' && handler.isLoaded(handler.getAsset(item))" 
-				          	alt="handler.getCaption(handler.getAsset(item))" />
-			          	<div 
-			          		layout="column" 
-			          		layout-align="center center" 
-			          		ng-if="handler.getFileType(handler.getAsset(item)) != 'image'"
-			          		style="width:100%;">
+					class="cb-media-item md-whiteframe-1dp actionable" 
+					ng-class="{'cb-media-last-item': ($index%3 == 2)}"
+					layout="column">
+					
+					<div class="cb-media-wrap" layout layout-align="center center">
+						<md-progress-circular 
+							ng-if="handler.getFileType(handler.getAsset(item)) == 'image' && !handler.isLoaded(handler.getAsset(item))" 
+							md-diameter="20px">
+							
+						</md-progress-circular>
+						<img 
+							ng-src="{{handler.getAdminImage(handler.getAsset(item))}}" 
+							ng-if="handler.getFileType(handler.getAsset(item)) == 'image' && handler.isLoaded(handler.getAsset(item))" 
+							alt="handler.getCaption(handler.getAsset(item))" />
+						<div 
+							layout="column" 
+							layout-align="center center" 
+							ng-if="handler.getFileType(handler.getAsset(item)) != 'image'"
+							style="width:100%;">
 
-			          		<md-icon class="material-icons">insert_drive_file</md-icon>
-			          		<h3 class="md-subhead" style="max-width:90%; word-wrap:break-word;">
-			          			{{handler.getFileName(handler.getAsset(item))}}
-			          		</h3>
-			          	</div>
-			        </div>
+							<md-icon class="material-icons">insert_drive_file</md-icon>
+							<h3 class="md-subhead" style="max-width:90%; word-wrap:break-word;">
+								{{handler.getFileName(handler.getAsset(item))}}
+							</h3>
+						</div>
+					</div>
+					<div class="cb-media-info">
+						<div class="md-padding">
+              <div class="kv-list condensed">
+                <!-- caption -->
+                <div class="kv-list-item">
+                  <div class="key">
+                  	{{handler.$rootScope.translate('file_caption_label')}}
+                  </div>
+                  <div 
+                    class="value" 
+                    ng-if="handler.getAsset(item).get('caption')">
+                    {{handler.getAsset(item).get('caption')}}
+                  </div>
+                  <div 
+                  	class="value" 
+                  	ng-if="!handler.getAsset(item).get('caption')">
+                    <span class="md-caption">&ndash;</span>
+                  </div>
+                </div>
 
-			        <div class="cb-media-action" layout layout-align="end center">
-			        	<md-button ng-click="handler.editFile(item)" >
-					      {{handler.$rootScope.translate('btn_edit')}}
-					    </md-button>
+                <!-- description -->
+                <div class="kv-list-item">
+                  <div class="key">
+                  	{{handler.$rootScope.translate('file_description_label')}}
+                  </div>
+                  <div 
+                    class="value" 
+                    ng-if="handler.getAsset(item).get('description')">
+                    {{handler.getAsset(item).get('description')}}
+                  </div>
+                  <div 
+                  	class="value" 
+                  	ng-if="!handler.getAsset(item).get('description')">
+                    <span class="md-caption">&ndash;</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+					</div>
+					<div class="cb-media-action" layout layout-align="end center">
+						<md-button ng-click="handler.editFile(handler.getAsset(item))" >
+						  {{handler.$rootScope.translate('btn_edit')}}
+						</md-button>
 						<md-button ng-click="handler.removeAsset(item)" >
-					      {{handler.$rootScope.translate('btn_remove')}}
-					    </md-button>
+						  {{handler.$rootScope.translate('btn_remove')}}
+						</md-button>
 					</div>
 
-		        </div>
-		    </div>
+				</div>
+			</div>
 
 			<!-- Single Item -->
 			<div
@@ -97,44 +136,83 @@
 				layout-align="center center" 
 				layout 
 				flex>
-		        <div 
-		        	class="cb-media-item md-whiteframe-1dp actionable" 
-		        	layout="column">
-		        	
-		        	<div class="cb-media-wrap" layout layout-align="center center">
-		        		<md-progress-circular 
-		        			ng-if="handler.getFileType(handler.getAsset(handler.getValue())) == 'image' && !handler.isLoaded(handler.getAsset(handler.getValue()))" 
-		        			md-diameter="20px">
-		        			
-		        		</md-progress-circular>
-			        	<img 
-			          	ng-src="{{handler.getAdminImage(handler.getAsset(handler.getValue()))}}" 
-			          	ng-if="handler.getFileType(handler.getAsset(handler.getValue())) == 'image' && handler.isLoaded(handler.getAsset(handler.getValue()))" 
-			          	alt="handler.getCaption(handler.getAsset(handler.getValue()))" />
-			          	<div 
-			          		layout="column" 
-			          		layout-align="center center" 
-			          		ng-if="handler.getFileType(handler.getAsset(handler.getValue())) != 'image'" 
-			          		style="width:100%;">
+				<div 
+					class="cb-media-item md-whiteframe-1dp actionable" 
+					layout="column">
+					
+					<div class="cb-media-wrap" layout layout-align="center center">
+						<md-progress-circular 
+							ng-if="handler.getFileType(handler.getAsset(handler.getValue())) == 'image' && !handler.isLoaded(handler.getAsset(handler.getValue()))" 
+							md-diameter="20px">
+							
+						</md-progress-circular>
+						<img 
+						ng-src="{{handler.getAdminImage(handler.getAsset(handler.getValue()))}}" 
+						ng-if="handler.getFileType(handler.getAsset(handler.getValue())) == 'image' && handler.isLoaded(handler.getAsset(handler.getValue()))" 
+						alt="handler.getCaption(handler.getAsset(handler.getValue()))" />
+						<div 
+							layout="column" 
+							layout-align="center center" 
+							ng-if="handler.getFileType(handler.getAsset(handler.getValue())) != 'image'" 
+							style="width:100%;">
 
-			          		<md-icon class="material-icons">insert_drive_file</md-icon>
-			          		<h3 class="md-subhead" style="max-width:90%; word-wrap:break-word;">
-			          			{{handler.getFileName(handler.getAsset(handler.getValue()))}}
-			          		</h3>
-			          	</div>
-			        </div>
+							<md-icon class="material-icons">insert_drive_file</md-icon>
+							<h3 class="md-subhead" style="max-width:90%; word-wrap:break-word;">
+								{{handler.getFileName(handler.getAsset(handler.getValue()))}}
+							</h3>
+						</div>
+					</div>
+					<div class="cb-media-info">
+						<div class="md-padding">
+              <div class="kv-list condensed">
+                <!-- caption -->
+                <div class="kv-list-item">
+                  <div class="key">
+                  	{{handler.$rootScope.translate('file_caption_label')}}
+                  </div>
+                  <div 
+                    class="value" 
+                    ng-if="handler.getAsset(handler.getValue()).get('caption')">
+                    {{handler.getAsset(handler.getValue()).get('caption')}}
+                  </div>
+                  <div 
+                  	class="value" 
+                  	ng-if="!handler.getAsset(handler.getValue()).get('caption')">
+                    <span class="md-caption">&ndash;</span>
+                  </div>
+                </div>
 
-			        <div class="cb-media-action" layout layout-align="end center">
-			        	<md-button ng-click="handler.editFile(item)" >
-					      {{handler.$rootScope.translate('btn_edit')}}
-					    </md-button>
+                <!-- description -->
+                <div class="kv-list-item">
+                  <div class="key">
+                  	{{handler.$rootScope.translate('file_description_label')}}
+                  </div>
+                  <div 
+                    class="value" 
+                    ng-if="handler.getAsset(handler.getValue()).get('description')">
+                    {{handler.getAsset(handler.getValue()).get('description')}}
+                  </div>
+                  <div 
+                  	class="value" 
+                  	ng-if="!handler.getAsset(handler.getValue()).get('description')">
+                    <span class="md-caption">&ndash;</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+					</div>
+					<div class="cb-media-action" layout layout-align="end center">
+						<md-button ng-click="handler.editFile(handler.getAsset(handler.getValue()))" >
+						  {{handler.$rootScope.translate('btn_edit')}}
+						</md-button>
 						<md-button ng-click="handler.removeAsset()" >
-					      {{handler.$rootScope.translate('btn_remove')}}
-					    </md-button>
+						  {{handler.$rootScope.translate('btn_remove')}}
+						</md-button>
 					</div>
 
-		        </div>
-		    </div>
+				</div>
+			</div>
 		</div>
 	</md-content>
 </div>
@@ -157,57 +235,57 @@
 		<div layout class="selection-listing">
 
 			<!-- Empty State -->
-	        <div 
-	        	ng-if="handler.selectionEmpty && handler.selectionReady" 
-	        	layout="column" 
-	        	layout-align="center center" 
-	        	class="cb-clickable cb-hover" 
-	        	ng-click="handler.uploaderActive = 1"
-	        	flex>
-	            <div>
-	              <md-icon
-	                class="material-icons"
-	                style="font-size:48px; height:48px; width: 48px; color:rgba(0,0,0,0.12);">
-	                filter_none
-	              </md-icon>
-	            </div>
-	            <h3 class="md-title" style="margin-bottom:8px;">{{handler.$rootScope.translate('empty_library_label')}}</h3>
-	            <div class="md-body-1">{{handler.$rootScope.translate('empty_library_instructions')}}</div>
-	        </div>
-	        <div ng-if="handler.selectionReady && !handler.selectionEmpty" flex>
-	        <!-- Not Empty -->
+			<div 
+				ng-if="handler.selectionEmpty && handler.selectionReady" 
+				layout="column" 
+				layout-align="center center" 
+				class="cb-clickable cb-hover" 
+				ng-click="handler.uploaderActive = 1"
+				flex>
+				<div>
+				  <md-icon
+					class="material-icons"
+					style="font-size:48px; height:48px; width: 48px; color:rgba(0,0,0,0.12);">
+					filter_none
+				  </md-icon>
+				</div>
+				<h3 class="md-title" style="margin-bottom:8px;">{{handler.$rootScope.translate('empty_library_label')}}</h3>
+				<div class="md-body-1">{{handler.$rootScope.translate('empty_library_instructions')}}</div>
+			</div>
+			<div ng-if="handler.selectionReady && !handler.selectionEmpty" flex>
+			<!-- Not Empty -->
 			<md-virtual-repeat-container  class="selection-listing" layout="row">
-			    
-			    <div md-virtual-repeat="row in handler.dynamicItems"
-			         md-on-demand
-			         class="cb-media-row">
-			        <div 
-			        	class="cb-media-item cb-item" 
-			        	ng-repeat="item in row" 
-			        	ng-click="handler.itemClicked(item)" 
-			        	ng-class="{selected: handler.isSelected(item)}"
-			        	layout="column">
-			        	
-			        	<span class="cb-media-selected">
-			        		<md-icon class="material-icons">
+				
+				<div md-virtual-repeat="row in handler.dynamicItems"
+					 md-on-demand
+					 class="cb-media-row">
+					<div 
+						class="cb-media-item cb-item" 
+						ng-repeat="item in row" 
+						ng-click="handler.itemClicked(item)" 
+						ng-class="{selected: handler.isSelected(item)}"
+						layout="column">
+						
+						<span class="cb-media-selected">
+							<md-icon class="material-icons">
 								check_circle
 							</md-icon>
-			        	</span>
-			        	<div class="cb-media-wrap" layout layout-align="center center">
-			        		<md-progress-circular ng-if="handler.getFileType(item) == 'image' && !handler.isLoaded(item)" md-diameter="20px"></md-progress-circular>
-				        	<img 
-				          	ng-src="{{handler.getAdminImage(item)}}" 
-				          	ng-if="handler.getFileType(item) == 'image' && handler.isLoaded(item)" 
-				          	alt="item.get('caption')" />
-				          	<div layout="column" layout-align="center center" ng-if="handler.getFileType(item) != 'image'" style="width:100%;">
-				          		<md-icon class="material-icons">insert_drive_file</md-icon>
-				          		<h3 class="md-subhead" style="max-width:90%; word-wrap:break-word;">{{handler.getFileName(item)}}</h3>
-				          	</div>
-				        </div>
+						</span>
+						<div class="cb-media-wrap" layout layout-align="center center">
+							<md-progress-circular ng-if="handler.getFileType(item) == 'image' && !handler.isLoaded(item)" md-diameter="20px"></md-progress-circular>
+							<img 
+							ng-src="{{handler.getAdminImage(item)}}" 
+							ng-if="handler.getFileType(item) == 'image' && handler.isLoaded(item)" 
+							alt="item.get('caption')" />
+							<div layout="column" layout-align="center center" ng-if="handler.getFileType(item) != 'image'" style="width:100%;">
+								<md-icon class="material-icons">insert_drive_file</md-icon>
+								<h3 class="md-subhead" style="max-width:90%; word-wrap:break-word;">{{handler.getFileName(item)}}</h3>
+							</div>
+						</div>
 
-			        </div>
-			      
-			    </div>
+					</div>
+				  
+				</div>
 			</md-virtual-repeat-container>
 			</div>
 		</div>
@@ -229,17 +307,17 @@
 	<!-- footer  -->
 	<md-toolbar class="cb-list-footer">
 	  <div class="md-toolbar-tools">
-	    <div class="selection-status"
-	         layout layout-align="start center" 
-	         ng-show="handler.hasSelectedItems()">
-	      <md-button class="md-icon-button clear-selected" ng-click="handler.clearSelected()">
-	        <md-icon class="material-icon">close</md-icon>
-	      </md-button>
-	      <span class="separator"></span>
-	      <span class="selection-text">{{ handler.selectedItemsCount() }} {{handler.$rootScope.translate('selected_label')}}</span>
-	    </div>
-	    <span flex></span>
-	    <div class="">
+		<div class="selection-status"
+			 layout layout-align="start center" 
+			 ng-show="handler.hasSelectedItems()">
+		  <md-button class="md-icon-button clear-selected" ng-click="handler.clearSelected()">
+			<md-icon class="material-icon">close</md-icon>
+		  </md-button>
+		  <span class="separator"></span>
+		  <span class="selection-text">{{ handler.selectedItemsCount() }} {{handler.$rootScope.translate('selected_label')}}</span>
+		</div>
+		<span flex></span>
+		<div class="">
 			<md-button ng-click="handler.cancelSelection()" >
 				{{handler.$rootScope.translate('btn_cancel')}}
 			</md-button>
@@ -248,7 +326,7 @@
 						ng-disabled="!handler.hasSelectedItems()">
 				{{handler.$rootScope.translate('btn_done')}}
 			</md-button>
-	    </div>
+		</div>
 	  </div>
 	</md-toolbar>
 </div>
