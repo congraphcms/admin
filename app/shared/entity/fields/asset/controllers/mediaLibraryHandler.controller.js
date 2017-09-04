@@ -514,11 +514,11 @@ export default class MediaLibraryHandlerController{
     }
     var handler = this;
 
-    if(handler.single) {
-      file = handler.getValue();
-    }
+    // if(handler.single) {
+    //   file = handler.getValue();
+    // }
     
-    
+    console.log('edit file model', file);
 
     handler.$mdDialog.show({
       controller: FileFormController,
@@ -533,6 +533,7 @@ export default class MediaLibraryHandlerController{
       }
     })
     .then(function(newFile) {
+      console.log('file saved', newFile);
       // handler.filesCollection.add(newDocument);
     });
   }

@@ -25,22 +25,22 @@ md-toolbar {
 
 		md-icon,
 		.md-button:not(.md-raised) {
-		    color: rgba(0, 0, 0, 0.87);
+			color: rgba(0, 0, 0, 0.87);
 		}
 
 		.md-button[disabled] md-icon {
 			color: rgba(0,0,0,0.26);
-    		fill: rgba(0,0,0,0.26);
+			fill: rgba(0,0,0,0.26);
 		}
 	}
 
-    &.cb-light {
+	&.cb-light {
 		background-color: #eeeeee;
 		color: rgba(0,0,0,0.87);
 
 		md-icon,
 		.md-button:not(.md-raised) {
-		    color: rgba(0, 0, 0, 0.87);
+			color: rgba(0, 0, 0, 0.87);
 		}
 	}
 
@@ -50,7 +50,7 @@ md-toolbar {
 
 		md-icon,
 		.md-button:not(.md-raised) {
-		    color: rgba(0, 0, 0, 0.87);
+			color: rgba(0, 0, 0, 0.87);
 		}
 	}
 
@@ -72,12 +72,12 @@ md-toolbar {
 md-content {
 
 	&.cb-transparent {
-	    background-color: transparent;
-	    color: rgba(0,0,0,0.87);
+		background-color: transparent;
+		color: rgba(0,0,0,0.87);
 
-	    .md-subheader.md-default-theme,
+		.md-subheader.md-default-theme,
 		.md-subheader {
-		    background-color: transparent;
+			background-color: transparent;
 		}
 	}
 
@@ -98,16 +98,16 @@ md-menu-content {
 		&:before {
 			content: " ";
 			display: block;
-		    position: absolute;
-		    top: -8px;
-		    right: 12px;
-		    border-color: transparent;
-		    border-bottom-color: #fff;
-		    border-style: dashed dashed solid;
-		    border-width: 0 8px 8px;
-		    z-index: 1;
-		    height: 0;
-		    width: 0;
+			position: absolute;
+			top: -8px;
+			right: 12px;
+			border-color: transparent;
+			border-bottom-color: #fff;
+			border-style: dashed dashed solid;
+			border-width: 0 8px 8px;
+			z-index: 1;
+			height: 0;
+			width: 0;
 		}
 	}
 }
@@ -129,9 +129,9 @@ md-menu-content {
   .detail-num {}
   .dash { margin:0 8px;}
   .detail-desc {
-    &.detail-desc-empty {
-      color:rgba(0,0,0,.24);
-    }
+	&.detail-desc-empty {
+	  color:rgba(0,0,0,.24);
+	}
   }
 }
 
@@ -162,49 +162,70 @@ md-menu-content {
   flex-direction: column;
   
   .kv-list-item {
-    display:flex;
-    flex-direction: row;
-    line-height: 24px;
-    padding: 6px 0;
-    
-    .key {
-      flex: 0 0 120px;
-      padding-right:16px;
-      color:rgba(0,0,0,.54);
-    }
-    
-    .value {
-      flex: 1 1 auto;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      line-height: 24px;
-    }
+	display:flex;
+	flex-direction: row;
+	line-height: 24px;
+	padding: 6px 0;
+	
+	.key {
+	  flex: 0 0 120px;
+	  padding-right:16px;
+	  color:rgba(0,0,0,.54);
+	}
+	
+	.value {
+	  flex: 1 1 auto;
+	  overflow:hidden;
+	  text-overflow: ellipsis;
+	  line-height: 24px;
+	}
   }
 
   &.vertical {
-  	.kv-list-item {
-	    flex-direction: column;
-	    line-height: 24px;
-	    padding: 6px 0;
-	    
-	    .key {
-	      flex: 0 0 30px;
-	      padding-right:16px;
-	      color:rgba(0,0,0,.54);
-	    }
-	    
-	    .value {
-	      flex: 1 1 auto;
-	      overflow:hidden;
-	      line-height: 24px;
-	      padding-left: 24px;
-	      
+	.kv-list-item {
+		flex-direction: column;
+		line-height: 24px;
+		padding: 6px 0;
+		
+		.key {
+		  flex: 0 0 30px;
+		  padding-right:16px;
+		  color:rgba(0,0,0,.54);
+		}
+		
+		.value {
+		  flex: 1 1 auto;
+		  overflow:hidden;
+		  line-height: 24px;
+		  padding-left: 24px;
+		  
 
-	      .value-item {
-	      	display: block;
-	      	margin-bottom: 8px;
-	      }
-	    }
+		  .value-item {
+			display: block;
+			margin-bottom: 8px;
+		  }
+		}
+	  }
+  }
+
+  &.condensed {
+		.kv-list-item {
+			line-height: 16px;
+			padding: 6px 0;
+			font-size: 11px;
+			
+			.key {
+			  flex: 0 0 80px;
+			  padding-right:16px;
+			  color:rgba(0,0,0,.54);
+			}
+			
+			.value {
+			  flex: 1 1 auto;
+			  overflow:hidden;
+			  text-overflow: ellipsis;
+			  line-height: 16px;
+			}
 	  }
   }
 }
@@ -216,15 +237,15 @@ md-menu-content {
   flex-direction: column;
   
   .num-c {
-    display: block;
-    
-    &.num-c-current {
-    }
-    
-    &.num-c-prev {
-      padding-left: 16px;
-      border-left: 1px dotted rgba(0,0,0,0.12);
-    }
+	display: block;
+	
+	&.num-c-current {
+	}
+	
+	&.num-c-prev {
+	  padding-left: 16px;
+	  border-left: 1px dotted rgba(0,0,0,0.12);
+	}
   }
 }
 
@@ -241,8 +262,8 @@ md-menu-content {
 	.md-button.md-primary.md-raised, 
 	.md-button.md-default-theme.md-primary.md-fab, 
 	.md-button.md-primary.md-fab {
-	    color: rgba(255,255,255,0.87);
-	    background-color: #999;
+		color: rgba(255,255,255,0.87);
+		background-color: #999;
 	}
 }
 
