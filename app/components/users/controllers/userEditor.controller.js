@@ -5,16 +5,16 @@ import angular from 'angular';
 
 export default class UserEditorController {
   constructor(
-    EditorRegistry, 
-    UserRepository, 
+    EditorRegistry,
+    UserRepository,
     RoleCollection,
-    $attrs, 
-    $element, 
-    $scope, 
-    $rootScope, 
-    $state, 
-    $q, 
-    $timeout, 
+    $attrs,
+    $element,
+    $scope,
+    $rootScope,
+    $state,
+    $q,
+    $timeout,
     $compile
   ) {
 
@@ -59,16 +59,22 @@ export default class UserEditorController {
   toggleRole(role) {
     let vm = this;
     let userRoles = vm.model.attributes.roles;
+    console.log('toggleRole', role);
+
     if(userRoles.length == 0) {
       vm.model.attributes.roles = new vm.RoleCollection();
       userRoles = vm.model.attributes.roles;
     }
+
     let userRole = userRoles.findWhere({id: role.id});
+
     if(!userRole) {
       vm.model.attributes.roles.push(role);
     } else {
       vm.model.attributes.roles.remove(userRole);
     }
+
+    console.log('toggleRole roles', vm.model.attributes.roles);
   }
 
   userHasRole(role) {
@@ -88,7 +94,7 @@ export default class UserEditorController {
 
   save() {
     let vm = this;
-    
+
     vm.form.$setDirty(true);
     vm.form.$setSubmitted(true);
 
@@ -124,7 +130,7 @@ export default class UserEditorController {
 
     return promise;
   }
-  
+
   delete() {
     let vm = this;
     let defered = vm.$q.defer();
@@ -142,12 +148,12 @@ UserEditorController.$inject = [
   'EditorRegistry',
   'UserRepository',
   'RoleCollection',
-  '$attrs', 
-  '$element', 
+  '$attrs',
+  '$element',
   '$scope',
   '$rootScope',
   '$state',
-  '$q', 
+  '$q',
   '$timeout',
   '$compile'
 ];
