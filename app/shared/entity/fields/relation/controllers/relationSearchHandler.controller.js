@@ -23,7 +23,7 @@ export default class RelationSearchHandlerController{
   ) {
 
     /* jshint validthis: true */
-    var handler = this;
+    let handler = this;
 
     handler.$scope = $scope;
     handler.$rootScope = $rootScope;
@@ -50,7 +50,7 @@ export default class RelationSearchHandlerController{
   }
 
   init() {
-    var handler = this;
+    let handler = this;
     
     handler.fieldCode = handler.attribute.get('code');
     handler.fieldName = handler.attribute.get('admin_label');
@@ -64,7 +64,7 @@ export default class RelationSearchHandlerController{
     handler.searchTerms = '';
     handler.pageSize = 30;
 
-    var EntityCollection = handler.EntityRepository.getCollection();
+    let EntityCollection = handler.EntityRepository.getCollection();
     handler.relations = new EntityCollection();
 
     // Settings
@@ -132,7 +132,7 @@ export default class RelationSearchHandlerController{
 
     // LIST
     // ------------------------
-    var DynamicItems = function() {
+    let DynamicItems = function() {
       /**
        * @type {!Object<?Array>} Data pages, keyed by page number (0-index).
        */
@@ -145,8 +145,8 @@ export default class RelationSearchHandlerController{
     
     // Required.
     DynamicItems.prototype.getItemAtIndex = function(index) {
-      var pageNumber = Math.floor(index / handler.pageSize);
-      var page = this.loadedPages[pageNumber];
+      let pageNumber = Math.floor(index / handler.pageSize);
+      let page = this.loadedPages[pageNumber];
       if (page) {
         return page[index % handler.pageSize];
       } else if (page !== null) {
@@ -160,7 +160,7 @@ export default class RelationSearchHandlerController{
     };
           
     DynamicItems.prototype.fetchPage_ = function(pageNumber) {
-      var di = this;
+      let di = this;
       // Set the page to null so we know it is already being fetched.
       this.loadedPages[pageNumber] = null;
       // For demo purposes, we simulate loading more items with a timed
@@ -195,16 +195,16 @@ export default class RelationSearchHandlerController{
   }
 
   getEntities(pageNumber) {
-    var handler = this;
+    let handler = this;
 
-    var query = _.extend({}, {
+    let query = _.extend({}, {
 
       filter: _.extend(handler.listFilter, {
         id: {
           nin: handler.getRelationIds()
         }
       }),
-      offset: (pageNumber - 1) * handler.pageSize,
+      offset: pageNumber * handler.pageSize,
       limit: handler.pageSize
     });
 
@@ -218,14 +218,14 @@ export default class RelationSearchHandlerController{
   }
 
   getRelationIds() {
-    var handler = this;
+    let handler = this;
 
 
-    var ids = [];
-    var value = handler.getValue();
+    let ids = [];
+    let value = handler.getValue();
 
     if(!handler.empty) {
-      var value = handler.getValue();
+      let value = handler.getValue();
       if(handler.single) {
         ids.push(value.id);
       } else {
@@ -240,14 +240,14 @@ export default class RelationSearchHandlerController{
   }
 
   filterList(filter) {
-    var handler = this;
+    let handler = this;
     
     if(!filter && handler.listFilter != {}) {
       handler.listFilter = {};
       handler.dynamicItems.resetItems();
       return;
     }
-    var ignoreFilter = false;
+    let ignoreFilter = false;
     _.each(filter, function(item, key) {
       if(handler.listFilter[key] == item) {
         ignoreFilter = true;
@@ -269,7 +269,7 @@ export default class RelationSearchHandlerController{
   }
 
   searchList() {
-    var handler = this;
+    let handler = this;
 
     if( handler.searchTerms.length < 1) {
       handler.filterList(null);
@@ -280,17 +280,17 @@ export default class RelationSearchHandlerController{
 
   loadRelations() {
 
-    var handler = this;
-    var value = handler.entity.getField(handler.fieldCode);
-    var filter = {};
+    let handler = this;
+    let value = handler.entity.getField(handler.fieldCode);
+    let filter = {};
     
-    var relationsPromise = null;
+    let relationsPromise = null;
     if(!handler.empty) {
 
       if(handler.single) {
         filter.id = value.id;
       } else {
-        var ids = [];
+        let ids = [];
         _.each(value.models, function(item){
           ids.push(item.id);
         });
@@ -301,13 +301,13 @@ export default class RelationSearchHandlerController{
         handler.relations = results;
       });
     } else {
-      var defered = handler.$q.defer();
+      let defered = handler.$q.defer();
       relationsPromise = defered.promise;
       defered.resolve();
     }
     
 
-    var contentModelPromise = handler.EntityTypesService.getAll().then(function(results){
+    let contentModelPromise = handler.EntityTypesService.getAll().then(function(results){
       handler.contentModels = results;
     });
 
@@ -318,7 +318,7 @@ export default class RelationSearchHandlerController{
   }
 
   getRelation(model) {
-    var handler = this;
+    let handler = this;
     if(!handler.relations){
       return null;
     }
@@ -327,12 +327,12 @@ export default class RelationSearchHandlerController{
   }
 
   getValue() {
-    var handler = this;
+    let handler = this;
     return handler.entity.getField(handler.fieldCode);
   }
 
   setValue(value) {
-    var handler = this;
+    let handler = this;
     handler.entity.setField(handler.fieldCode, value);
   }
 
@@ -340,8 +340,8 @@ export default class RelationSearchHandlerController{
     if(!model) {
       return '';
     }
-    var handler = this;
-    var relationLocale = handler.getRelationLocale(model);
+    let handler = this;
+    let relationLocale = handler.getRelationLocale(model);
 
     return model.getTitle(relationLocale);
   }
@@ -350,29 +350,29 @@ export default class RelationSearchHandlerController{
     if(!model) {
       return '';
     }
-    var handler = this;
-    var contentModel = handler.contentModels.findWhere({id: model.get('entity_type_id')});
-    var workflow = contentModel.attributes.workflow;
-    var status = model.get('status');
+    let handler = this;
+    let contentModel = handler.contentModels.findWhere({id: model.get('entity_type_id')});
+    let workflow = contentModel.attributes.workflow;
+    let status = model.get('status');
     if(_.isObject(status)) {
-      var relationLocale = handler.getRelationLocale(model);
+      let relationLocale = handler.getRelationLocale(model);
       status = status[relationLocale]
     }
-    var relationLocale = handler.getRelationLocale(model);
+    let relationLocale = handler.getRelationLocale(model);
     
-    var workflowPoint = workflow.attributes.points.findWhere({status: status});
+    let workflowPoint = workflow.attributes.points.findWhere({status: status});
 
     return workflowPoint.get('name');
   }
 
   getRelationLocale(model) {
-    var handler = this;
-    var status = model.get('status');
-    var localeCode = (handler.locale)?handler.locale.get('code'):0;
-    var defaultLocale = handler.locales.findWhere({id: parseInt(handler.AppSettings.APP.DEFAULT_LOCALE)});
-    var relationLocale = null;
-    var relationDefaultLocale = null;
-    var relationFallbackLocale = null;
+    let handler = this;
+    let status = model.get('status');
+    let localeCode = (handler.locale)?handler.locale.get('code'):0;
+    let defaultLocale = handler.locales.findWhere({id: parseInt(handler.AppSettings.APP.DEFAULT_LOCALE)});
+    let relationLocale = null;
+    let relationDefaultLocale = null;
+    let relationFallbackLocale = null;
     _.each(status, function(value, key) {
 
       if(key == localeCode) {
@@ -395,20 +395,71 @@ export default class RelationSearchHandlerController{
     return relationFallbackLocale;
   }
 
+  editEntity(entity) {
+    let handler = this;
+
+    handler.getEntityForEdit(entity).then(function(model){
+      handler.getAttributesForNewEntity().then(function(attributes){
+        console.log('got attributes');
+        handler.getEntityTypeForEntity(entity).then(function(contentModel){
+          console.log('got contentModel');
+          handler.getAttributeSetForEntity(entity).then(function(attributeSet){
+            console.log('got attributeSet');
+            model.setEntityType(contentModel);
+            model.setAttributeSet(attributeSet);
+            
+            let formSettings = {
+              model: model,
+              attributes: attributes,
+              attributeSet: attributeSet,
+              contentModel: contentModel,
+              locales: handler.locales,
+              locale: handler.locale,
+              scope: handler.$scope.$new()
+            };
+
+            console.log('open entity quick form');
+            
+            handler.EntityQuickForm.open(formSettings).then(
+              function(payload){
+                console.log('qf saved', payload);
+                // handler.selectedItems = [payload];
+                // handler.handleSelection();
+              }, 
+              function(msg){
+                console.log('qf canceled', msg);
+              }
+            );
+          }, function(errors) {
+            console.log('can\' find attribute set', errors);
+          });
+        }, function(errors) {
+          console.log('can\' find entity type', errors);
+        });
+      }, function(errors) {
+        console.log('can\' find attributes', errors);
+      });
+    }, function(errors) {
+        console.log('can\' find entity', errors);
+      });
+      
+  }
+
   createNew() {
-    var handler = this;
+    let handler = this;
     // get content model
     handler.getAttributesForNewEntity().then(function(attributes){
       handler.getEntityTypeForNewEntity().then(function(contentModel){
+
         handler.getAttributeSetForNewEntity(contentModel).then(function(attributeSet){
 
-          var model = new handler.EntityModel();
+          let model = new handler.EntityModel();
           
           model.setEntityType(contentModel);
           model.setAttributeSet(attributeSet);
           
-          var defaultPoint = contentModel.get('default_point');
-          var status = defaultPoint.get('status');
+          let defaultPoint = contentModel.get('default_point');
+          let status = defaultPoint.get('status');
           
           model.set('status', status);
           if(handler.locale) {
@@ -416,7 +467,7 @@ export default class RelationSearchHandlerController{
             model.set('locale', handler.locale.get('code'));
           }
           
-          var formSettings = {
+          let formSettings = {
             model: model,
             attributes: attributes,
             attributeSet: attributeSet,
@@ -439,6 +490,30 @@ export default class RelationSearchHandlerController{
         });
       });
     });
+  }
+
+  getEntityForEdit(entity) {
+    let handler = this;
+    return handler.EntityRepository.get(entity.get('id'), {locale: handler.locale.get('code')});
+  }
+
+  getEntityTypeForEntity(entity) {
+    let handler = this;
+    let entityTypeId = entity.get('entity_type_id');
+
+    let contentModel = false;
+    let cmPromise = false;
+    let defered = handler.$q.defer();
+
+    cmPromise = handler.EntityTypesService.getById(entityTypeId).then(function(type) {
+      contentModel = type;
+      defered.resolve(contentModel);
+      // return contentModel
+    }, function(errors){
+      defered.reject(errors);
+    });
+
+    return defered.promise;
   }
 
   getEntityTypeForNewEntity(){
@@ -476,12 +551,16 @@ export default class RelationSearchHandlerController{
               return;
             }
           );
+      }, function(errors){
+        defered.reject(errors);
       });
     }else{
       cmPromise = handler.EntityTypesService.getById(entityTypeId).then(function(type) {
         contentModel = type;
         defered.resolve(contentModel);
         // return contentModel
+      }, function(errors){
+        defered.reject(errors);
       });
     }
 
@@ -517,6 +596,25 @@ export default class RelationSearchHandlerController{
     return defered.promise;
   }
 
+  getAttributeSetForEntity(entity) {
+    let handler = this;
+    let attributeSetId = entity.get('attribute_set_id');
+
+    let attributeSet = false;
+    let asPromise = false;
+    let defered = handler.$q.defer();
+
+    asPromise = handler.AttributeSetsService.getById(attributeSetId).then(function(set) {
+      attributeSet = set;
+      defered.resolve(attributeSet);
+      return attributeSet
+    }, function(errors){
+      defered.reject(errors);
+    });
+
+    return defered.promise;
+  }
+
   getAttributesForNewEntity(){
     // get attribute sets
     let handler = this;
@@ -537,19 +635,19 @@ export default class RelationSearchHandlerController{
   }
 
   addRelation() {
-    var handler = this;
+    let handler = this;
     handler.dynamicItems.resetItems();
     handler.selectionMode = true;
   }
 
   cancelSelection() {
-    var handler = this;
+    let handler = this;
 
     handler.selectionMode = false;
   }
 
   handleSelection() {
-    var handler = this;
+    let handler = this;
 
     if(!handler.selectedItems[0]) {
       handler.selectedItems = [];
@@ -559,7 +657,7 @@ export default class RelationSearchHandlerController{
       handler.setValue(handler.selectedItems[0]);
       handler.relations.add([handler.selectedItems[0]]);
     } else {
-      var value = handler.getValue();
+      let value = handler.getValue();
       _.each(handler.selectedItems, function(item) {
         value.push(item);
         handler.relations.push(item);
@@ -574,7 +672,7 @@ export default class RelationSearchHandlerController{
   }
 
   removeRelation(model) {
-    var handler = this;
+    let handler = this;
 
     if(handler.single) {
       handler.empty = true;
@@ -582,7 +680,7 @@ export default class RelationSearchHandlerController{
       return;
     }
 
-    var value = handler.getValue();
+    let value = handler.getValue();
 
     value.remove(model);
 
