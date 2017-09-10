@@ -10,21 +10,21 @@
       <span flex></span>
 
       <!-- language menu -->
-      <md-menu 
-        md-position-mode="target-right target" 
-        md-offset="0 60" 
+      <md-menu
+        md-position-mode="target-right target"
+        md-offset="0 60"
         ng-if="vm.contentModel.get('localized')">
-          <md-button 
-            class="" 
-            aria-label="{{ translate('select_locale_label') }}" 
+          <md-button
+            class=""
+            aria-label="{{ translate('select_locale_label') }}"
             ng-click="vm.openLocaleSelect($mdOpenMenu, $event)">
             {{vm.locale.attributes.name}}
           </md-button>
           <md-menu-content width="3" class="cb-caret">
             <md-menu-item ng-repeat="locale in vm.locales.models">
-              <md-button 
+              <md-button
                 ui-sref="{'listingLocale': locale.attributes.code}">
-                <md-icon 
+                <md-icon
                   ng-class="{hidden: vm.localeModel != locale}"
                   class="material-icons">
                   done
@@ -37,9 +37,9 @@
 
       <!-- sort menu -->
       <md-menu md-position-mode="target-right target" md-offset="0 60">
-        <md-button 
-          class="md-icon-button" 
-          aria-label="{{ translate('sort_by_label') }}" 
+        <md-button
+          class="md-icon-button"
+          aria-label="{{ translate('sort_by_label') }}"
           ng-click="vm.openSortMenu($mdOpenMenu, $event)">
             <md-icon class="material-icons">sort_by_alpha</md-icon>
         </md-button>
@@ -148,7 +148,8 @@
                     attribute-sets="vm.attributeSets"
                     content-model="vm.contentModel"
                     locale="vm.locale">
-                      {{translate('btn_new')}} {{vm.contentModel.get('name')}}
+                      <!-- {{translate('btn_new')}} {{vm.contentModel.get('name')}} -->
+                      New
                   </md-button>
                 </div>
             </md-toolbar>
@@ -178,30 +179,30 @@
                     <!-- List Header -->
                     <div ng-if="!vm.empty" layout="row" class="cb-table-header md-padding cb-white" style="padding-right: 32px;">
 
-                        <div flex 
+                        <div flex
                           class="cb-table-header-item" style="padding-right: 16px;">
                           {{translate('entity_title_label')}}
                         </div>
 
-                        <div 
-                          flex="20" flex-gt-lg="15" 
-                          hide show-gt-md 
-                          class="cb-table-header-item" 
+                        <div
+                          flex="20" flex-gt-lg="15"
+                          hide show-gt-md
+                          class="cb-table-header-item"
                           layout-align="start center">
                           {{translate('updated_at_label')}}
                         </div>
 
-                        <div 
-                          flex="20" flex-gt-lg="15" 
-                          hide show-gt-md 
-                          class="cb-table-header-item" 
+                        <div
+                          flex="20" flex-gt-lg="15"
+                          hide show-gt-md
+                          class="cb-table-header-item"
                           layout-align="start center">
                           {{translate('created_at_label')}}
                         </div>
 
-                        <div 
-                          flex="30" flex-gt-lg="20" 
-                          class="cb-table-header-item" 
+                        <div
+                          flex="30" flex-gt-lg="20"
+                          class="cb-table-header-item"
                           layout-align="center center"
                           layout="row">
                           <span>{{translate('actions_label')}}</span>
@@ -216,7 +217,7 @@
                         <div
                           class="cb-listing-item"
                           layout="column"
-                          md-virtual-repeat="item in vm.dynamicItems" 
+                          md-virtual-repeat="item in vm.dynamicItems"
                           md-on-demand
                           ng-click="vm.selectModel($event, item)"
                           >
@@ -263,14 +264,14 @@
 
                             <div flex="30" flex-gt-lg="20" layout="row" layout-align="center center">
                               <!-- <md-button
-                                
+
                                 aria-label="view entity"
                                 class="md-secondary md-primary"
                                 ng-click="vm.viewEntity(item); $event.stopPropagation();">
                                   <span>{{translate('btn_detail')}}</span>
                               </md-button> -->
                               <md-button
-                                
+
                                 aria-label="edit entity"
                                 class="md-secondary md-primary"
                                 ng-click="vm.editEntity(item); $event.stopPropagation();">
@@ -327,18 +328,18 @@
             <md-content flex layout="column">
               <div class="md-padding">
                 <div class="kv-list">
-                  <ng-switch 
-                    
+                  <ng-switch
+
                     ng-repeat="attribute in vm.getDetailAttributes()"
                     on="attribute.get('field_type')">
 
-                    
+
 
                     <!-- tags field -->
                     <div class="kv-list-item" ng-switch-when="tags">
                       <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
-                      <div 
-                        class="value" 
+                      <div
+                        class="value"
                         ng-if="vm.selectedModel.getField(attribute.get('code')) && vm.selectedModel.getField(attribute.get('code')).length > 0">
                         <span ng-repeat="val in vm.selectedModel.getField(attribute.get('code'))">
                           {{val}}
@@ -353,8 +354,8 @@
                     <!-- mulitselect field -->
                     <div class="kv-list-item" ng-switch-when="mulitselect">
                       <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
-                      <div 
-                        class="value" 
+                      <div
+                        class="value"
                         ng-if="vm.selectedModel.getField(attribute.get('code')) && vm.selectedModel.getField(attribute.get('code')).length > 0">
                         <span ng-repeat="val in vm.selectedModel.getField(attribute.get('code'))">
                           {{val}}
@@ -369,8 +370,8 @@
                     <!-- datetime field -->
                     <div class="kv-list-item" ng-switch-when="datetime">
                       <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
-                      <div 
-                        class="value" 
+                      <div
+                        class="value"
                         ng-if="vm.selectedModel.getField(attribute.get('code'))">
                         {{vm.selectedModel.getField(attribute.get('code')) | amDateFormat:'DD/MM/YYYY'}}
                       </div>
@@ -382,8 +383,8 @@
                     <!-- boolean field -->
                     <div class="kv-list-item" ng-switch-when="boolean">
                       <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
-                      <div 
-                        class="value" 
+                      <div
+                        class="value"
                         ng-if="vm.selectedModel.getField(attribute.get('code'))">
                         <ng-switch on="vm.selectedModel.getField(attribute.get('code'))">
                           <span ng-switch-when="1">{{translate('boolean_true_label')}}</span>
@@ -398,8 +399,8 @@
                     <!-- text/decimal/integer/select field -->
                     <div class="kv-list-item" ng-switch-default>
                       <div class="key">{{vm.getAttributeLabel(attribute.get('code'))}}</div>
-                      <div 
-                        class="value" 
+                      <div
+                        class="value"
                         ng-if="vm.selectedModel.getField(attribute.get('code'))"
                         ng-bind-html="vm.selectedModel.getField(attribute.get('code'))">
                       </div>

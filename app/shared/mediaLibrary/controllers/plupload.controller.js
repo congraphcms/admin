@@ -42,7 +42,7 @@ export default class PluploadController{
       multiple_queues: true,
       max_file_count: 0,
       //container : 'abc',
-      max_file_size : '8mb',
+      max_file_size : '25mb',
       url : pl.AppSettings.APP.CG_URL + 'api/files',
       headers: {
         'Authorization': pl.cbOAuth.getAuthorizationHeader()
