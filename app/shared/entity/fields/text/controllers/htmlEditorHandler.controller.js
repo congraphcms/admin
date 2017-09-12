@@ -15,11 +15,14 @@ export default class HtmlEditorHandlerController{
     handler.$timeout = $timeout;
 
     handler.tmceOptions = {
-      menubar:false,
+      menubar: false,
       // theme:'modern',
       // skin:'light',
-      plugins: "link"
+      plugins: [ 'lists link image code preview fullscreen' ],
+      toolbar: 'insert | undo redo |  styleselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code preview fullscreen',
     };
+    
+    console.log('handler.tmceOptions', handler.tmceOptions);
 
     handler.attribute = handler.$scope.attribute;
     handler.entity = handler.$scope.entity;
@@ -29,7 +32,7 @@ export default class HtmlEditorHandlerController{
 
   init() {
     var handler = this;
-    
+
     handler.fieldCode = handler.attribute.get('code');
     handler.fieldName = handler.attribute.get('admin_label');
     handler.required = handler.attribute.get('required');
@@ -62,6 +65,6 @@ HtmlEditorHandlerController.$inject = [
   '$rootScope',
   '$state',
   '$stateParams',
-  '$q', 
+  '$q',
   '$timeout',
 ];
