@@ -1,13 +1,17 @@
 
 import _ from 'underscore';
 
+import FileFormController from './../../../../../components/media/controllers/fileForm.controller.js';
+import fileFormTemplate from './../../../../../components/media/views/fileForm.tmpl.html';
+
 export default class MediaLibraryHandlerController{
 
-  constructor(FileRepository, AppSettings, $scope, $rootScope, $state, $stateParams, $q, $timeout) {
+  constructor(FileRepository, AppSettings, $mdDialog, $scope, $rootScope, $state, $stateParams, $q, $timeout) {
 
     /* jshint validthis: true */
     var handler = this;
 
+    handler.$mdDialog = $mdDialog;
     handler.$scope = $scope;
     handler.$rootScope = $rootScope;
     handler.$state = $state;
@@ -504,6 +508,36 @@ export default class MediaLibraryHandlerController{
     handler.selectedItems = [];
   }
 
+  editFile(file, event) {
+    if(event) {
+      event.stopPropagation();
+    }
+    var handler = this;
+
+    // if(handler.single) {
+    //   file = handler.getValue();
+    // }
+    
+    console.log('edit file model', file);
+
+    handler.$mdDialog.show({
+      controller: FileFormController,
+      controllerAs: 'fc',
+      template: fileFormTemplate,
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose:true,
+      bindToController: true,
+      locals: {
+        fileModel: file
+      }
+    })
+    .then(function(newFile) {
+      console.log('file saved', newFile);
+      // handler.filesCollection.add(newDocument);
+    });
+  }
+
   removeAsset(model) {
     var handler = this;
 
@@ -527,6 +561,7 @@ export default class MediaLibraryHandlerController{
 MediaLibraryHandlerController.$inject = [
   'FileRepository',
   'AppSettings',
+  '$mdDialog',
   '$scope',
   '$rootScope',
   '$state',

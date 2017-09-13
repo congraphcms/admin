@@ -47,6 +47,9 @@
 						<h3 class="cb-item-title">{{handler.getTitle(handler.getRelation(item))}}</h3>
 					</div>
 					<div class="cb-item-action">
+						<md-button ng-click="handler.editEntity(handler.getRelation(item))" >
+					      {{handler.$rootScope.translate('btn_edit')}}
+					    </md-button>
 						<md-button ng-click="handler.removeRelation(item)" >
 					      {{handler.$rootScope.translate('btn_remove')}}
 					    </md-button>

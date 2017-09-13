@@ -15,3 +15,5 @@ reports
 dist/
 jsdoc
 test/src/
+.env
+.env.production

@@ -128,7 +128,7 @@ function EntityModelFactory(AttributeSetModel, EntityTypeModel, FileModel) {
 
     getLocale: function(locale) {
       if(_.isObject(locale)){
-        locale = locale.code;
+        locale = locale.get('code');
       }
 
       var data = this.getData();
@@ -147,7 +147,7 @@ function EntityModelFactory(AttributeSetModel, EntityTypeModel, FileModel) {
       data.status = data.status[locale];
 
       _.each(data.fields, function(field, key) {
-        if(_.isObject(field) && field[locale]) {
+        if(_.isObject(field) && locale in field) {
           data.fields[key] = field[locale];
         }
       });
