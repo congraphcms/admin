@@ -3,6 +3,8 @@ require('./global.scss');
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import ngAnimate from 'angular-animate';
+import ngSortable from 'ng-sortable';
+
 import SettingsFactory from './app.settings.js';
 import routerConfig from './app.router.js';
 import translations from './translations.js';
@@ -31,6 +33,7 @@ export default angular
   .module('app', [
     uiRouter,
     ngAnimate,
+    ngSortable,
     coreModule,
     oauthModule,
     dashboardComponent,
@@ -45,6 +48,21 @@ export default angular
   .factory('AppSettings', SettingsFactory)
   .config(routerConfig)
   .config(cbOAuthSettings)
+
+  .config(function($mdThemingProvider) {
+
+    // Configure a dark theme with primary foreground yellow
+    $mdThemingProvider.theme('cb-dark')
+      .primaryPalette('grey', {'default': '800'})
+      .accentPalette('grey', {'default': '700'})
+      .dark();
+
+    // Configure a dark theme with primary foreground yellow
+    $mdThemingProvider.theme('cb-grey', 'default')
+      .backgroundPalette('grey', {'default': '200'});
+
+
+  })
 
   // translations
   .run(function($rootScope){

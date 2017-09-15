@@ -45,12 +45,12 @@
 					                  <h3>{{translate('content_type_not_completed_warning')}}</h3>
 					                  <p>{{translate('content_type_not_completed_help')}}</p>
 			                  	</div>
-			                </md-list-item>	
+			                </md-list-item>
 			                <md-list-item>
 			                  <md-button
 			                    class="md-raised md-primary md-list-item-content"
 			                    create-entity-link
-			                    attribute-sets="vm.model.attributes.attribute_sets" 
+			                    attribute-sets="vm.model.attributes.attribute_sets"
 			                    content-model="vm.model"
 			                    ng-disabled="!vm.model.attributes.attribute_sets.models.length">
 			                    <md-icon class="material-icons">add</md-icon>
@@ -288,7 +288,7 @@
 								</div>
 
 								<md-list>
-
+                  <md-divider></md-divider>
 									<md-list-item class="md-2-line">
 
 										<div class="md-list-item-text" flex="40" style="margin-top:0">
@@ -296,7 +296,9 @@
 										</div>
 
 										<div class="md-list-item-text" flex="60">
-											<p class="status-summary" ng-repeat="point in vm.workflow.attributes.points.models">
+											<p
+                        class="status-summary"
+                        ng-repeat="point in vm.workflow.attributes.points.models">
 												<i class="status-badge"
 												   ng-class="{trashed: point.attributes.deleted, published: point.attributes.public, draft: !point.attributes.deleted && !point.attributes.public}"></i>
 												<span class="status-text" >{{point.attributes.name}}</span>

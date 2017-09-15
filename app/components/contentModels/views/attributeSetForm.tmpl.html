@@ -6,8 +6,8 @@
 				<md-icon class="material-icons">arrow_back</md-icon>
 			</md-button>
 			<h3 class="app-view-title">
-				<a ui-sref="app.contentModels">{{translate('content_models_label')}}</a> / 
-				<a ng-click="vm.discard()">{{vm.contentModel.attributes.name}}</a> / 
+				<a ui-sref="app.contentModels">{{translate('content_models_label')}}</a> /
+				<a ng-click="vm.discard()">{{vm.contentModel.attributes.name}}</a> /
 				<span ng-if="vm.isNew()">{{translate('new_label')}} {{translate('attribute_set_label')}}</span>
 				<span ng-if="!vm.isNew()">{{vm.model.attributes.name}}</span>
 			</h3>
@@ -19,7 +19,7 @@
 				aria-label="{{translate('btn_save')}}">
 			  {{translate('btn_save')}}
 			</md-button>
-			
+
 			<!-- options menu -->
 			<md-menu md-position-mode="target-right target" >
 				<md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
@@ -40,7 +40,15 @@
 		</div>
 	</md-toolbar>
 
-	<form novalidate attribute-set-editor model="vm.model" attributes="vm.attributesCollection" content-model="vm.contentModel" flex layout="column"></form>
+	<form
+		attribute-set-editor
+		novalidate
+		model="vm.model"
+		attributes="vm.attributesCollection"
+		content-model="vm.contentModel"
+		layout="column"
+		flex >
+	</form>
 
 </div>
 <div ui-view layout="column" flex ng-show="!vm.stateActive()"></div>

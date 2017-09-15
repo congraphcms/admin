@@ -11,6 +11,14 @@
             </h3>
 
             <span flex></span>
+
+            <md-button
+              aria-label="Create new content type"
+              class="md-raised md-accent cb-primary-action"
+              md-colors="{background: 'blue'}"
+              ui-sref="app.contentModelNew">
+              New
+            </md-button>
             <!-- <md-button class="md-raised md-accent" ui-sref="app.contentModelNew">Create New</md-button> -->
         </div>
     </md-toolbar>
@@ -18,22 +26,20 @@
     <div flex layout="row" class="app-view-content">
 
         <!-- listing -->
-        <div flex layout="column" class="cb-view-sidenav">
+        <md-content
+            class="cb-view-sidenav"
+            md-theme="cb-grey"
+            layout="column"
+            flex >
             <!-- header -->
-            <md-toolbar class="cb-toolbar cb-white cb-border-b">
+            <md-toolbar class="cb-transparent cb-border-b">
                 <div class="md-toolbar-tools">
 
-                  <md-button
-                    aria-label="Create new content type"
-                    class="md-raised md-accent cb-primary-action"
-                    md-colors="{background: 'blue'}"
-                    ui-sref="app.contentModelNew">
-                    {{translate('btn_new')}}
-                  </md-button>
-
+                  <h3>Entity types</h3>
                   <span flex></span>
 
-                  <md-menu md-position-mode="target-right target">
+                  <md-menu
+                      md-position-mode="target-right target">
                       <md-button class="md-icon-button"
                                  aria-label="Sort items by"
                                  ng-click="vm.openSortMenu($mdOpenMenu, $event)">
@@ -56,12 +62,15 @@
             <!-- body -->
             <md-content flex>
 
-                <div class="cb-pad" layout="row" layout-align="center center" ng-hide="vm.ready" >
-                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                </div>
+                <md-progress-linear md-mode="indeterminate" ng-hide="vm.ready"></md-progress-linear>
 
                 <!-- Empty State -->
-                <div ng-if="vm.empty" ng-show="vm.ready" layout="column" layout-align="center center" flex>
+                <div
+                  ng-if="vm.empty"
+                  ng-show="vm.ready"
+                  layout="column"
+                  layout-align="center center"
+                  flex>
                     <h2>{{translate('no_content_types_info')}}</h2>
                     <p>{{translate('no_content_types_help')}}</p>
                 </div>
@@ -78,13 +87,13 @@
 
                         <div class="md-list-item-text">
                             <h3>{{item.attributes.name}}</h3>
-                            <p>({{item.attributes.plural_name}})</p>
+                            <p class="md-caption">{{item.attributes.plural_name}}</p>
                         </div>
 
-                        <div class="separator"></div>
+                        <!-- <div class="separator"></div> -->
 
                         <!-- OPTIONS -->
-                        <md-menu class="md-secondary" md-position-mode="target-right target">
+                        <!-- <md-menu class="md-secondary" md-position-mode="target-right target">
                             <md-button aria-label="Open model menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
                                 <md-icon class="material-icons">more_horiz</md-icon>
                             </md-button>
@@ -101,7 +110,7 @@
                                     </md-button>
                                 </md-menu-item>
                             </md-menu-content>
-                        </md-menu>
+                        </md-menu> -->
 
                         <md-divider inset></md-divider>
                     </md-list-item>
@@ -109,7 +118,7 @@
                 </md-list>
 
             </md-content>
-        </div>
+        </md-content>
 
         <!-- Content Type Overview -->
         <div flex>
