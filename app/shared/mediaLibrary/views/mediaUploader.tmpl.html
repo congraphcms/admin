@@ -1,11 +1,11 @@
 <div layout="row" class="selection-listing" id="plupload-dd-area">
 
 	<div flex layout="column">
-		<div 
-			class="plupload-dir" 
-			plupload-droparea 
-			instance="mu.instance" 
-			drop-element="mu.$element" 
+		<div
+			class="plupload-dir"
+			plupload-droparea
+			instance="mu.instance"
+			drop-element="mu.$element"
 			params="mu.params"
 			layout="column"
 			flex>
@@ -14,12 +14,12 @@
 	</div>
 
 	<div class="cb-uploader-files-list" flex="65" layout="column" ng-if="mu.hasFiles()">
-		<div ng-repeat="item in mu.uploads" 
-			class="repeated-item cb-item" 
-			ng-click="mu.itemClicked(item)" 
-			ng-class="{selected: mu.isSelected(item.model)}" 
+		<div ng-repeat="item in mu.uploads"
+			class="repeated-item cb-item"
+			ng-click="mu.itemClicked(item)"
+			ng-class="{selected: mu.isSelected(item.model)}"
 			layout>
-			
+
 			<!-- File Uploading -->
 			<div class="cb-item-loader" ng-show="item.status == 'uploading'">
 				<md-progress-linear md-mode="determinate" value="{{item.progress}}" ></md-progress-linear>
@@ -45,16 +45,16 @@
 			                     ng-show="mu.multipleSelection && !mu.selectionDisabled()"></md-checkbox>
 
 				<div class="cb-item-media">
-		          <img 
-		          	ng-src="{{mu.getAdminThumb(item.model)}}" 
-		          	ng-if="mu.getFileType(item.model) == 'image' && mu.isLoaded(item.model)" 
-		          	class="md-avatar" 
+		          <img
+		          	ng-src="{{mu.getAdminThumb(item.model)}}"
+		          	ng-if="mu.getFileType(item.model) == 'image' && mu.isLoaded(item.model)"
+		          	class="md-avatar"
 		          	alt="mu.getCaption(item.model)" />
 
-		          <md-progress-circular 
-		          	md-mode="indeterminate" 
+		          <md-progress-circular
+		          	md-mode="indeterminate"
 		          	ng-if="mu.getFileType(item.model) == 'image' && !mu.isLoaded(item.model)">
-		          	
+
 		          </md-progress-circular>
 		          <md-icon class="material-icon" ng-if="mu.getFileType(item.model) != 'image'">insert_drive_file</md-icon>
 		        </div>

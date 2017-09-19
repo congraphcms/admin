@@ -12,11 +12,17 @@ import 'tinymce/themes/modern/theme'
 
 // Plugins
 // import 'tinymce/plugins/paste/plugin'
-import 'tinymce/plugins/link/plugin'
+import 'tinymce/plugins/link/plugin';
+import 'tinymce/plugins/lists/plugin';
+import 'tinymce/plugins/image/plugin';
+import 'tinymce/plugins/code/plugin';
+import 'tinymce/plugins/preview/plugin';
+import 'tinymce/plugins/fullscreen/plugin';
 // import 'tinymce/plugins/autoresize/plugin'
+
 require.context(
-  '!file?name=[path][name].[ext]&context=node_modules/tinymce!tinymce/skins', 
-  true, 
+  '!file?name=[path][name].[ext]&context=node_modules/tinymce!tinymce/skins',
+  true,
   /.*/
 )
 

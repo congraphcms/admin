@@ -6,6 +6,8 @@
  * Media Library
  */
 
+require('./styles/droparea.scss');
+
 import MediaUploaderController from './controllers/mediaUploader.controller.js';
 import PluploadController from './controllers/plupload.controller.js';
 import PluploadDropareaController from './controllers/pluploadDroparea.controller.js';

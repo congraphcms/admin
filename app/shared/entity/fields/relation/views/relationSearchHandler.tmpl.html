@@ -41,33 +41,48 @@
 
 			<div ng-if="handler.loadingItems">{{handler.$rootScope.translate('please_wait_text')}}</div>
 
-			<div ng-if="handler.multiple && !handler.loadingItems" ng-repeat="item in handler.getValue().models" class="repeated-item cb-item" layout flex>
-				<div class="cb-item-inner">
-					<div class="cb-item-text" layout="column">
+			<!-- Multiple -->
+			<div
+				ng-if="handler.multiple && !handler.loadingItems"
+				ng-repeat="item in handler.getValue().models"
+				class="repeated-item cb-item">
+
+				<div class="cb-item-inner" layout flex>
+					<div class="cb-item-text" layout="column" flex>
 						<h3 class="cb-item-title">{{handler.getTitle(handler.getRelation(item))}}</h3>
 					</div>
-					<div class="cb-item-action">
+					<div class="cb-item-action" layout>
 						<md-button ng-click="handler.editEntity(handler.getRelation(item))" >
-					      {{handler.$rootScope.translate('btn_edit')}}
-					    </md-button>
+				      {{handler.$rootScope.translate('btn_edit')}}
+				    </md-button>
+
 						<md-button ng-click="handler.removeRelation(item)" >
-					      {{handler.$rootScope.translate('btn_remove')}}
-					    </md-button>
+					    {{handler.$rootScope.translate('btn_remove')}}
+					  </md-button>
 					</div>
 			    </div>
 			</div>
 
-			<div ng-if="handler.single && !handler.loadingItems" class="repeated-item cb-item" layout flex>
-				<div class="cb-item-inner">
-					<div class="cb-item-text" layout="column">
-						<h3 class="cb-item-title">{{handler.getTitle(handler.getRelation(handler.getValue()))}}</h3>
+			<!-- Single -->
+			<div
+				ng-if="handler.single && !handler.loadingItems"
+				class="repeated-item cb-item">
+
+				<div class="cb-item-inner" layout flex>
+					<div
+						class="cb-item-text"
+						layout="column"
+						flex>
+						<h3 class="cb-item-title">
+							{{handler.getTitle(handler.getRelation(handler.getValue()))}}
+						</h3>
 					</div>
 					<div class="cb-item-action">
 						<md-button ng-click="handler.removeRelation()" >
 					      {{handler.$rootScope.translate('btn_remove')}}
 					    </md-button>
 					</div>
-			    </div>
+			  </div>
 			</div>
 
 		</div>
@@ -154,16 +169,16 @@
 	</md-toolbar>
 </div>
 
-<cb-multiselect 
-	style="display: none;" 
-	ng-model="handler.entity.attributes.fields[handler.fieldCode]" 
-	name="field-{{handler.fieldCode}}" 
+<cb-multiselect
+	style="display: none;"
+	ng-model="handler.entity.attributes.fields[handler.fieldCode]"
+	name="field-{{handler.fieldCode}}"
 	ng-required="handler.attribute.attributes.required">
-	
+
 </cb-multiselect>
 
-<div 
-	ng-messages="handler.form['field-'+handler.fieldCode].$error" 
+<div
+	ng-messages="handler.form['field-'+handler.fieldCode].$error"
 	ng-show="handler.form.$submitted || handler.form['field-'+handler.fieldCode].$dirty">
 	<div ng-message="required">{{handler.fieldName}} is required.</div>
 </div>

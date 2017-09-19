@@ -17,6 +17,14 @@
 }
 
 
+md-toolbar.md-cb-grey-theme:not(.md-menu-toolbar) {
+
+		&.cb-transparent {
+			background-color: transparent;
+			color: rgba(0,0,0,0.87);
+		}
+}
+
 md-toolbar {
 
 	&.cb-white {
@@ -125,7 +133,7 @@ md-menu-content {
   display: flex;
   flex-direction: row;
   margin: 1em 0;
-  
+
   .detail-num {}
   .dash { margin:0 8px;}
   .detail-desc {
@@ -142,7 +150,7 @@ md-menu-content {
 .detail-info {
   border:1px solid #ccc;
   margin-bottom: 2em;
-  
+
   .detail-info-nums {}
   .detail-info-other {}
 }
@@ -160,19 +168,19 @@ md-menu-content {
 .kv-list {
   display: flex;
   flex-direction: column;
-  
+
   .kv-list-item {
 	display:flex;
 	flex-direction: row;
 	line-height: 24px;
 	padding: 6px 0;
-	
+
 	.key {
 	  flex: 0 0 120px;
 	  padding-right:16px;
 	  color:rgba(0,0,0,.54);
 	}
-	
+
 	.value {
 	  flex: 1 1 auto;
 	  overflow:hidden;
@@ -186,19 +194,19 @@ md-menu-content {
 		flex-direction: column;
 		line-height: 24px;
 		padding: 6px 0;
-		
+
 		.key {
 		  flex: 0 0 30px;
 		  padding-right:16px;
 		  color:rgba(0,0,0,.54);
 		}
-		
+
 		.value {
 		  flex: 1 1 auto;
 		  overflow:hidden;
 		  line-height: 24px;
 		  padding-left: 24px;
-		  
+
 
 		  .value-item {
 			display: block;
@@ -213,13 +221,13 @@ md-menu-content {
 			line-height: 16px;
 			padding: 6px 0;
 			font-size: 11px;
-			
+
 			.key {
 			  flex: 0 0 80px;
 			  padding-right:16px;
 			  color:rgba(0,0,0,.54);
 			}
-			
+
 			.value {
 			  flex: 1 1 auto;
 			  overflow:hidden;
@@ -235,13 +243,13 @@ md-menu-content {
 .num-c-wrap {
   display: flex;
   flex-direction: column;
-  
+
   .num-c {
 	display: block;
-	
+
 	&.num-c-current {
 	}
-	
+
 	&.num-c-prev {
 	  padding-left: 16px;
 	  border-left: 1px dotted rgba(0,0,0,0.12);
@@ -250,7 +258,7 @@ md-menu-content {
 }
 
 
-// case view - left sidenav 
+// case view - left sidenav
 .case-sidenav-left {
 	// width: 64px;
 	flex: 0 0 64px;
@@ -258,9 +266,9 @@ md-menu-content {
 	color: rgba(0,0,0,.87);
 
 
-	.md-button.md-default-theme.md-primary.md-raised, 
-	.md-button.md-primary.md-raised, 
-	.md-button.md-default-theme.md-primary.md-fab, 
+	.md-button.md-default-theme.md-primary.md-raised,
+	.md-button.md-primary.md-raised,
+	.md-button.md-default-theme.md-primary.md-fab,
 	.md-button.md-primary.md-fab {
 		color: rgba(255,255,255,0.87);
 		background-color: #999;
@@ -280,6 +288,3 @@ md-menu-content {
 	  border-bottom-width: 0;
 	}
 }
-
-
-

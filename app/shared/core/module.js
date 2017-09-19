@@ -15,6 +15,7 @@ require("./styles/forms.scss");
 require("./styles/table.scss");
 require("./styles/animations.scss");
 require("angular-material/angular-material.min.css");
+require("./styles/ng-sortable.scss");
 
 
 import uiRouter from 'angular-ui-router';

@@ -3,16 +3,16 @@ import moment from 'moment';
 import angular from 'angular';
 
 export default class AttributeSetEditorController {
-  constructor( 
+  constructor(
     AttributeSetRepository,
-    AttributeRepository, 
+    AttributeRepository,
     EditorRegistry,
     fieldSelection,
     $mdDialog,
-    $scope, 
-    $rootScope, 
-    $state, 
-    $stateParams, 
+    $scope,
+    $rootScope,
+    $state,
+    $stateParams,
     $element,
     $attrs,
     $q,
@@ -62,6 +62,106 @@ export default class AttributeSetEditorController {
     // vm.loadingAttributes = true;
     // vm.getAttributes();
     vm.busyAttributes = [];
+
+    /**
+     * Parameters:
+     *
+     * sourceItemScope - the scope of the item being dragged.
+     * destScope - the sortable destination scope, the list.
+     * destItemScope - the destination item scope, this is an optional Param.(Must check for undefined).
+     *
+     * Object (event) - structure
+     *   source:
+     *     index: original index before move.
+     *     itemScope: original item scope before move.
+     *     sortableScope: original sortable list scope.
+     *   dest: index
+     *     index: index after move.
+     *     sortableScope: destination sortable scope.
+     *
+     * read more at https://github.com/a5hik/ng-sortable
+     */
+    vm.dragControlListeners = {
+      // override to determine drag is allowed or not. default is true.
+      accept: function (sourceItemHandleScope, destSortableScope) {
+        // console.log('accept');
+        return true;
+      },
+      dragStart: function(event) {
+        // console.log('dragStart', event);
+      },
+      dragEnd: function(event) {
+        // console.log('dragEnd', event);
+      },
+      itemMoved: function (event) {
+        // console.log('itemMoved', event);
+        var moveSuccess,
+            moveFailure;
+
+        moveSuccess = function() {
+          // console.log('moveSuccess');
+        };
+        moveFailure = function() {
+          // console.log('moveFailure');
+
+          // to return an item to it's original position
+          // event.dest.sortableScope.removeItem(event.dest.index);
+          // event.source.itemScope.sortableScope.insertItem(event.source.index, event.source.itemScope.item);
+        };
+
+      },
+      orderChanged: function(event) {
+        // console.log('orderChanged', event);
+      },
+      // optional param
+      // containment: '#board',
+      // optional param for clone feature.
+      // clone: true,
+      // optional param allows duplicates to be dropped.
+      // allowDuplicates: false
+    };
+
+
+    // Available Attrs. search
+    vm.attrSearch = {
+      searchText: '',
+      selectedItem: null,
+      selectedItemChange(item) {
+        // console.log('Item changed to ' + JSON.stringify(item));
+      },
+      querySearch(query) {
+        var matches = query ? vm.attributes.filter( createFilterFor(query) )
+                            : vm.attributes.models;
+
+        var stringSearchItem = {
+          attributes: {
+            // admin_label: `Search for \'${query}\'`
+            admin_label: query
+          }
+        };
+
+        matches.unshift(stringSearchItem);
+        // console.log('alt results', matches);
+
+        return matches;
+      }
+    };
+
+    // Create filter function for a query string
+    function createFilterFor(query) {
+      var lowercaseQuery = angular.lowercase(query);
+      // console.log('lowercaseQuery', lowercaseQuery);
+
+      return function filterFn(attribute) {
+        // console.log('attribute (filterFn)', attribute);
+        var label = angular.lowercase(attribute.attributes.admin_label);
+        var found = label.indexOf(lowercaseQuery) === 0;
+
+        return found;
+      };
+
+    }
+
   }
 
   getAttributes() {
@@ -169,7 +269,7 @@ export default class AttributeSetEditorController {
           vm.attributes.remove(attribute);
           vm.removeBusyAttribute(attribute);
           // vm.applySort();
-          // optionaly change collection (filter, sort etc) 
+          // optionaly change collection (filter, sort etc)
           vm.list = vm.attributes.models;
         }, function(errors){
           vm.removeBusyAttribute(attribute);
@@ -179,14 +279,14 @@ export default class AttributeSetEditorController {
     }, function() {
 
     });
-    
+
   }
 
   deleteAttributeDialog(ev) {
     let vm = this;
     let title = 'Delete attribute?';
     let text = 'This will result in lost of all data that is related to this attribute. Do you really want to delete this attribute?';
-    let confirmDiscardDialog = 
+    let confirmDiscardDialog =
       vm.$mdDialog.confirm()
           .parent(angular.element(document.body))
           .title(title)
@@ -247,19 +347,17 @@ export default class AttributeSetEditorController {
 
 AttributeSetEditorController.$inject = [
   'AttributeSetRepository',
-  'AttributeRepository', 
+  'AttributeRepository',
   'EditorRegistry',
   'fieldSelection',
   '$mdDialog',
-  '$scope', 
-  '$rootScope', 
-  '$state', 
-  '$stateParams', 
+  '$scope',
+  '$rootScope',
+  '$state',
+  '$stateParams',
   '$element',
   '$attrs',
   '$q',
   '$timeout',
   '$compile'
 ];
-
-

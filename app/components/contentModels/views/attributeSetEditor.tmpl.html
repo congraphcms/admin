@@ -4,16 +4,11 @@
     <div flex layout="row" class="app-view-content">
 
       <!-- General Info -->
-      <md-content flex="20" layout="column">
+      <md-content flex="20" layout="column" md-theme="cb-grey">
         <md-toolbar class="cb-transparent cb-border-b">
           <div class="md-toolbar-tools">
             <h3>{{$root.translate('attribute_set_general_info_label')}}</h3>
             <span flex></span>
-            <!-- <md-button
-              aria-label="Create new Attribute Set"
-              ng-click="null">
-              New Set
-            </md-button> -->
           </div>
         </md-toolbar>
 
@@ -43,7 +38,6 @@
             </md-input-container>
           </div>
         </div>
-
       </md-content>
 
       <!-- SET Attributes -->
@@ -60,11 +54,14 @@
 
           <input type="hidden" ng-model="editor.model.attributes.primary_attribute_id" name="primary_attribute_id" ng-required />
 
-          <md-list>
+          <md-list
+            as-sortable="editor.dragControlListeners"
+            ng-model="editor.model.attributes.attributes.models">
 
             <md-list-item
               class="md-2-line"
               ng-click="null"
+              as-sortable-item
               ng-repeat="attribute in editor.model.attributes.attributes.models">
 
               <md-icon class="md-avatar-icon material-icons">
@@ -117,6 +114,15 @@
                 </md-menu-content>
               </md-menu>
 
+              <!-- sortable handle -->
+              <div class="separator md-secondary"></div>
+              <md-icon
+                class="material-icons md-secondary"
+                as-sortable-item-handle
+                ng-click="null">
+                drag_handle
+              </md-icon>
+
               <md-divider ng-if="!$last"></md-divider>
             </md-list-item>
 
@@ -125,18 +131,64 @@
       </md-content>
 
       <!-- Available Attributes -->
-      <md-content flex="30" layout="column">
+      <md-content
+        flex="30"
+        layout="column"
+        md-theme="cb-dark">
 
-        <md-toolbar class="cb-transparent cb-border-b">
+        <md-toolbar class="md-tall cb-transparent cb-border-b">
           <div class="md-toolbar-tools">
             <h3>{{$root.translate('attribute_set_available_attributes_label')}}</h3>
             <span flex></span>
 
+            <!-- <md-button
+              aria-label="Filter"
+              ng-click=""
+              class="md-icon-button">
+              <md-icon class="material-icons">search</md-icon>
+            </md-button> -->
+
             <md-button
               aria-label="Add new attribute"
-              ng-click="editor.addAttribute()">
-              {{$root.translate('btn_new')}} {{$root.translate('attribute_label')}}
+              ng-click="editor.addAttribute()"
+              class="md-icon-button">
+              <md-icon class="material-icons">add</md-icon>
             </md-button>
+
+          </div>
+          <!-- Quick Serch -->
+          <div class="md-toolbar-tools" >
+            <form ng-submit="$event.preventDefault()">
+              <md-autocomplete
+                flex
+                md-autoselect="true"
+                md-select-on-focus="true"
+                md-selected-item="editor.attrSearch.selectedItem"
+                md-selected-item-change="editor.attrSearch.selectedItemChange()"
+                md-search-text="editor.attrSearch.searchText"
+                md-items="item in editor.attrSearch.querySearch(editor.attrSearch.searchText)"
+                md-min-length="1"
+                md-item-text="item.attributes.admin_label"
+                placeholder="Search available attributes">
+                <md-item-template>
+                  <!-- attribute -->
+                  <span
+                    ng-if="item.id"
+                    md-highlight-text="editor.attrSearch.searchText"
+                    md-highlight-flags="^i">
+                    {{item.attributes.admin_label}}
+                  </span>
+                  <!-- fake item -->
+                  <span ng-if="!item.id">
+                    Search for <b>"{{item.attributes.admin_label}}"</b>
+                  </span>
+                </md-item-template>
+                <md-not-found>
+                  No attributes matching "{{editor.attrSearch.searchText}}" were found.
+                  <a ng-click="null">Create a new one!</a>
+                </md-not-found>
+              </md-autocomplete>
+            </form>
           </div>
         </md-toolbar>
 
@@ -149,23 +201,28 @@
             <md-list-item
               class="md-2-line"
               ng-click="null"
-              ng-repeat="attribute in editor.attributes.models | availableAttributes:editor.model.attributes.attributes:editor.contentModel">
+              ng-repeat="attribute in editor.attributes.models | availableAttributes:editor.model.attributes.attributes:editor.contentModel | availableAttributesSearch:editor.attrSearch.selectedItem">
+
               <div class="cb-item-loader busy" ng-show="editor.attributeBusy(attribute)">
                 <md-progress-linear md-mode="query" ></md-progress-linear>
               </div>
+
               <md-icon class="md-avatar-icon material-icons">
                 {{ editor.getAttributeIcon(attribute) }}
               </md-icon>
+
               <div class="md-list-item-text" layout="column">
                 <h3>{{ attribute.attributes.admin_label }}</h3>
-                <p><code>{{ attribute.attributes.code }}</code></p>
+                <p class="md-caption">{{ attribute.attributes.code }}</p>
               </div>
+
               <md-button
                 class="md-secondary"
                 aria-label="{{$root.translate('btn_add')}}"
                 ng-click="editor.addAttributeToSet(attribute)">
                 {{$root.translate('btn_add')}}
               </md-button>
+
               <!-- OPTIONS -->
               <md-menu class="md-secondary" md-position-mode="target-right target">
                 <md-button aria-label="Open set menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
@@ -195,7 +252,6 @@
             </md-list-item>
           </md-list>
         </md-content>
-
       </md-content>
 
     </div>

@@ -4,17 +4,17 @@ import _ from 'underscore';
 export default class EntityEditorController{
 
   constructor (
-    EditorRegistry, 
-    EntityRepository, 
-    fieldTypes, 
+    EditorRegistry,
+    EntityRepository,
+    fieldTypes,
     fieldSelection,
-    $attrs, 
-    $element, 
-    $scope, 
-    $rootScope, 
-    $state, 
-    $q, 
-    $timeout, 
+    $attrs,
+    $element,
+    $scope,
+    $rootScope,
+    $state,
+    $q,
+    $timeout,
     $compile
   ) {
 
@@ -42,7 +42,9 @@ export default class EntityEditorController{
     editor.workflow = editor.contentModel.get('workflow');
     editor.workflowPoints = editor.workflow.get('points');
     editor.currentWorkflowPoint = editor.workflowPoints.findWhere({status:editor.model.get('status')});
-    editor.statusColor = {color: editor.getStatusColor(editor.currentWorkflowPoint)};
+    editor.statusColor = {
+      color: editor.getStatusColor(editor.currentWorkflowPoint)
+    };
 
     editor.init();
   }
@@ -80,7 +82,7 @@ export default class EntityEditorController{
     if(_.isObject(status)) {
       status = status.get('status');
     }
-    
+
     var point = null;
     _.each(editor.workflowPoints.models, function(workflowPoint){
       if(workflowPoint.get('status') == status) {
@@ -104,9 +106,9 @@ export default class EntityEditorController{
   getStatusColor(point) {
     if(!point) return false;
     var colors = {
-      green: 'green-A700',
-      amber: 'amber-300',
-      red: 'deep-orange-A700'
+      green: 'default-green-A700',
+      amber: 'default-amber-300',
+      red: 'default-deep-orange-A700'
     };
 
     if(point.get('public')) {
@@ -140,7 +142,7 @@ export default class EntityEditorController{
 
   save(point) {
     var editor = this;
-    
+
     editor.form.$setDirty(true);
     editor.form.$setSubmitted(true);
 
@@ -311,12 +313,12 @@ EntityEditorController.$inject = [
   'EntityRepository',
   'fieldTypes',
   'fieldSelection',
-  '$attrs', 
-  '$element', 
+  '$attrs',
+  '$element',
   '$scope',
   '$rootScope',
   '$state',
-  '$q', 
+  '$q',
   '$timeout',
   '$compile'
 ];

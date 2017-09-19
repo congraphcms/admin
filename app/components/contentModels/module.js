@@ -36,7 +36,10 @@ import ContentModelWorkflowEditorDirective from './directives/contentModelWorkfl
 import AttributeSetFormController from './controllers/attributeSetForm.controller.js';
 import AttributeSetEditorController from './controllers/attributeSetEditor.controller.js';
 import AttributeSetEditorDirective from './directives/attributeSetEditor.directive.js';
+
 import AvailableAttributesFilter from './filters/availableAttributes.filter.js';
+import AvailableAttributesSearchFilter from './filters/availableAttributesSearch.filter.js';
+
 import AttributeSetCodeUniqueValidator from './directives/attributeSetCodeUnique.validator.js';
 
 
@@ -65,7 +68,11 @@ angular
   .controller('AttributeSetFormController', AttributeSetFormController)
   .controller('AttributeSetEditorController', AttributeSetEditorController)
   .directive('attributeSetEditor', AttributeSetEditorDirective)
+  // filters
   .filter('availableAttributes', AvailableAttributesFilter)
+  .filter('availableAttributesSearch', AvailableAttributesSearchFilter)
+
   .directive('attributeSetCodeUnique', AttributeSetCodeUniqueValidator)
+
   // router config
   .config(ContentModelRouterConfig);
