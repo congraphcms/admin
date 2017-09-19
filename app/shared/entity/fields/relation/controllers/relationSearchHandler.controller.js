@@ -346,6 +346,16 @@ export default class RelationSearchHandlerController{
     return model.getTitle(relationLocale);
   }
 
+  getType(model) {
+    if(!model) {
+      return '';
+    }
+    let handler = this;
+    // let relationLocale = handler.getRelationLocale(model);
+
+    return model.get('entity_type');
+  }
+
   getStatus(model) {
     if(!model) {
       return '';
