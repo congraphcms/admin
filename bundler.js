@@ -4,6 +4,7 @@ var webpackConfig = require('./webpack.config.js');
 var path = require('path');
 var fs = require('fs');
 var host = process.env.APP_HOST || 'localhost';
+var proxyPort = (process.env.APP_PORT)?process.env.APP_PORT+1:3001;
 
 module.exports = function () {
 
@@ -45,7 +46,7 @@ module.exports = function () {
 
   // We fire up the development server and give notice in the terminal
   // that we are starting the initial bundle
-  bundler.listen(3001, host, function () {
+  bundler.listen(proxyPort, host, function () {
     console.log('Bundling project, please wait...');
   });
 

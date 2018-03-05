@@ -6,7 +6,7 @@
  * Entity management
  */
 
-require('./styles/editor.scss');
+import './styles/editor.scss';
 
 import ngSanitize from 'angular-sanitize';
 

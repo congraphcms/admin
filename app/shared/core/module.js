@@ -6,20 +6,21 @@
  * App Core
  */
 
-require("./styles/utilities.scss");
-require("./styles/loader.scss");
-require("./styles/sidenav.scss");
-require("./styles/listing.scss");
-require("./styles/theme.scss");
-require("./styles/forms.scss");
-require("./styles/table.scss");
-require("./styles/animations.scss");
-require("angular-material/angular-material.min.css");
-require("./styles/ng-sortable.scss");
+import "./styles/utilities.scss";
+import "./styles/loader.scss";
+import "./styles/sidenav.scss";
+import "./styles/listing.scss";
+import "./styles/theme.scss";
+import "./styles/forms.scss";
+import "./styles/table.scss";
+import "./styles/animations.scss";
+import "angular-material/angular-material.min.css";
+import "./styles/ng-sortable.scss";
 
 
 import uiRouter from 'angular-ui-router';
 import ngMaterial from 'angular-material';
+import angularDebounce from 'angular-debounce';
 import CoreRouterConfig from './router.js';
 
 import AppController from './controllers/app.controller.js';
@@ -42,6 +43,7 @@ angular
   .module('app.shared.core', [
     uiRouter,
     ngMaterial,
+    'rt.debounce',
 
     ModelsModule,
     HelpersModule,

@@ -7,8 +7,8 @@ export default cbOAuthSettings;
  */
 function cbOAuthSettings(cbOAuthProvider) {
 	cbOAuthProvider.configure({
-		clientId: 'IlZGCT42nGd8to75RvW0zsSLFTRCvq72wNdvyDkE',
-		clientSecret: 'QwlncGUSEtBdaVb4tHIou0eMd39qjvL2Rh7BLsmG',
+		clientId: SETTINGS.CG_CLIENT_ID,
+		clientSecret: SETTINGS.CG_CLIENT_SECRET,
 		grantPath: '/oauth/access_token',
 		revokePath: '/oauth/revoke_token',
 		ownerPath: '/oauth/owner',

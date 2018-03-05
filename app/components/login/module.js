@@ -7,7 +7,7 @@
  */
 
 
-require("./styles/login.scss");
+import "./styles/login.scss";
 
 import ngMaterial from 'angular-material';
 import helpersModule from './../../shared/helpers/module.js';

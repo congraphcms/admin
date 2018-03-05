@@ -6,7 +6,7 @@
  * App Header
  */
 
-require("./styles/header.scss");
+import "./styles/header.scss";
 
 import uiRouter from 'angular-ui-router';
 import ngMaterial from 'angular-material';

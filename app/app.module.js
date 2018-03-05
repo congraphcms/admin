@@ -1,4 +1,4 @@
-require('./global.scss');
+import './global.scss';
 
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
@@ -49,7 +49,7 @@ export default angular
   .config(routerConfig)
   .config(cbOAuthSettings)
 
-  .config(function($mdThemingProvider) {
+  .config(['$mdThemingProvider', function($mdThemingProvider) {
 
     // Configure a dark theme with primary foreground yellow
     $mdThemingProvider.theme('cb-dark')
@@ -62,10 +62,10 @@ export default angular
       .backgroundPalette('grey', {'default': '200'});
 
 
-  })
+  }])
 
   // translations
-  .run(function($rootScope){
+  .run(['$rootScope', function($rootScope){
     $rootScope.translations = translations;
     $rootScope.language = 'sr';
     $rootScope.translate = function(key) {
@@ -73,7 +73,7 @@ export default angular
     };
 
     angular.element(document.getElementById('loader-text')).html($rootScope.translate('please_wait_text'));
-  })
+  }])
 
   // authentication
   .run(['$rootScope', '$state', '$stateParams', 'cbOAuth', function($rootScope, $state, $stateParams, cbOAuth) {
