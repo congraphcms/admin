@@ -105,44 +105,44 @@
 				</md-toolbar>
 				<div layout="column">
 					<md-list>
-            <md-list-item
-							class="md-2-line md-dense"
-							layout="row"
-							ng-repeat="locale in editor.locales.models"
-							ng-switch="editor.translationType(locale)"
-							ng-class="{selected: editor.ownTranslation(locale)}"
-							ng-click="editor.goToTranslation($event, locale)">
+			            <md-list-item
+										class="md-2-line md-dense"
+										layout="row"
+										ng-repeat="locale in editor.locales.models"
+										ng-switch="editor.translationType(locale)"
+										ng-class="{selected: editor.ownTranslation(locale)}"
+										ng-click="editor.goToTranslation($event, locale)">
 
-							<img ng-src="{{editor.getLocaleFlag(locale)}}" class="flag-img" alt="locale.get('name')" />
-							<div class="md-list-item-text" ng-switch-when="selected">
-                <h3>{{editor.getTitle()}}</h3>
-                <p>{{editor.getStatus(editor.currentWorkflowPoint)}}</p>
-              </div>
+										<img ng-src="{{editor.getLocaleFlag(locale)}}" class="flag-img" alt="locale.get('name')" />
+										<div class="md-list-item-text" ng-switch-when="selected">
+			                <h3>{{editor.getTitle()}}</h3>
+			                <p>{{editor.getStatus(editor.currentWorkflowPoint)}}</p>
+			              </div>
 
-							<div class="md-list-item-text" ng-switch-when="other">
-                <h3>{{editor.getTranslationTitle(locale)}}</h3>
-                <p>{{editor.getStatus(editor.getFullStatus(editor.getTranslation(locale)))}}</p>
-              </div>
+										<div class="md-list-item-text" ng-switch-when="other">
+			                <h3>{{editor.getTranslationTitle(locale)}}</h3>
+			                <p>{{editor.getStatus(editor.getFullStatus(editor.getTranslation(locale)))}}</p>
+			              </div>
 
-							<div class="md-list-item-text empty-translation" ng-switch-when="empty">
-                <h3>
-									<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 72px; height: 16px; display: inline-block; margin: 2px 0;">&nbsp;</span>
-								</h3>
-                <p>
-									<span style="background: rgba(0,0,0,0.03); border-radius: 50%; width: 14px; height: 14px; display: inline-block; margin: 2px 2px 2px 0;">&nbsp;</span>
-									<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 35px; height: 14px; display: inline-block; margin: 2px 2px 2px 0;">&nbsp;</span>
-									<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 28px; height: 14px; display: inline-block; margin: 2px 0 2px 0;">&nbsp;</span>
-								</p>
-              </div>
+										<div class="md-list-item-text empty-translation" ng-switch-when="empty">
+			                <h3>
+												<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 72px; height: 16px; display: inline-block; margin: 2px 0;">&nbsp;</span>
+											</h3>
+			                <p>
+												<span style="background: rgba(0,0,0,0.03); border-radius: 50%; width: 14px; height: 14px; display: inline-block; margin: 2px 2px 2px 0;">&nbsp;</span>
+												<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 35px; height: 14px; display: inline-block; margin: 2px 2px 2px 0;">&nbsp;</span>
+												<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 28px; height: 14px; display: inline-block; margin: 2px 0 2px 0;">&nbsp;</span>
+											</p>
+			              </div>
 
-							<md-button
-								class="md-fab md-mini md-secondary"
-								aria-label="Translate to {{locale.attributes.code}}"
-								ng-if="editor.translationType(locale) == 'empty'"
-								ng-click="editor.goToTranslation($event, locale)">
-								<md-icon class="material-icons">add</md-icon>
-							</md-button>
-            </md-list-item>
+										<md-button
+											class="md-fab md-mini md-secondary"
+											aria-label="Translate to {{locale.attributes.code}}"
+											ng-if="editor.translationType(locale) == 'empty'"
+											ng-click="editor.goToTranslation($event, locale)">
+											<md-icon class="material-icons">add</md-icon>
+										</md-button>
+			            </md-list-item>
 					</md-list>
 				</div>
 			</div>
