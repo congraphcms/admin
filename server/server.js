@@ -8,7 +8,8 @@ app.set('view engine', 'ejs');
 
 var isProduction = process.env.NODE_ENV === 'production';
 var host = process.env.APP_HOST || 'localhost';
-var port = isProduction ? 8080 : 3000;
+var port = (process.env.APP_PORT) ? process.env.APP_PORT : 8080;
+var proxyPort = (process.env.APP_PORT)?parseInt(process.env.APP_PORT)+1:3001;
 var publicPath = path.resolve(__dirname, '..', 'public');
 
 if (!isProduction) {
@@ -18,7 +19,7 @@ if (!isProduction) {
   // to webpack-dev-server
   app.all(['/assets/*', '*.hot-update.json'], function (req, res) {
     proxy.web(req, res, {
-      target: 'http://' + host + ':3001'
+      target: 'http://' + host + ':' + proxyPort
     });
   });
 
@@ -34,6 +35,8 @@ app.use(express.static(publicPath));
 
 var settings = {
   CG_URL: process.env.CG_URL,
+  CG_CLIENT_ID: process.env.CG_CLIENT_ID,
+  CG_CLIENT_SECRET: process.env.CG_CLIENT_SECRET,
   APP_URL: process.env.APP_URL,
   DEFAULT_LOCALE: process.env.DEFAULT_LOCALE
 };

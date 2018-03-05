@@ -11,18 +11,18 @@ export default {
         "icon": "text_fields",
         "value": "text"
       },
+      "compound": {
+        "label": "Compound",
+        "description": "Merge fields together",
+        "icon": "text_fields",
+        "value": "compound"
+      },
       "tags": {
         "label": "Tags",
         "description": "Collection of short terms (tags).",
         "icon": "local_offer",
         "value": "tags"
-      },
-      // "id": {
-      //   "label": "ID field",
-      //   "description": "Self generated unique field.",
-      //   "icon": "lock_outline",
-      //   "value": "tags"
-      // }
+      }
     }
   },
   "number": {
@@ -112,6 +112,18 @@ export default {
         "description": "Multiple referencies to may objects.",
         "icon": "share",
         "value": "relation_collection"
+      },
+      "node": {
+        "label": "Single node (one to many)",
+        "description": "Same as relation but values will be saved in field and automatically retreived without the need for specific include.",
+        "icon": "linear_scale",
+        "value": "node"
+      },
+      "node_collection": {
+        "label": "Node collection (many to many)",
+        "description": "Multiple nodes.",
+        "icon": "share",
+        "value": "node_collection"
       }
     }
   },
@@ -119,8 +131,6 @@ export default {
     "label": "Location",
     "description": "Reference to other objects in system.",
     "icon": "place",
-    "disabled" : false,
-    "value": "location",
-    "sub_choices": false
+    "disabled": true
   }
 }

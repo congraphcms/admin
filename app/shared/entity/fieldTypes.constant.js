@@ -1,13 +1,13 @@
 
 export default {
-  "text":{
-    "can_have_default_value":true,
-    "can_be_unique":true,
-    "can_be_filter":true,
-    "can_be_used_in_search":true,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":false,
+  "text": {
+    "can_have_default_value": true,
+    "can_be_unique": true,
+    "can_be_filter": true,
+    "can_be_used_in_search": true,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
     "has_input_choice": true,
     "editor": "text",
     "input_choice": {
@@ -32,13 +32,6 @@ export default {
         "complex": true,
         "value": "html_editor"
       },
-      // "id_generator": {
-      //   "label": "ID field",
-      //   "description": "Self generated ID field.",
-      //   "icon": "lock_outline",
-      //   "complex": false,
-      //   "value": "id_generator"
-      // },
       // "markdown": {
       //   "label": "Markdown Editor (Markdown)",
       //   "description": "Rich text editor with markdown formating options.",
@@ -49,14 +42,14 @@ export default {
     },
     "default_input": "text_input"
   },
-  "tags":{
-    "can_have_default_value":false,
-    "can_be_unique":false,
-    "can_be_filter":true,
-    "can_be_used_in_search":true,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":true,
+  "tags": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": true,
+    "can_be_used_in_search": true,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": true,
     "has_input_choice": false,
     "editor": "text",
     "input_choice": {
@@ -70,14 +63,35 @@ export default {
     },
     "default_input": "tag_input"
   },
-  "integer":{
-    "can_have_default_value":true,
-    "can_be_unique":true,
-    "can_be_filter":true,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":false,
+  "compound": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": true,
+    "can_be_used_in_search": true,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
+    "has_input_choice": false,
+    "editor": "text",
+    "input_choice": {
+      "compound": {
+        "label": "Compound input",
+        "description": "",
+        "icon": "title",
+        "complex": false,
+        "value": "compound"
+      }
+    },
+    "default_input": "compound"
+  },
+  "integer": {
+    "can_have_default_value": true,
+    "can_be_unique": true,
+    "can_be_filter": true,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
     "editor": "integer",
     "has_input_choice": false,
     "input_choice": {
@@ -98,14 +112,14 @@ export default {
     },
     "default_input": "integer_input"
   },
-  "decimal":{
-    "can_have_default_value":true,
-    "can_be_unique":true,
-    "can_be_filter":true,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":false,
+  "decimal": {
+    "can_have_default_value": true,
+    "can_be_unique": true,
+    "can_be_filter": true,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
     "editor": "integer",
     "has_input_choice": false,
     "input_choice": {
@@ -119,14 +133,14 @@ export default {
     },
     "default_input": "decimal_input"
   },
-  "datetime":{
-    "can_have_default_value":false,
-    "can_be_unique":false,
-    "can_be_filter":false,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":false,
+  "datetime": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": false,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
     "editor": "datetime",
     "has_input_choice": false,
     "input_choice": {
@@ -140,14 +154,14 @@ export default {
     },
     "default_input": "date_input"
   },
-  "select":{
-    "can_have_default_value":false,
-    "can_be_unique":false,
-    "can_be_filter":true,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":true,
-    "has_multiple_values":false,
+  "select": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": true,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": true,
+    "has_multiple_values": false,
     "editor": "select",
     "has_input_choice": true,
     "input_choice": {
@@ -168,14 +182,14 @@ export default {
     },
     "default_input": "select_input"
   },
-  "multiselect":{
-    "can_have_default_value":false,
-    "can_be_unique":false,
-    "can_be_filter":true,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":true,
-    "has_multiple_values":true,
+  "multiselect": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": true,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": true,
+    "has_multiple_values": true,
     "editor": "select",
     "has_input_choice": false,
     "input_choice": {
@@ -189,14 +203,14 @@ export default {
     },
     "default_input": "checkbox"
   },
-  "boolean":{
-    "can_have_default_value":true,
-    "can_be_unique":false,
-    "can_be_filter":true,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":false,
+  "boolean": {
+    "can_have_default_value": true,
+    "can_be_unique": false,
+    "can_be_filter": true,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
     "editor": "boolean",
     "has_input_choice": true,
     "input_choice": {
@@ -217,14 +231,14 @@ export default {
     },
     "default_input": "boolean_radio"
   },
-  "relation":{
-    "can_have_default_value":false,
-    "can_be_unique":false,
-    "can_be_filter":true,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":false,
+  "relation": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": true,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
     "editor": "relation",
     "has_input_choice": false,
     "input_choice": {
@@ -238,14 +252,14 @@ export default {
     },
     "default_input": "relation_search"
   },
-  "asset":{
-    "can_have_default_value":false,
-    "can_be_unique":false,
-    "can_be_filter":false,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":false,
+  "asset": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": false,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
     "editor": "asset",
     "has_input_choice": false,
     "input_choice": {
@@ -260,13 +274,13 @@ export default {
     "default_input": "media_library"
   },
   "relation_collection": {
-    "can_have_default_value":false,
-    "can_be_unique":false,
-    "can_be_filter":true,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":true,
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": true,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": true,
     "editor": "relation",
     "has_input_choice": false,
     "input_choice": {
@@ -281,13 +295,13 @@ export default {
     "default_input": "relation_search"
   },
   "asset_collection": {
-    "can_have_default_value":false,
-    "can_be_unique":false,
-    "can_be_filter":false,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":true,
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": false,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": true,
     "editor": "asset",
     "has_input_choice": false,
     "input_choice": {
@@ -301,25 +315,46 @@ export default {
     },
     "default_input": "media_library"
   },
-  "location":{
-    "can_have_default_value":false,
-    "can_be_unique":false,
-    "can_be_filter":false,
-    "can_be_used_in_search":false,
-    "can_be_localized":true,
-    "has_options":false,
-    "has_multiple_values":false,
+  "node": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": true,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
+    "editor": "relation",
     "has_input_choice": false,
-    "editor": "location",
     "input_choice": {
-      "location": {
-        "label": "Location selector",
+      "relation_search": {
+        "label": "Search for relations",
         "description": "",
         "icon": "title",
         "complex": true,
-        "value": "location"
+        "value": "relation_search"
       }
     },
-    "default_input": "location"
+    "default_input": "relation_search"
+  },
+  "node_collection": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": true,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": true,
+    "editor": "relation",
+    "has_input_choice": false,
+    "input_choice": {
+      "relation_search": {
+        "label": "Search for relations",
+        "description": "",
+        "icon": "title",
+        "complex": true,
+        "value": "relation_search"
+      }
+    },
+    "default_input": "relation_search"
   },
 }

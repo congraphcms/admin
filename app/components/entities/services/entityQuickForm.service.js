@@ -9,7 +9,7 @@
  * @returns an instance of entity quick form service
  */
 
-require('./../styles/quickForm.scss');
+import './../styles/quickForm.scss';
 
 import angular from 'angular';
 import template from './../views/quickForm.tmpl.html';

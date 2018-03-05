@@ -20,11 +20,11 @@ import 'tinymce/plugins/preview/plugin';
 import 'tinymce/plugins/fullscreen/plugin';
 // import 'tinymce/plugins/autoresize/plugin'
 
-require.context(
-  '!file?name=[path][name].[ext]&context=node_modules/tinymce!tinymce/skins',
-  true,
-  /.*/
-)
+// require.context(
+//   '!file?name=[path][name].[ext]&context=node_modules/tinymce!tinymce/skins',
+//   true,
+//   /.*/
+// )
 
 import htmlEditorController from './controllers/htmlEditorHandler.controller.js';
 import tagInputController from './controllers/tagInputHandler.controller.js';
