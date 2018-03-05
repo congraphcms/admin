@@ -357,4 +357,25 @@ export default {
     },
     "default_input": "relation_search"
   },
+  "location": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": false,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
+    "editor": "location",
+    "has_input_choice": false,
+    "input_choice": {
+      "location": {
+        "label": "Location Input",
+        "description": "",
+        "icon": "place",
+        "complex": true,
+        "value": "location"
+      }
+    },
+    "default_input": "location"
+  },
 }

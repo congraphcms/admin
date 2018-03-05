@@ -38,7 +38,7 @@ export default class MediaLibraryHandlerController{
     handler.unique = handler.attribute.get('unique');
     handler.attributeData = handler.attribute.get('data');
     handler.uploaderParams = {};
-    handler.uploaderActive = 1;
+    handler.uploaderActive = 0;
     
     if(handler.attributeData) {
       handler.allowedTypes = handler.attributeData.allowed_types;
@@ -70,7 +70,7 @@ export default class MediaLibraryHandlerController{
 
     handler.listFilter = {};
     // handler.searchTerms = '';
-    handler.pageSize = 5;
+    handler.pageSize = 10;
     handler.loadedImages = {};
 
 
@@ -185,25 +185,34 @@ export default class MediaLibraryHandlerController{
       handler.getFiles(pageNumber).then(function(results){
         // store collection
         handler.filesCollection = results;
-        di.numItems = Math.ceil(results.meta.total / 3);
+
+
+        // di.numItems = Math.ceil(results.meta.total / 3);
+
+        di.numItems = results.meta.total;
+
+
         // optionaly change collection (filter, sort etc) 
         handler.list = handler.filesCollection.models;
         handler.selectionEmpty = handler.list.length == 0;
         // set listing flags
         di.loadedPages[pageNumber] = [];
-        var itemCounter = 0;
-        var currentArray = [];
+        // var itemCounter = 0;
+        // var currentArray = [];
         _.each(handler.filesCollection.models, function(item, i, list) {
-          itemCounter++;
-          currentArray.push(item);
+          // itemCounter++;
+          // currentArray.push(item);
+          // handler.loadImage(item);
+          // if(itemCounter == 3 || i == list.length - 1) {
+            
+          //   di.loadedPages[pageNumber].push(currentArray);
+          //   currentArray = [];
+          //   itemCounter = 0;
+            
+          // }
+
           handler.loadImage(item);
-          if(itemCounter == 3 || i == list.length - 1) {
-            
-            di.loadedPages[pageNumber].push(currentArray);
-            currentArray = [];
-            itemCounter = 0;
-            
-          }
+          di.loadedPages[pageNumber].push(item);
         });
 
         
@@ -232,8 +241,10 @@ export default class MediaLibraryHandlerController{
           nin: handler.getAssetIds()
         }
       }),
-      offset: pageNumber * handler.pageSize * 3,
-      limit: handler.pageSize * 3,
+      // offset: pageNumber * handler.pageSize * 3,
+      // limit: handler.pageSize * 3,
+      offset: pageNumber * handler.pageSize,
+      limit: handler.pageSize,
       sort: '-created_at'
     });
 
