@@ -4,7 +4,6 @@ import plupload from 'plupload';
 
 export default class PluploadController{
   constructor(cbOAuth, AppSettings, $scope, $timeout, $rootScope, $state, $element, $attrs, $document) {
-    console.log('plupload constructor');
     /* jshint validthis: true */
     var pl = this;
 
@@ -24,7 +23,6 @@ export default class PluploadController{
 
   init() {
     var pl = this;
-    console.log('plupload init', this, pl.$attrs.id);
     if(!pl.$attrs.id){
       var randomValue = pl.randomString(5);
       pl.$attrs.$set('id',randomValue);
@@ -60,8 +58,6 @@ export default class PluploadController{
       params.multipart_params = pl.multiParams;
     }
 
-    console.log('plupload params', params);
-
 
     pl.uploader = new plupload.Uploader(params);
 
@@ -70,11 +66,9 @@ export default class PluploadController{
     }
 
     pl.uploader.bind('Init', function(up, params) {
-      console.log('uploader inited');
     });
 
     pl.uploader.bind('Error', function(up, err) {
-      console.log('uploader error', up, err);
       pl.$scope.$emit('PLUPLOAD.error', {uploader: up, error: err, meta:pl.meta});
       up.refresh(); // Reposition Flash/Silverlight
     });

@@ -60,7 +60,6 @@ export default class EntityFormController {
     vm.getEditor();
 
     vm.$scope.$on('openNewForm', function(event, formSettings){
-      console.log('openNewForm handler', arguments, formSettings);
       event.stopPropagation();
       
     });
@@ -183,16 +182,19 @@ export default class EntityFormController {
 
   save() {
     var vm = this;
+
     var newEntity = vm.model.isNew();
 
     vm.editor.save().then(function(data){
 
       vm.optionsMenuItems = vm.getOptionsMenuItems();
-      vm.$rootScope.$broadcast('entitySaved', data);
+
+      vm.getEditor();
+
       if(newEntity){
-        vm.editor.deregister();
+        // vm.editor.deregister();
         vm.$state.go('^.edit', {id: data.get('id'), locale: vm.locale.get('code')}, {reload: true});
-      }
+      } 
       
     }, function(errors){
 

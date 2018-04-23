@@ -12,7 +12,6 @@ export default class EntityQuickFormController {
     $element, 
     $timeout
   ){
-    console.log('cqf ctrl init', this);
 
     var qf = this;
 
@@ -32,10 +31,6 @@ export default class EntityQuickFormController {
       qf.locales = locales;
     });
 
-    console.log('qf instance', qf.$scope.instance);
-
-    console.log('qf', qf);
-
     qf.init();
   }
 
@@ -44,12 +39,10 @@ export default class EntityQuickFormController {
     qf.getEditor();
 
     qf.$rootScope.$on('editor.entitySaved', function(event, editor, entity){
-      console.log('qf entitySaved', editor, qf.editor);
       if(editor == qf.editor) {
         qf.model = entity;
         // ctrl.optionsMenuItems = ctrl.getOptionsMenuItems();
         qf.getEditor();
-        console.log('qf emit qf saved');
         qf.EntityQuickForm.resolve(qf.instance, entity);
         // qf.$scope.$emit('quickFormSaved', qf.instance, entity);
 
@@ -131,7 +124,6 @@ export default class EntityQuickFormController {
   }
 
   _close() {
-    console.log('_close ctrl', this);
     this.EntityQuickForm.cancel(this.instance);
   }
 }

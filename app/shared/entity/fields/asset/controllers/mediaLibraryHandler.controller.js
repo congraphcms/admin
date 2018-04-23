@@ -230,6 +230,64 @@ export default class MediaLibraryHandlerController{
          
     handler.dynamicItems = new DynamicItems();
 
+    /**
+     * Parameters:
+     *
+     * sourceItemScope - the scope of the item being dragged.
+     * destScope - the sortable destination scope, the list.
+     * destItemScope - the destination item scope, this is an optional Param.(Must check for undefined).
+     *
+     * Object (event) - structure
+     *   source:
+     *     index: original index before move.
+     *     itemScope: original item scope before move.
+     *     sortableScope: original sortable list scope.
+     *   dest: index
+     *     index: index after move.
+     *     sortableScope: destination sortable scope.
+     *
+     * read more at https://github.com/a5hik/ng-sortable
+     */
+    handler.dragControlListeners = {
+      // override to determine drag is allowed or not. default is true.
+      accept: function (sourceItemHandleScope, destSortableScope) {
+        // console.log('accept');
+        return true;
+      },
+      dragStart: function (event) {
+        // console.log('dragStart', event);
+      },
+      dragEnd: function (event) {
+        // console.log('dragEnd', event);
+      },
+      itemMoved: function (event) {
+        // console.log('itemMoved', event);
+        var moveSuccess,
+          moveFailure;
+
+        moveSuccess = function () {
+          // console.log('moveSuccess');
+        };
+        moveFailure = function () {
+          // console.log('moveFailure');
+
+          // to return an item to it's original position
+          // event.dest.sortableScope.removeItem(event.dest.index);
+          // event.source.itemScope.sortableScope.insertItem(event.source.index, event.source.itemScope.item);
+        };
+
+      },
+      orderChanged: function (event) {
+        // console.log('orderChanged', event);
+      },
+      // optional param
+      // containment: '#board',
+      // optional param for clone feature.
+      // clone: true,
+      // optional param allows duplicates to be dropped.
+      // allowDuplicates: false
+    };
+
   }
 
   getFiles(pageNumber) {

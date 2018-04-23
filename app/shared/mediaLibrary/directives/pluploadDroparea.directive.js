@@ -44,8 +44,6 @@ function pluploadDroparea($state){
 					if(controller.dropElement){
 						defaultParams.drop_element = controller.dropElement[0];
 					}
-					
-					console.log('plda dropareaid', defaultParams.drop_element)
 
 					if(!controller.params){
 						controller.params = {};

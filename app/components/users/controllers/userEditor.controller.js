@@ -59,7 +59,6 @@ export default class UserEditorController {
   toggleRole(role) {
     let vm = this;
     let userRoles = vm.model.attributes.roles;
-    // console.log('toggleRole', role);
 
     if(userRoles.length == 0) {
       vm.model.attributes.roles = new vm.RoleCollection();
@@ -73,8 +72,6 @@ export default class UserEditorController {
     } else {
       vm.model.attributes.roles.remove(userRole);
     }
-
-    // console.log('toggleRole roles', vm.model.attributes.roles);
   }
 
   userHasRole(role) {

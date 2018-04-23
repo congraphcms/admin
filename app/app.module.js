@@ -82,7 +82,6 @@ export default angular
       // authorization service needs this
       $rootScope.toState = toState;
       $rootScope.toStateParams = toStateParams;
-      // console.log('state change check auth');
 
       // if the principal is resolved, do an
       // authorization check immediately. otherwise,
@@ -103,7 +102,6 @@ export default angular
         return;
       }
 
-      // console.log('owner exists', cbOAuth.ownerExists());
       if(!cbOAuth.ownerExists() && cbOAuth.isAuthenticated()) {
         cbOAuth.getOwner();
       }

@@ -21,8 +21,6 @@ export default class HtmlEditorHandlerController{
       plugins: [ 'lists link image code preview fullscreen' ],
       toolbar: 'insert | undo redo |  styleselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code preview fullscreen',
     };
-    
-    console.log('handler.tmceOptions', handler.tmceOptions);
 
     handler.attribute = handler.$scope.attribute;
     handler.entity = handler.$scope.entity;

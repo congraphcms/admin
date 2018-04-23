@@ -60,7 +60,6 @@ export default function ChooseEntityTypeService($mdDialog, $q){
         })
 
         .then(function(answer) {
-          console.log('modal answer', answer);
           chosenType = answer;
           defered.resolve(chosenType);
         }, function(error){

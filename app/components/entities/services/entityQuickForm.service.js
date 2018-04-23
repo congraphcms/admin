@@ -81,7 +81,6 @@ export default function EntityQuickForm($log, $q, $compile) {
       if(!options.locale) {
         throw new Error('Can not open quick form without locale defined in options');
       }
-      console.log('open quickForm', options);
       var instance = {
         // parent: options.parent,
         scope: options.scope,
@@ -139,7 +138,6 @@ export default function EntityQuickForm($log, $q, $compile) {
     },
 
     close: function(instance) {
-      console.log('close quick form', instance)
       instance.element.detach();
       instances.splice(-1, 1);
       this.level--;

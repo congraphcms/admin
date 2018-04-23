@@ -153,6 +153,17 @@ function EntityModelFactory(AttributeSetModel, EntityTypeModel, FileModel) {
       });
 
       return new EntityModel(data);
+    },
+
+    importFields: function(model) {
+      var self = this;
+      if (!_.isObject(model) || !(model instanceof EntityModel)) {
+        throw new Error("You can only import fields from other entities.");
+      }
+
+      _.each(model.get('fields'), function(field, key) {
+        self.setField(key, field);
+      });
     }
 
   });

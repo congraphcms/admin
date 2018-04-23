@@ -52,11 +52,14 @@
 			<div 
 				ng-if="handler.multiple && !handler.loadingItems" 
 				style="padding: 8px;"
+				as-sortable="handler.dragControlListeners"
+				 ng-model="handler.entity.attributes.fields[handler.fieldCode].models"
 				layout 
 				layout-wrap 
 				flex>
 
 				<div 
+					as-sortable-item
 					ng-repeat="item in handler.getValue().models" 
 					class="cb-media-item md-whiteframe-1dp actionable" 
 					ng-class="{'cb-media-last-item': ($index%3 == 2)}"
@@ -71,12 +74,14 @@
 						<img 
 							ng-src="{{handler.getAdminImage(handler.getAsset(item))}}" 
 							ng-if="handler.getFileType(handler.getAsset(item)) == 'image' && handler.isLoaded(handler.getAsset(item))" 
-							alt="handler.getCaption(handler.getAsset(item))" />
+							alt="handler.getCaption(handler.getAsset(item))" 
+							 as-sortable-item-handle/>
 						<div 
 							layout="column" 
 							layout-align="center center" 
 							ng-if="handler.getFileType(handler.getAsset(item)) != 'image'"
-							style="width:100%;">
+							style="width:100%;"
+							 as-sortable-item-handle>
 
 							<md-icon class="material-icons">insert_drive_file</md-icon>
 							<h3 class="md-subhead" style="max-width:90%; word-wrap:break-word;">

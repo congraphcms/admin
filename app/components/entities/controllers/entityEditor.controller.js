@@ -160,15 +160,15 @@ export default class EntityEditorController{
     editor.busy = true;
     var promise = editor.EntityRepository.save(editor.model);
     promise.then(function(result){
-
-      result.setAttributeSet(editor.model.get('attribute_set'));
-      result.setEntityType(editor.model.get('entity_type'));
-      editor.deregister();
-      editor.model = result;
+      // result.setAttributeSet(editor.model.get('attribute_set'));
+      // result.setEntityType(editor.model.get('entity_type'));
+      // editor.deregister();
+      editor.model.importFields(result);
+      editor.model.set('status', result.get('status'));
 
       editor.getTranslations();
 
-      editor.deregister = editor.EditorRegistry.register(editor, result);
+      // editor.deregister = editor.EditorRegistry.register(editor, editor.model);
       editor.busy = false;
       editor.form.$setDirty(false);
 
@@ -176,9 +176,9 @@ export default class EntityEditorController{
       editor.statusColor = {color: editor.getStatusColor(editor.currentWorkflowPoint)};
       editor.form.$setPristine(true);
 
-      editor.$rootScope.$broadcast('editor.entitySaved', editor, result);
+      editor.$rootScope.$broadcast('entitySaved', editor, editor.model);
 
-      return result;
+      return editor.model;
     }, function(errors){
       console.error("SAVE ENTITY ERROR", errors);
       editor.busy = false;

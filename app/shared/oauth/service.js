@@ -114,7 +114,6 @@ function cbOAuthProvider() {
      */
     OAuth.prototype.authenticate = function(data, options) {
       var self = this;
-      // console.log('oauth config', config);
       data = angular.extend({
         client_id: config.clientId,
         grant_type: 'password'
@@ -141,8 +140,6 @@ function cbOAuthProvider() {
 
       return $http.post(config.baseUrl + config.grantPath, data, options).then( function(response) {
         var cookie = self.setToken(response.data);
-        // console.log('cookie', cookie);
-        // console.log('token', self.getToken());
         self.getOwner();
         return response;
       });
@@ -246,7 +243,6 @@ function cbOAuthProvider() {
       data = Qs.stringify(data);
 
       var $http = $injector.get('$http');
-      // console.log('http options', options);
       
       if(self.accessTokenExpired()) {
         var defered = $q.defer();
@@ -268,7 +264,6 @@ function cbOAuthProvider() {
 
             $http(request).then(function(response){
 
-              // console.log('get owner response', response);
               self.setUser(response);
               defered.resolve(response);
               return response;
@@ -295,7 +290,6 @@ function cbOAuthProvider() {
       }, options);
 
       return $http(request).then(function(response){
-        // console.log('get owner response', response);
         self.setUser(response);
         return response;
       });
@@ -359,8 +353,6 @@ function cbOAuthProvider() {
      * Get authorizationHeader.
      */
     OAuth.prototype.getAuthorizationHeader = function() {
-      // console.log('token type', this.getTokenType());
-      // console.log('access token', this.getAccessToken());
       if (!(this.getTokenType() && this.getAccessToken())) {
         return;
       }

@@ -80,8 +80,10 @@ var settings = {
     CG_URL: process.env.CG_URL,
     CG_CLIENT_ID: process.env.CG_CLIENT_ID,
     CG_CLIENT_SECRET: process.env.CG_CLIENT_SECRET,
-    DEFAULT_LOCALE: process.env.DEFAULT_LOCALE
+    DEFAULT_LOCALE: process.env.DEFAULT_LOCALE,
+    GMAP_KEY: process.env.GMAP_KEY
 };
+
 app.get('/*', function (req, res) {
     res.render('index', { settings: settings, settingsJSON: JSON.stringify(settings) });
 });

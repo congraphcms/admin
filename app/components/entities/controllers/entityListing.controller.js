@@ -54,7 +54,6 @@ export default class EntityListingController {
     };
 
     vm.locale = vm.getLocale();
-    console.log(vm.locale);
 
     vm.listFilter = {};
     vm.listSort = { sort: '-updated_at'};
@@ -193,8 +192,6 @@ export default class EntityListingController {
 
 
     let locale = angular.copy(vm.locales.findWhere({code: localeCode}));
-
-    console.log('locales', localeCode, vm.locales, locale)
 
     return locale;
   }

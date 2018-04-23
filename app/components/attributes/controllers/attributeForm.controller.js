@@ -21,7 +21,6 @@ export default class AttributeFormController {
     /* jshint validthis: true */
     let vm = this;
 
-    console.log('AttributeFormController', attributeModel);
     
     vm.model = attributeModel; // model
     vm.EditorRegistry = EditorRegistry; // editor registry

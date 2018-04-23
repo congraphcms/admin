@@ -23,7 +23,8 @@
 	<label>Longitude</label>
 	<input ng-model="handler.selectedAddress.geometry.location.lng" disabled="true">
 </md-input-container>
-<div map-lazy-load="https://maps.google.com/maps/api/js">
+<div map-lazy-load="https://maps.google.com/maps/api/js" 
+    map-lazy-load-params="{{handler.googleMapsUrl}}">
   <ng-map 
     zoom="{{handler.mapParams.zoom}}"
     class="map"

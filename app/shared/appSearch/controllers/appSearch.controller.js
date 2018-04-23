@@ -46,7 +46,6 @@ export default class AppSearchController{
       },
       include: 'fields.case_client'
     }).then(function(data){
-      console.log('search results', data);
       defered.resolve(data.models);
       return data;
     }, function(errors){

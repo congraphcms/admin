@@ -112,7 +112,6 @@ export default class MediaListingController {
     vm.getFiles().then(function(results){
       // store collection
       vm.filesCollection  = results;
-      console.log('get files', vm.filesCollection);
       vm.applySort();
       // optionaly change collection (filter, sort etc) 
       vm.list = vm.filesCollection.models;

@@ -93,11 +93,10 @@ export default class AppHeaderController {
   logout() {
     var vm = this;
     vm.OAuth.revokeToken().then(function(response){
-      console.log('revoke token response', response);
       vm.$state.go('login', {}, {reload: true});
     },
     function(errors){
-      console.log('revoke token errors', errors)
+      console.warn('revoke token errors', errors)
     });
     console.log('logging out...');
   }

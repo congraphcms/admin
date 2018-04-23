@@ -1,7 +1,7 @@
 import _ from 'underscore';
 
 export default class LocationController{
-  constructor(NgMap, $scope, $rootScope, $state, $stateParams, $q, $timeout) {
+  constructor(NgMap, AppSettings, $scope, $rootScope, $state, $stateParams, $q, $timeout) {
 
     /* jshint validthis: true */
     let handler = this;
@@ -14,6 +14,7 @@ export default class LocationController{
     handler.$stateParams = $stateParams;
     handler.$q = $q;
     handler.$timeout = $timeout;
+    handler.googleMapsUrl = "https://maps.googleapis.com/maps/api/js?key=" + AppSettings.APP.GMAP_KEY;
 
     // handler.attribute = handler.$scope.attribute;
     // handler.entity = handler.$scope.entity;
@@ -23,8 +24,6 @@ export default class LocationController{
 
   init() {
     let handler = this;
-
-    console.log('location handler init', handler.entity);
   
     handler.fieldCode = handler.attribute.get('code');
     handler.fieldName = handler.attribute.get('admin_label');
@@ -57,22 +56,16 @@ export default class LocationController{
     handler.setDefaultValue();
 
     handler.$scope.$watch('handler.selectedAddress', function(newVal, oldVal){
-      console.log('selectedAddress changed: new, old', newVal, oldVal)
       if(newVal == oldVal) return;
       handler.setValue(newVal);
     });
 
     handler.NgMap.getMap('map-'+handler.fieldCode).then(function(map) {
-      console.log('MAP MAP');
       handler.map = map;
       handler.mapCenter = map.getCenter();
       handler.$timeout(function(){
         handler.mapResize();
       }, 0);
- 
-      // console.log(map.getCenter());
-      // console.log('markers', map.markers);
-      // console.log('shapes', map.shapes);
     });
   }
 
@@ -112,7 +105,6 @@ export default class LocationController{
             deferred.resolve(results);
             return
         }
-        console.log('error with google api', results, status);
         deferred.reject('error with google api');
     });
 
@@ -164,7 +156,6 @@ export default class LocationController{
         lat = marker.latLng.lat(),
         lng = marker.latLng.lng();
 
-    // console.log('onMarkerDrag', handler, lat, lng);
     handler._setAddressFromLatLng(lat, lng);
   }
 
@@ -180,8 +171,6 @@ export default class LocationController{
       handler.$scope.$apply(function(){
         if (status == google.maps.GeocoderStatus.OK) {
           result = results[0];
-
-          console.log('_setAddressFromLatLng result', result);
 
           // to avoid snppaing marker to road (gmaps behavoir)
           // update result lat, lng
@@ -218,6 +207,7 @@ export default class LocationController{
 
 LocationController.$inject = [
   'NgMap',
+  'AppSettings',
   '$scope',
   '$rootScope',
   '$state',

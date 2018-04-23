@@ -23,8 +23,6 @@ export default class FileFormController {
 
     fc.AppSettings = AppSettings;
 
-    console.log('file form ctrl', fc);
-
     fc.init();
   }
 

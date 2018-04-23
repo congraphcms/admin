@@ -69,7 +69,6 @@ export default function ChooseAttributeSetService($mdDialog, $q){
         })
 
         .then(function(answer) {
-          console.log('modal answer', answer);
           chosenSet = answer;
           defered.resolve(chosenSet);
         }, function(error){

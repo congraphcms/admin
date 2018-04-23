@@ -105,7 +105,6 @@ export default class ContentModelDetailController {
   setDefaultAttributeSet(attributeSet) {
     let vm = this;
 
-    console.log('set default attribute set: ', attributeSet.get('name'));
   }
 
   setBusy(attributeSet) {

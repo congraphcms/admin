@@ -130,7 +130,6 @@ export class CreateEntityLinkController{
         clickOutsideToClose:true
       })
       .then(function(answer) {
-        console.log('modal answer', answer);
         stateOptions.attributeSet = answer.get('code');
         dir.$state.go('app.entities.type.new', stateOptions);
       });

@@ -76,7 +76,6 @@ export default class ContentModelWorkflowFormController {
 
   canSave() {
     let editor = this.EditorRegistry.get(this.model);
-    console.log('canSave', editor)
     return editor && ! editor.busy && editor.form.$valid;
   }
 

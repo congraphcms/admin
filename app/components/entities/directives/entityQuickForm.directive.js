@@ -45,11 +45,9 @@ export default function EntityQuickFormDirective($timeout){
   }
 
   function preLink(element, attrs) {
-    console.log('preLink EntityQuickFormDirective');
   }
 
   function postLink(scope, element, attrs, ctrl) {
-    console.log('postLink EntityQuickFormDirective', scope, ctrl)
   }
 }
 

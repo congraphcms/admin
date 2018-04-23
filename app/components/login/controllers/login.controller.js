@@ -42,7 +42,6 @@ export default class LoginController{
     var result = vm.OAuth.authenticate({username: vm.email, password: vm.password});
     
     result.then(function(response){
-      console.log('success', response);
       if(vm.$stateParams.redirect) {
         vm.$state.go(vm.$stateParams.redirect.name, vm.$stateParams.redirectParams);
       } else {

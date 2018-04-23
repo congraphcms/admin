@@ -41,26 +41,30 @@
 			<div ng-if="handler.loadingItems">{{handler.$rootScope.translate('please_wait_text')}}</div>
 
 			<!-- Multiple -->
-			<div
-				ng-if="handler.multiple && !handler.loadingItems"
-				ng-repeat="item in handler.getValue().models"
-				class="repeated-item cb-item">
-
-				<div class="cb-item-inner" layout flex>
-					<div class="cb-item-text" layout="column" flex>
-						<h3 class="cb-item-title">{{handler.getTitle(handler.getRelation(item))}}</h3>
+			<div as-sortable="handler.dragControlListeners" ng-if="handler.multiple && !handler.loadingItems" ng-model="handler.entity.attributes.fields[handler.fieldCode].models">
+				<div ng-repeat="item in handler.getValue().models" class="repeated-item cb-item" as-sortable-item>
+					
+					<md-icon class="material-icons md-secondary" as-sortable-item-handle ng-click="null">
+						drag_handle
+					</md-icon>
+					<div class="separator md-secondary"></div>
+					<div class="cb-item-inner" layout flex>
+						<div class="cb-item-text" layout="column" flex>
+							<h3 class="cb-item-title">{{handler.getTitle(handler.getRelation(item))}}</h3>
+						</div>
+						<div class="cb-item-action" layout>
+							<md-button ng-click="handler.editEntity(handler.getRelation(item))">
+								{{handler.$rootScope.translate('btn_edit')}}
+							</md-button>
+				
+							<md-button ng-click="handler.removeRelation(item)">
+								{{handler.$rootScope.translate('btn_remove')}}
+							</md-button>
+						</div>
 					</div>
-					<div class="cb-item-action" layout>
-						<md-button ng-click="handler.editEntity(handler.getRelation(item))" >
-				      {{handler.$rootScope.translate('btn_edit')}}
-				    </md-button>
-
-						<md-button ng-click="handler.removeRelation(item)" >
-					    {{handler.$rootScope.translate('btn_remove')}}
-					  </md-button>
-					</div>
-			    </div>
+				</div>
 			</div>
+			
 
 			<!-- Single -->
 			<div

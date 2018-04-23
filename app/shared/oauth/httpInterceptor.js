@@ -7,7 +7,6 @@ export function cbOAuthRejectExpiredToken($q, $rootScope, cbOAuth) {
       // Inject `Authorization` header.
       if (config.url.indexOf('api/') !== -1 && !config.headers.hasOwnProperty('Authorization')){
         if(!cbOAuth.isAuthenticated()) {
-          // console.log('not authenticated', config, cbOAuth);
           $rootScope.$emit('oauth:error', {
             error: 'not_authorized',
             message: 'You must log in first.',
@@ -26,7 +25,6 @@ export function cbOAuthRejectExpiredToken($q, $rootScope, cbOAuth) {
         }
         config.headers.Authorization = cbOAuth.getAuthorizationHeader();
         if(cbOAuth.accessTokenExpired()) {
-          // console.log('token expired', config, cbOAuth);
           return $q.reject(
             {
               config: config, 
@@ -46,12 +44,9 @@ export function cbOAuthRejectExpiredToken($q, $rootScope, cbOAuth) {
 cbOAuthRejectExpiredToken.$inject = ['$q', '$rootScope', 'cbOAuth'];
 
 export function cbOAuthRefreshExpiredToken($q, $rootScope, cbOAuth) {
-  // console.log('cbOAuthRefreshExpiredToken');
   return {
     requestError: function(rejection) {
       var defered = $q.defer();
-      // console.log('cbOAuthRefreshExpiredToken -> requestError', rejection);
-      // 
       if (rejection.data && 'token_expired' === rejection.data.error) {
 
         if(cbOAuth.refreshingToken) {
@@ -67,13 +62,11 @@ export function cbOAuthRefreshExpiredToken($q, $rootScope, cbOAuth) {
         return defered.promise;
 
         function resolveRefreshToken(response) {
-          // console.log('resolveRefreshToken', response);
           rejection.config.headers.Authorization = cbOAuth.getAuthorizationHeader();
           defered.resolve(rejection.config);
         }
 
         function rejectRefreshToken(response) {
-          // console.log('rejectRefreshToken', response);
           cbOAuth.removeToken();
           $rootScope.$emit('oauth:error', {
             error: 'not_authorized',

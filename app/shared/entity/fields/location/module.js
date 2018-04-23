@@ -12,8 +12,6 @@ import locationHandler from './directives/locationHandler.directive.js';
 
 import ngMap from 'ngmap';
 
-console.log('NGMAP', ngMap);
-
 export default 'app.shared.entity.location';
 
 angular
