@@ -14,6 +14,7 @@
 
 				<!-- Entity Fields -->
 				<entity-field-walker
+					editor="editor"
 					attribute-set="editor.attributeSet"
 					attributes="editor.attributes"
 					entity="editor.model"
@@ -27,24 +28,24 @@
 		</md-content>
 	</md-content>
 
-  <!-- Right Pane -->
-  <md-sidenav
+	<!-- Right Pane -->
+	<md-sidenav
 		class="md-sidenav-right"
 		md-component-id="left"
 		md-is-locked-open="$mdMedia('gt-md')"
 		md-disable-backdrop md-whiteframe="1"
 		md-colors="{background: 'grey-50'}">
 
-    <!-- <md-toolbar class="cb-white cb-border-b">
-      <div class="md-toolbar-tools">
-        <h1 class="md-toolbar-tools"></h1>
-      </div>
-    </md-toolbar> -->
+		<!-- <md-toolbar class="cb-white cb-border-b">
+			<div class="md-toolbar-tools">
+			<h1 class="md-toolbar-tools"></h1>
+			</div>
+		</md-toolbar> -->
 
-    <md-content class="cb-transparent md-padding">
+		<md-content class="cb-transparent md-padding">
 
-      <!-- Entity Status -->
-	    <div class="md-whiteframe-1dp" style="background:#fff;margin-bottom:16px">
+			<!-- Entity Status -->
+			<div class="md-whiteframe-1dp" style="background:#fff;margin-bottom:16px">
 				<md-toolbar class="cb-white">
 					<div class="md-toolbar-tools">
 						<h1>Status</h1>
@@ -105,48 +106,53 @@
 				</md-toolbar>
 				<div layout="column">
 					<md-list>
-			            <md-list-item
-										class="md-2-line md-dense"
-										layout="row"
-										ng-repeat="locale in editor.locales.models"
-										ng-switch="editor.translationType(locale)"
-										ng-class="{selected: editor.ownTranslation(locale)}"
-										ng-click="editor.goToTranslation($event, locale)">
+						<md-list-item
+							class="md-2-line md-dense"
+							layout="row"
+							ng-repeat="locale in editor.locales.models"
+							ng-switch="editor.translationType(locale)"
+							ng-class="{selected: editor.ownTranslation(locale)}"
+							ng-click="editor.goToTranslation($event, locale)">
 
-										<img ng-src="{{editor.getLocaleFlag(locale)}}" class="flag-img" alt="locale.get('name')" />
-										<div class="md-list-item-text" ng-switch-when="selected">
-			                <h3>{{editor.getTitle()}}</h3>
-			                <p>{{editor.getStatus(editor.currentWorkflowPoint)}}</p>
-			              </div>
+							<div class="cb-item-loader busy" ng-show="editor.translations[locale.get('code')] == false">
+								<md-progress-linear md-mode="query"></md-progress-linear>
+							</div>
 
-										<div class="md-list-item-text" ng-switch-when="other">
-			                <h3>{{editor.getTranslationTitle(locale)}}</h3>
-			                <p>{{editor.getStatus(editor.getFullStatus(editor.getTranslation(locale)))}}</p>
-			              </div>
+							<img ng-src="{{editor.getLocaleFlag(locale)}}" class="flag-img" alt="locale.get('name')" />
+							<div class="md-list-item-text" ng-switch-when="selected">
+								<h3>{{editor.getTitle()}}</h3>
+								<p>{{editor.getStatus(editor.currentWorkflowPoint)}}</p>
+							</div>
 
-										<div class="md-list-item-text empty-translation" ng-switch-when="empty">
-			                <h3>
-												<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 72px; height: 16px; display: inline-block; margin: 2px 0;">&nbsp;</span>
-											</h3>
-			                <p>
-												<span style="background: rgba(0,0,0,0.03); border-radius: 50%; width: 14px; height: 14px; display: inline-block; margin: 2px 2px 2px 0;">&nbsp;</span>
-												<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 35px; height: 14px; display: inline-block; margin: 2px 2px 2px 0;">&nbsp;</span>
-												<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 28px; height: 14px; display: inline-block; margin: 2px 0 2px 0;">&nbsp;</span>
-											</p>
-			              </div>
+							<div class="md-list-item-text" ng-switch-when="other">
+								<h3>{{editor.getTranslationTitle(locale)}}</h3>
+								<p>{{editor.getStatus(editor.getFullStatus(editor.getTranslation(locale)))}}</p>
+							</div>
 
-										<md-button
-											class="md-fab md-mini md-secondary"
-											aria-label="Translate to {{locale.attributes.code}}"
-											ng-if="editor.translationType(locale) == 'empty'"
-											ng-click="editor.goToTranslation($event, locale)">
-											<md-icon class="material-icons">add</md-icon>
-										</md-button>
-			            </md-list-item>
+							<div class="md-list-item-text empty-translation" ng-switch-when="empty">
+								<h3>
+									<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 72px; height: 16px; display: inline-block; margin: 2px 0;">&nbsp;</span>
+								</h3>
+								<p>
+									<span style="background: rgba(0,0,0,0.03); border-radius: 50%; width: 14px; height: 14px; display: inline-block; margin: 2px 2px 2px 0;">&nbsp;</span>
+									<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 35px; height: 14px; display: inline-block; margin: 2px 2px 2px 0;">&nbsp;</span>
+									<span style="background: rgba(0,0,0,0.03); border-radius: 2px; width: 28px; height: 14px; display: inline-block; margin: 2px 0 2px 0;">&nbsp;</span>
+								</p>
+							</div>
+
+							<md-button
+								class="md-fab md-mini md-secondary"
+								aria-label="Translate to {{locale.attributes.code}}"
+								ng-if="editor.translationType(locale) == 'empty'"
+								ng-click="editor.goToTranslation($event, locale)"
+								ng-show="editor.translations[locale.get('code')] != false">
+								<md-icon class="material-icons">add</md-icon>
+							</md-button>
+						</md-list-item>
 					</md-list>
 				</div>
 			</div>
-    </md-content>
-  </md-sidenav>
+		</md-content>
+	</md-sidenav>
 
 </div>

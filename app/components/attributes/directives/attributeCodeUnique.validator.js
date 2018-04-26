@@ -11,6 +11,17 @@
 /**
  * ngInject
  */
+
+function ctrl($scope, $attrs, $parse) {
+  this.modelGet = $parse($attrs.AttributeCodeUnique);
+}
+
+ctrl.$inject = [
+  '$scope',
+  '$attrs',
+  '$parse'
+];
+
 export default function AttributeCodeUnique(AttributeRepository, $q, $parse){
   return {
     restrict: 'A',
@@ -68,14 +79,6 @@ export default function AttributeCodeUnique(AttributeRepository, $q, $parse){
     }
   }
 
-  function ctrl($scope, $attrs) {
-    this.modelGet = $parse($attrs.AttributeCodeUnique);
-  }
-
-  ctrl.$inject = [
-    '$scope',
-    '$attrs'
-  ];
 }
 
 AttributeCodeUnique.$inject = [

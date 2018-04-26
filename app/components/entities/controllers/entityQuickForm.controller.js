@@ -38,15 +38,9 @@ export default class EntityQuickFormController {
     var qf = this;
     qf.getEditor();
 
-    qf.$rootScope.$on('editor.entitySaved', function(event, editor, entity){
+    qf.$rootScope.$on('entitySaved', function(event, editor, entity){
       if(editor == qf.editor) {
-        qf.model = entity;
-        // ctrl.optionsMenuItems = ctrl.getOptionsMenuItems();
-        qf.getEditor();
-        qf.EntityQuickForm.resolve(qf.instance, entity);
-        // qf.$scope.$emit('quickFormSaved', qf.instance, entity);
-
-        // qf._close();
+        qf.EntityQuickForm.resolve(qf.instance, qf.model);
       }
     });
   }

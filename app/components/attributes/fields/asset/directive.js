@@ -26,8 +26,6 @@ export default function AssetFieldEditorDirective(){
     controller: 'AssetFieldEditorController',
     controllerAs: 'fieldCtrl',
     link: function(scope, element, attrs, ctrls) {
-        var attrEditorCtrl = ctrls[0];
-        var ctrl = ctrls[1];
     }
   };
 }

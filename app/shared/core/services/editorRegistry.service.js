@@ -103,7 +103,7 @@ export default function EditorRegistry($log, $q) {
 
   function identity(model){
     if(isValidModel(model)){
-      return model.isNew() ? model.cid : model.id;
+      return model.cid;
     }
     return model;
   }

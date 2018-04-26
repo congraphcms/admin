@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index",
-    "build": "webpack -d --config webpack.production.config.js"
+    "build": "webpack -p --config webpack.production.config.js"
   },
   "keywords": [
     "congraph",
@@ -66,6 +66,7 @@
     "postcss-loader": "^2.0.10",
     "precss": "^3.1.0",
     "sass-loader": "^6.0.6",
+    "source-map-loader": "^0.2.3",
     "style-loader": "^0.19.1",
     "uglifyjs-webpack-plugin": "^1.2.2",
     "webpack": "^3.11.0",

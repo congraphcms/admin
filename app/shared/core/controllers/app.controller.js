@@ -10,7 +10,8 @@ export default class AppController{
     $rootScope,
     $state,
     $timeout,
-    $location
+    $location,
+    $mdSidenav
     // ngDialog,
     // entityTypes,
     // attributeSets,
@@ -24,6 +25,7 @@ export default class AppController{
     vm.locales = locales;
     vm.appSidenavService = appSidenavService;
     vm.$location = $location;
+    vm.$mdSidenav = $mdSidenav;
 
     // models
     // vm.entityTypes = entityTypes;
@@ -72,7 +74,7 @@ export default class AppController{
 
     $rootScope.$on('$stateChangeSuccess', handleStateChangeSuccess);
     function handleStateChangeSuccess(event, toState, toParams, fromState, fromParams) {
-      vm.appSidenavService.close();
+      vm.$mdSidenav('appSidenav').close();
       DEBUG && console.log('$stateChangeSuccess', toState, fromState);
       // window.ga('send', 'pageview', vm.$location.path());
     }
@@ -160,7 +162,8 @@ AppController.$inject = [
   '$rootScope',
   '$state',
   '$timeout',
-  '$location'
+  '$location',
+  '$mdSidenav'
   // 'ngDialog',
   // 'entityTypes',
   // 'attributeSets',

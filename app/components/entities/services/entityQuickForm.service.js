@@ -14,7 +14,7 @@ import './../styles/quickForm.scss';
 import angular from 'angular';
 import template from './../views/quickForm.tmpl.html';
 
-export default function EntityQuickForm($log, $q, $compile) {
+export default function EntityQuickForm(AttributesService, LocalesService, $log, $q, $compile) {
 
   var self;
   var instances = [];
@@ -51,6 +51,8 @@ export default function EntityQuickForm($log, $q, $compile) {
     },
 
     open: function(options) {
+      var self = this;
+
       options = options || {};
       // if(!options.parent) {
       //   throw new Error('Can not open quick form without parent element defined in options');
@@ -64,43 +66,55 @@ export default function EntityQuickForm($log, $q, $compile) {
         throw new Error('Can not open quick form without model in options');
       }
 
-      if(!options.attributes) {
-        throw new Error('Can not open quick form without attributes defined in options');
-      }
-
       if(!options.attributeSet) {
         throw new Error('Can not open quick form without attribute set defined in options');
       }
 
+      // if(!options.attributes) {
+      //   throw new Error('Can not open quick form without attributes defined in options');
+      // }
+
       if(!options.contentModel) {
         throw new Error('Can not open quick form without content model defined in options');
       }
-      if(!options.locales) {
-        throw new Error('Can not open quick form without locales defined in options');
-      }
+      // if(!options.locales) {
+      //   throw new Error('Can not open quick form without locales defined in options');
+      // }
       if(!options.locale) {
         throw new Error('Can not open quick form without locale defined in options');
       }
+
       var instance = {
         // parent: options.parent,
         scope: options.scope,
         model: options.model,
         attributeSet: options.attributeSet,
-        attributes: options.attributes,
+        // attributes: options.attributes,
         contentModel: options.contentModel,
         defered: $q.defer(),
-        locales: options.locales,
+        // locales: options.locales,
         locale: options.locale
       };
 
       instance.scope.model = instance.model;
       instance.scope.attributeSet = instance.attributeSet;
-      instance.scope.attributes = instance.attributes;
+      // instance.scope.attributes = instance.attributes;
       instance.scope.contentModel = instance.contentModel;
-      instance.scope.locales = instance.locales;
+      // instance.scope.locales = instance.locales;
       instance.scope.locale = instance.locale;
 
-      this._renderInstance(instance);
+      var localesPromise = LocalesService.getAll().then(function(locales){
+        instance.locales = locales;
+        instance.scope.locales = locales;
+      });
+      var attributesPromise = AttributesService.getAll().then(function(attributes){
+        instance.attributes = attributes;
+        instance.scope.attributes = attributes;
+      });
+
+      $q.all([localesPromise, attributesPromise]).then(function(){
+        self._renderInstance(instance);
+      });
 
       return instance.defered.promise;
     },
@@ -142,7 +156,7 @@ export default function EntityQuickForm($log, $q, $compile) {
       instances.splice(-1, 1);
       this.level--;
       if(instances.length > 0) {
-        this.parent = instances[instances.length - 1].element.find('.quick-form-backdrop');
+        this.parent = instances[instances.length - 1].element;
       } else {
         this.parent = false;
       }
@@ -217,6 +231,8 @@ export default function EntityQuickForm($log, $q, $compile) {
 }
 
 EntityQuickForm.$inject = [
+  'AttributesService',
+  'LocalesService',
   '$log',
   '$q',
   '$compile'

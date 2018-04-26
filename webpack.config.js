@@ -1,5 +1,6 @@
 const TARGET = process.env.npm_lifecycle_event;
 console.log("target event is " + TARGET);
+const webpack = require('webpack');
 
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
@@ -11,4 +12,9 @@ module.exports = merge(common, {
   entry: {
     app: [ 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=10000' ],
   },
+
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ]
 });

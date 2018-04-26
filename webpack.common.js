@@ -24,6 +24,7 @@ module.exports = {
     },
 
     output: {
+        // sourceMapFilename: "[name].js.map",
         path: distPath,
         filename: '[name].js',
         publicPath: '/dist/'
@@ -103,7 +104,8 @@ module.exports = {
                         options: {
                             presets: ['es2015']
                         }
-                    }
+                    },
+                    'source-map-loader'
                 ]
             },
 
@@ -163,7 +165,8 @@ module.exports = {
                 use: {
                     loader: 'html-loader',
                     options: {
-                        attrs: false
+                        attrs: false,
+                        minimize: true
                     }
                 }
             }
@@ -171,14 +174,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
         new CopyWebpackPlugin(
             [
                 {
                     context: './node_modules/tinymce/', // Copy all TinyMCE related files
                     from: '**/*',
-                    debug: 'debug'
+                    // debug: 'debug'
                 }
             ],
             {

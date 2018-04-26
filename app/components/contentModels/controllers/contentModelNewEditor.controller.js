@@ -7,7 +7,8 @@ export default class ContentModelNewEditorController {
   constructor(
     EntityTypeRepository,
     WorkflowRepository, 
-    EditorRegistry, 
+    EditorRegistry,
+    $mdToast,
     $mdDialog, 
     $scope, 
     $rootScope, 
@@ -25,6 +26,7 @@ export default class ContentModelNewEditorController {
 
     vm.form = $element.controller('form');
 
+    vm.$mdToast = $mdToast;
     vm.$attrs = $attrs;
     vm.$element = $element;
     vm.$scope = $scope;
@@ -119,10 +121,26 @@ export default class ContentModelNewEditorController {
       vm.form.$setDirty(false);
       vm.form.$setPristine(true);
 
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('Content model successfully saved.')
+          .position('top right')
+          .theme('success-toast')
+          .parent(vm.$element)
+      );
+
       return result;
 
     }, function(errors){
       console.error("SAVE ENTITY TYPE ERROR", errors);
+
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('Content model not saved. There was an error.')
+          .position('top right')
+          .theme('error-toast')
+          .parent(vm.$element)
+      );
 
       vm.busy = false;
 
@@ -136,7 +154,8 @@ export default class ContentModelNewEditorController {
 ContentModelNewEditorController.$inject = [
   'EntityTypeRepository',
   'WorkflowRepository', 
-  'EditorRegistry', 
+  'EditorRegistry',
+  '$mdToast',
   '$mdDialog', 
   '$scope', 
   '$rootScope', 

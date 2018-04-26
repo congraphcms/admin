@@ -8,6 +8,7 @@ export default class UserEditorController {
     EditorRegistry,
     UserRepository,
     RoleCollection,
+    $mdToast,
     $attrs,
     $element,
     $scope,
@@ -24,6 +25,7 @@ export default class UserEditorController {
 
     vm.form = $element.controller('form');
 
+    vm.$mdToast = $mdToast;
     vm.$attrs = $attrs;
     vm.$element = $element;
     vm.$scope = $scope;
@@ -115,10 +117,28 @@ export default class UserEditorController {
       vm.busy = false;
       vm.form.$setDirty(false);
       vm.form.$setPristine(true);
+
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('User successfully saved.')
+          .position('top right')
+          .theme('success-toast')
+          .parent(vm.$element)
+      );
+
+
       return result;
 
     }, function(errors){
       console.error("SAVE USER ERROR", errors);
+
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('User not saved. There was an error.')
+          .position('top right')
+          .theme('error-toast')
+          .parent(vm.$element)
+      );
 
       vm.busy = false;
 
@@ -145,6 +165,7 @@ UserEditorController.$inject = [
   'EditorRegistry',
   'UserRepository',
   'RoleCollection',
+  '$mdToast',
   '$attrs',
   '$element',
   '$scope',

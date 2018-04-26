@@ -11,6 +11,15 @@
 /**
  * ngInject
  */
+function ctrl($scope, $attrs, $parse) {
+  this.modelGet = $parse($attrs.localeCodeUnique);
+}
+
+ctrl.$inject = [
+  '$scope',
+  '$attrs',
+  '$parse'
+];
 export default function LocaleCodeUniqueValidator(LocaleRepository, $q, $parse){
   return {
     restrict: 'A',
@@ -67,14 +76,6 @@ export default function LocaleCodeUniqueValidator(LocaleRepository, $q, $parse){
     }
   }
 
-  function ctrl($scope, $attrs) {
-    this.modelGet = $parse($attrs.localeCodeUnique);
-  }
-
-  ctrl.$inject = [
-    '$scope',
-    '$attrs'
-  ];
 }
 
 LocaleCodeUniqueValidator.$inject = [

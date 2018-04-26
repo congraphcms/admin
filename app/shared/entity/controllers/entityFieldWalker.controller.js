@@ -18,7 +18,7 @@ export default class EntityFieldWalkerController{
     walker.init();
 
     walker.$rootScope.$on('entitySaved', function (event, editor, model) {
-      if (model.get('id') == walker.entity.get('id')) {
+      if (editor == walker.editor) {
         walker.entity = model;
       }
     });

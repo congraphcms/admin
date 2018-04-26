@@ -1,0 +1,167 @@
+/*!
+ * Angular Material Design
+ * https://github.com/angular/material
+ * @license MIT
+ * v1.1.0-rc.5
+ */
+/*  Only used with Theme processes */
+html.md-THEME_NAME-theme, body.md-THEME_NAME-theme {
+  color: '{{foreground-1}}';
+  background-color: '{{background-color}}'; }
+
+cb-field {
+
+  width: 100%;
+  max-width: 960px;
+  box-sizing: border-box;
+  background: #fff;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 16px 0;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+cb-field cb-field-title {
+  min-width: 33.33%;
+  max-width: 33.33%;
+  box-sizing: border-box;
+  padding: 24px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-order: 1;
+      order: 1;
+}
+
+cb-field cb-field-title h2, cb-field cb-field-title h3, cb-field cb-field-title h4 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.010em;
+  margin: 0;
+  line-height: 1.2em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-top: 4px;
+  padding-bottom: 1px;
+  line-height: 26px;
+}
+
+cb-field cb-field-title p {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.010em;
+  margin: 0 0 0 0;
+  line-height: 1.6em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+cb-field cb-field-input {
+  box-sizing: border-box;
+  display: block;
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+  -ms-flex-order: 2;
+      order: 2;
+  padding: 24px 0;
+  max-width: 47%;
+}
+
+cb-field cb-field-input md-input-container {
+  margin-top: 0;
+  vertical-align: top;
+}
+
+cb-field cb-field-input md-input-container:last-child {
+  margin-bottom: 0;
+}
+cb-field cb-field-actions {
+  min-width: 20%;
+  max-width: 20%;
+  box-sizing: border-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: end;
+      justify-content: flex-end;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-order: 3;
+      order: 3;
+  padding: 24px;
+}
+
+cb-field cb-field-actions .md-button:not(.md-icon-button) {
+  margin: 2px 0;
+}
+
+cb-field cb-field-actions .md-button:not(.md-icon-button):first-of-type {
+  margin-top: 0;
+}
+
+cb-field cb-field-actions .md-button:not(.md-icon-button):last-of-type {
+  margin-bottom: 0;
+}
+
+cb-field cb-field-actions .md-button.md-icon-button {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+cb-field.complex cb-field-title {
+  -ms-flex-order: 1;
+  order: 1;
+}
+
+cb-field.complex cb-field-input {
+  min-width: 100%;
+  max-width: 100%;
+  -ms-flex-order: 3;
+      order: 3;
+  background: #eee;
+  padding: 0;
+}
+cb-field.complex cb-field-input md-input-container {
+  margin: 12px 24px;
+}
+
+cb-field.complex cb-field-input md-input-container:first-of-type {
+  margin-top: 24px;
+}
+
+cb-field.complex cb-field-input md-input-container:last-of-type {
+  margin-bottom: 24px;
+}
+
+cb-field.complex cb-field-actions {
+  min-width: 66.66%;
+  max-width: 66.66%;
+  -ms-flex-order: 2;
+      order: 2;
+}
+
+cb-field.complex.cb-field-error div[ng-messages] {
+  padding: 24px;
+  background: #ffebee;
+  font-size: 12px;
+  line-height: 14px;
+  color: rgb(221,44,0);
+}
+
+.validation-messages {
+  font-size: 12px;
+  line-height: 14px;
+  color: rgb(221,44,0);
+}
+
+@media screen and (-ms-high-contrast: active) {
+  cb-field {
+    border: 1px solid #fff;
+  }
+}

@@ -28,8 +28,8 @@ export default function EntityQuickFormDirective($timeout){
       attributes: "=",
       contentModel: "=",
       instance: "=",
-      locales: "=",
-      locale: "="
+      // locales: "=",
+      // locale: "="
     },
     controller: 'EntityQuickFormController',
     controllerAs: 'qf',

@@ -15,7 +15,9 @@ export default class AppHeaderController {
     $document, 
     OAuth, 
     appSidenavService,
-    $mdMedia) {
+    $mdMedia,
+    $mdSidenav
+  ) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -30,6 +32,7 @@ export default class AppHeaderController {
     vm.appSidenavService = appSidenavService;
 
     vm.$mdMedia = $mdMedia;
+    vm.$mdSidenav= $mdSidenav;
 
     angular.forEach(BOUND_CTRL_METHODS, function(methodName) {
       vm[methodName] = angular.bind(vm, vm[methodName]);
@@ -41,10 +44,10 @@ export default class AppHeaderController {
   init() {
     var vm = this;
 
-    // // make sure to get instance
-    vm.appSidenavService.then(function(result){
+    // // // make sure to get instance
+    // vm.appSidenavService.then(function(result){
       
-    });
+    // });
 
     // get settingsMenuItems
     vm.settingsMenuItems = vm.getSettingsMenuItems();
@@ -87,7 +90,8 @@ export default class AppHeaderController {
   }
 
   appSidenavToggle() {
-    this.appSidenavService.toggle();
+    // this.appSidenavService.toggle();
+    this.$mdSidenav('appSidenav').toggle();
   }
 
   logout() {
@@ -112,5 +116,6 @@ AppHeaderController.$inject = [
   '$document',
   'cbOAuth',
   'appSidenavService',
-  '$mdMedia'
+  '$mdMedia',
+  '$mdSidenav'
 ];

@@ -6,7 +6,8 @@ import angular from 'angular';
 export default class UserPasswordEditorController {
   constructor(
     EditorRegistry, 
-    UserRepository, 
+    UserRepository,
+    $mdToast,
     $attrs, 
     $element, 
     $scope, 
@@ -22,6 +23,7 @@ export default class UserPasswordEditorController {
 
     vm.form = $element.controller('form');
 
+    vm.$mdToast = $mdToast;
     vm.$attrs = $attrs;
     vm.$element = $element;
     vm.$scope = $scope;
@@ -69,10 +71,28 @@ export default class UserPasswordEditorController {
       vm.busy = false;
       vm.form.$setDirty(false);
       vm.form.$setPristine(true);
+
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('Password successfully saved.')
+          .position('top right')
+          .theme('success-toast')
+          .parent(vm.$element)
+      );
+
+
       return result;
 
     }, function(errors){
       console.error("SAVE USER PASSWORD ERROR", errors);
+
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('Password not saved. There was an error.')
+          .position('top right')
+          .theme('error-toast')
+          .parent(vm.$element)
+      );
 
       vm.busy = false;
 
@@ -86,6 +106,7 @@ export default class UserPasswordEditorController {
 UserPasswordEditorController.$inject = [
   'EditorRegistry',
   'UserRepository',
+  '$mdToast',
   '$attrs', 
   '$element', 
   '$scope',

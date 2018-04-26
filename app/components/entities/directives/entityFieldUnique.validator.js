@@ -16,6 +16,16 @@
 /**
  * ngInject
  */
+function ctrl($scope, $attrs, $parse) {
+  this.modelGet = $parse($attrs.entityFieldUnique);
+  this.attributeGet = $parse($attrs.entityFieldAttribute);
+}
+
+ctrl.$inject = [
+  '$scope',
+  '$attrs',
+  '$parse'
+];
 export default function EntityFieldUniqueValidator(EntityRepository, $q, $parse){
 
   return {
@@ -83,15 +93,6 @@ export default function EntityFieldUniqueValidator(EntityRepository, $q, $parse)
     }
   }
 
-  function ctrl($scope, $attrs) {
-    this.modelGet = $parse($attrs.entityFieldUnique);
-    this.attributeGet = $parse($attrs.entityFieldAttribute);
-  }
-
-  ctrl.$inject = [
-    '$scope',
-    '$attrs'
-  ];
 }
 
 EntityFieldUniqueValidator.$inject = [

@@ -8,6 +8,7 @@ export default class EntityEditorController{
     EntityRepository,
     fieldTypes,
     fieldSelection,
+    $mdToast,
     $attrs,
     $element,
     $scope,
@@ -26,6 +27,7 @@ export default class EntityEditorController{
 
     editor.form = $element.controller('form');
 
+    editor.$mdToast = $mdToast;
     editor.$attrs = $attrs;
     editor.$element = $element;
     editor.$scope = $scope;
@@ -46,6 +48,8 @@ export default class EntityEditorController{
       color: editor.getStatusColor(editor.currentWorkflowPoint)
     };
 
+    editor.id = Math.floor(Math.random() * 101);
+
     editor.init();
   }
 
@@ -60,6 +64,8 @@ export default class EntityEditorController{
         editor.busy = true;
       }
     });
+
+    editor.loadingTranslations = true;
 
     editor.getTranslations();
 
@@ -143,6 +149,8 @@ export default class EntityEditorController{
   save(point) {
     var editor = this;
 
+    console.log('save model', editor.id);
+
     editor.form.$setDirty(true);
     editor.form.$setSubmitted(true);
 
@@ -164,6 +172,7 @@ export default class EntityEditorController{
       // result.setEntityType(editor.model.get('entity_type'));
       // editor.deregister();
       editor.model.importFields(result);
+      editor.model.set('id', result.get('id'));
       editor.model.set('status', result.get('status'));
 
       editor.getTranslations();
@@ -176,11 +185,26 @@ export default class EntityEditorController{
       editor.statusColor = {color: editor.getStatusColor(editor.currentWorkflowPoint)};
       editor.form.$setPristine(true);
 
+      editor.$mdToast.show(
+        editor.$mdToast.simple()
+          .textContent(editor.attributeSet.get('name') + ' successfully saved.')
+          .position('top right')
+          .theme('success-toast')
+          .parent(editor.$element)
+      );
       editor.$rootScope.$broadcast('entitySaved', editor, editor.model);
+
 
       return editor.model;
     }, function(errors){
       console.error("SAVE ENTITY ERROR", errors);
+      editor.$mdToast.show(
+        editor.$mdToast.simple()
+          .textContent(editor.attributeSet.get('name') + ' not saved. There was an error.')
+          .position('top right')
+          .theme('error-toast')
+          .parent(editor.$element)
+      );
       editor.busy = false;
       return errors;
     });
@@ -203,6 +227,7 @@ export default class EntityEditorController{
   getTranslations() {
     var editor = this;
     editor.translations = {};
+    editor.loadingTranslations = {};
 
     _.each(editor.locales.models, function(locale){
       if(locale.get('code') == editor.model.get('locale')) {
@@ -291,7 +316,7 @@ export default class EntityEditorController{
       return;
     }
     editor.deregister();
-    editor.$state.go('^.edit', {locale: locale.get('code'), attributeSet: editor.model.attributes.attribute_set.attributes.code}, { reload: true });
+    editor.$state.go('^.edit', {locale: locale.get('code'), attributeSet: editor.model.attributes.attribute_set.attributes.code}, { reload: false });
   }
 
   getLocaleISOName(locale) {
@@ -313,6 +338,7 @@ EntityEditorController.$inject = [
   'EntityRepository',
   'fieldTypes',
   'fieldSelection',
+  '$mdToast',
   '$attrs',
   '$element',
   '$scope',

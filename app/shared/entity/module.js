@@ -6,7 +6,7 @@
  * Entity Fields (attributes)
  */
 
-require("./field.css");
+require("./field.scss");
 
 import ngMaterial from 'angular-material';
 import ngMessages from 'angular-messages';

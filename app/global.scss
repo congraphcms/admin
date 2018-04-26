@@ -167,3 +167,25 @@ code {
 		padding: 0 8px;
 	}
 }
+
+
+// TOAST Themeing
+md-toast.md-success-toast-theme {
+    .md-toast-content {
+        background-color: #00C853
+;
+    }
+}
+
+md-toast.md-error-toast-theme {
+    .md-toast-content {
+		// background-color: #BF360C;
+		background-color: #D50000;
+    }
+}
+
+md-toast.md-info-toast-theme {
+    .md-toast-content {
+        background-color: #2962FF;
+    }
+}

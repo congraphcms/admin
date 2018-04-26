@@ -9,6 +9,7 @@ export default class AttributeEditorController {
     AttributeRepository, 
     fieldTypes, 
     fieldSelection,
+    $mdToast,
     $attrs, 
     $element, 
     $scope, 
@@ -28,6 +29,7 @@ export default class AttributeEditorController {
 
     vm.form = $element.controller('form');
 
+    vm.$mdToast = $mdToast;
     vm.$attrs = $attrs;
     vm.$element = $element;
     vm.$scope = $scope;
@@ -316,8 +318,28 @@ export default class AttributeEditorController {
       vm.busy = false;
       vm.form.$setDirty(false);
       vm.form.$setPristine(true);
+
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('Attribute successfully saved.')
+          .position('top right')
+          .theme('success-toast')
+          .parent(vm.$element)
+      );
+
+
       return result;
     }, function(errors){
+
+      console.error("SAVE ATTRIBUTE ERROR", errors);
+
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('Attribute not saved. There was an error.')
+          .position('top right')
+          .theme('error-toast')
+          .parent(vm.$element)
+      );
 
       vm.busy = false;
       return errors;
@@ -344,6 +366,7 @@ AttributeEditorController.$inject = [
   'AttributeRepository',
   'fieldTypes',
   'fieldSelection',
+  '$mdToast',
   '$attrs', 
   '$element', 
   '$scope',

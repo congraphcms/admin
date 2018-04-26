@@ -14,6 +14,7 @@ export default class EntityFormController {
     EntityQuickForm,
     AppSettings,
     $mdDialog,
+    $mdToast,
     $element,
     $scope,
     $rootScope,
@@ -36,6 +37,7 @@ export default class EntityFormController {
     vm.EntityTypesService = EntityTypesService;
 
     vm.$mdDialog = $mdDialog;
+    vm.$mdToast = $mdToast;
     vm.$element = $element;
     vm.$scope = $scope;
     vm.$rootScope = $rootScope;
@@ -64,29 +66,6 @@ export default class EntityFormController {
       
     });
   }
-
-  // openEntityQuickForm(formSettings) {
-  //   var self = this;
-  //   formSettings.parent = self.$element;
-  //   formSettings.scope = self.$scope.$new();
-
-  //   var instance = self.EntityQuickForm.open(formSettings);
-
-  //   var deregister = self.$scope.$on('quickFormSaved', function(event, inst, entity){
-  //     if(instance != inst) {
-  //       return;
-  //     }
-
-  //     deregister();
-  //     deregister = null;
-
-  //     self.$scope.$broadcast('quickFormSaved', formSettings.model, entity);
-  //   });
-
-  //   // self.$timeout(function(){
-  //   //   self.EntityQuickForm.close(qForm);
-  //   // }, 3000);
-  // }
 
   getLocale() {
     var vm = this;
@@ -284,6 +263,7 @@ EntityFormController.$inject = [
   'EntityQuickForm',
   'AppSettings',
   '$mdDialog',
+  '$mdToast',
   '$element',
   '$scope',
   '$rootScope',

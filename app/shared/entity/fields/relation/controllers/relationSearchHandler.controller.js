@@ -8,7 +8,9 @@ export default class RelationSearchHandlerController {
     AttributeSetsService,
     EntityTypesService,
     EntityModel,
+    EntityTypeCollection,
     ChooseSetService,
+    ChooseEntityTypeService,
     EntityQuickForm,
     AppSettings,
     fieldTypes,
@@ -35,7 +37,9 @@ export default class RelationSearchHandlerController {
     handler.AttributeSetsService = AttributeSetsService;
     handler.EntityTypesService = EntityTypesService;
     handler.EntityModel = EntityModel;
+    handler.EntityTypeCollection = EntityTypeCollection;
     handler.ChooseSetService = ChooseSetService;
+    handler.ChooseEntityTypeService = ChooseEntityTypeService;
     handler.EntityQuickForm = EntityQuickForm;
     handler.AppSettings = AppSettings;
     handler.fieldTypes = fieldTypes;
@@ -432,17 +436,19 @@ export default class RelationSearchHandlerController {
     var defaultLocale = handler.locales.findWhere({ id: parseInt(handler.AppSettings.APP.DEFAULT_LOCALE) });
     var relationLocale = null;
     var relationDefaultLocale = null;
-    var relationFallbackLocale = null;
-    _.each(status, function (value, key) {
+    var relationFallbackLocale = defaultLocale.get('code');
+    if(status && _.isObject(status)) {
+      _.each(status, function (value, key) {
 
-      if (key == localeCode) {
-        relationLocale = localeCode;
-      }
-      if (key == defaultLocale.get('code')) {
-        relationDefaultLocale = key;
-      }
-      relationFallbackLocale = key;
-    });
+        if (key == localeCode) {
+          relationLocale = localeCode;
+        }
+        if (key == defaultLocale.get('code')) {
+          relationDefaultLocale = key;
+        }
+        relationFallbackLocale = key;
+      });
+    }
 
     if (relationLocale) {
       return relationLocale;
@@ -457,54 +463,136 @@ export default class RelationSearchHandlerController {
 
   createNew() {
     var handler = this;
+    
     // get content model
-    var entityTypeId = handler.allowedTypes[0];
     var contentModel = false;
-    var cmPromise = handler.EntityTypesService.getById(entityTypeId).then(function (type) {
-      contentModel = type;
-    });
+
+    // create defered object
+    var cmDeferred = handler.$q.defer();
+    // define promise for resolving content model
+    var cmPromise = cmDeferred.promise;
+
+    // if there is restriction for allowed entity type and
+    // only one type is allowed, we don't need to ask user to choose type
+    if(_.isArray(handler.allowedTypes) && handler.allowedTypes.length == 1) {
+      // type of the new entity will be defined by allowed type
+      var entityTypeId = handler.allowedTypes[0];
+
+      // resolve promise when service finds that entity type
+      handler.EntityTypesService.getById(entityTypeId).then(function (type) {
+        contentModel = type;
+        cmDeferred.resolve(type);
+      });
+
+    } else {
+      // in any other case we need to ask user to choose the type
+
+      // get all entity types
+      handler.EntityTypesService.getAll().then(function(types) {
+        
+        // narrow the choice if there are any limitations for the types allowed
+        if(_.isArray(handler.allowedTypes) && handler.allowedTypes.length > 1) {
+          var newTypes = [];
+          // filter entity types
+          _.each(types.models, function(t) {
+            if (_.indexOf(handler.allowedTypes, t.get('id')) > -1) {
+              newTypes.push(t);
+            }
+          });
+          types = new handler.EntityTypeCollection(newTypes);
+        }
+
+        // now let the user choose the type
+        handler.ChooseEntityTypeService.choose(types).then(function(type){
+          contentModel = type;
+
+          // resolve content model promise
+          cmDeferred.resolve(contentModel);
+        });
+      })
+    }
 
 
     // get attribute sets
     var attributeSets = false;
     var attributeSet = false;
-    var asPromise = handler.AttributeSetsService.getByType(entityTypeId).then(function (sets) {
-      attributeSets = sets;
+    // define a promise for 
+    var asDefered = handler.$q.defer();
+    var asPromise = asDefered.promise;
+
+    // when the entity type is chosen we need to select attribute set
+    cmPromise.then(function(type) {
+      // get all attribute sets for the chosen type
+      handler.AttributeSetsService.getByType(type.get('id')).then(function (sets) {
+        // let user choose the set
+        handler.ChooseSetService.choose(sets, type).then(function(set) {
+          // resolve attribute set
+          attributeSet = set;
+          asDefered.resolve(set);
+        });
+      });
     });
 
-    handler.$q.all([cmPromise, asPromise]).then(function () {
-      // open modal for attribute set choice
-      handler.ChooseSetService.choose(attributeSets, contentModel)
-        .then(
-          function (set) {
-            attributeSet = set;
-            // create form settings (model, attribute set, content model)
-            var model = new handler.EntityModel();
-            model.setEntityType(contentModel);
-            model.setAttributeSet(attributeSet);
-            var defaultPoint = contentModel.get('default_point');
-            var status = defaultPoint.get('status');
-            model.set('status', status);
-            var formSettings = {
-              model: model,
-              attributeSet: attributeSet,
-              contentModel: contentModel,
-              scope: handler.$scope.$new()
-            };
+    // when we have a chosen set and chosen type
+    // we can open the quick form
+    asPromise.then(function (set) {
 
-            handler.EntityQuickForm.open(formSettings).then(
-              function (payload) {
-                handler.selectedItems = [payload];
-                handler.handleSelection();
-              },
-              function (msg) {
-              }
-            );
-          }, function () {
-            return;
+      // create form settings (model, attribute set, content model)
+
+      // create new model
+      var model = new handler.EntityModel();
+
+      // set entity type for the model
+      model.setEntityType(contentModel);
+
+      // set attribute set for the model
+      model.setAttributeSet(attributeSet);
+
+      // set the default status for the model
+      var defaultPoint = contentModel.get('default_point');
+      var status = defaultPoint.get('status');
+      model.set('status', status);
+
+      // if type is localized set the default locale for the model
+      var locale = null;
+      if(contentModel.get('localized')) {
+        
+        locale = handler.getRelationLocale(model);
+        model.set('locale', locale);
+      }
+
+      // define form settings
+      var formSettings = {
+        model: model,
+        attributeSet: attributeSet,
+        contentModel: contentModel,
+        locale: locale,
+        scope: handler.$scope.$new()
+      };
+
+      // open the quick form
+      handler.EntityQuickForm.open(formSettings).then(
+          function (payload) {
+            handler.loadAllLocalesForRelation(payload).then(function(relation){
+              // when the new relation is created set it as selected relation
+              handler.selectedItems = [relation];
+              handler.handleSelection();
+            });
+          },
+          function (msg) {
+            // exit
           }
         );
+    }, function () {
+      // We don't need to do anything
+      // user have changed it's mind
+      return;
     });
+  }
+
+  loadAllLocalesForRelation(model) {
+    var handler = this;
+    return handler.EntityRepository.get(model.get('id'));
   }
 
   addRelation() {
@@ -568,7 +656,9 @@ RelationSearchHandlerController.$inject = [
   'AttributeSetsService',
   'EntityTypesService',
   'EntityModel',
+  'EntityTypeCollection',
   'ChooseSetService',
+  'ChooseEntityTypeService',
   'EntityQuickForm',
   'AppSettings',
   'fieldTypes',

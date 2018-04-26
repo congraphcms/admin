@@ -22,6 +22,7 @@ import uiRouter from 'angular-ui-router';
 import ngMaterial from 'angular-material';
 import angularDebounce from 'angular-debounce';
 import CoreRouterConfig from './router.js';
+import MaterialThemingConfig from './materialTheming.js';
 
 import AppController from './controllers/app.controller.js';
 import EditorRegistry from './services/editorRegistry.service.js';
@@ -69,4 +70,5 @@ angular
   ])
   .controller('AppController', AppController)
   .factory('EditorRegistry', EditorRegistry)
-  .config(CoreRouterConfig);
+  .config(CoreRouterConfig)
+  .config(MaterialThemingConfig);

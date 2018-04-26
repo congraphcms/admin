@@ -29,7 +29,8 @@ function EntityFieldWalker(){
       contentModel: "=",
       form: "=",
       locale: "=",
-      locales: "="
+      locales: "=",
+      editor: "="
     },
     controller: 'EntityFieldWalkerController',
     controllerAs: 'walker',

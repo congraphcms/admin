@@ -9,6 +9,17 @@
 /**
  * ngInject
  */
+function ctrl($scope, $attrs, $parse) {
+  this.modelGet = $parse($attrs.userEmailUnique);
+}
+
+ctrl.$inject = [
+  '$scope',
+  '$attrs',
+  '$parse'
+];
+
+
 export default function UserEmailUniqueValidator(UserRepository, $q, $parse){
   return {
     restrict: 'A',
@@ -66,14 +77,6 @@ export default function UserEmailUniqueValidator(UserRepository, $q, $parse){
     }
   }
 
-  function ctrl($scope, $attrs) {
-    this.modelGet = $parse($attrs.userEmailUnique);
-  }
-
-  ctrl.$inject = [
-    '$scope',
-    '$attrs'
-  ];
 }
 
 UserEmailUniqueValidator.$inject = [

@@ -284,5 +284,9 @@ export default {
 		'file_description_label': 'Description',
 
 		'file_form_modal_title': 'Edit File',
+
+
+		// entity
+		'new_entity_title': 'Create New Entity',
 	}
 };

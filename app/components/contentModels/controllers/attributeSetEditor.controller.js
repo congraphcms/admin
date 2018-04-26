@@ -8,6 +8,7 @@ export default class AttributeSetEditorController {
     AttributeRepository,
     EditorRegistry,
     fieldSelection,
+    $mdToast,
     $mdDialog,
     $scope,
     $rootScope,
@@ -24,6 +25,7 @@ export default class AttributeSetEditorController {
 
     vm.form = $element.controller('form');
 
+    vm.$mdToast = $mdToast;
     vm.$attrs = $attrs;
     vm.$element = $element;
     vm.$scope = $scope;
@@ -330,10 +332,28 @@ export default class AttributeSetEditorController {
       vm.busy = false;
       vm.form.$setDirty(false);
       vm.form.$setPristine(true);
+
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('Attribute set successfully saved.')
+          .position('top right')
+          .theme('success-toast')
+          .parent(vm.$element)
+      );
+
+
       return result;
 
     }, function(errors){
       console.error("SAVE ATTRIBUTE SET ERROR", errors);
+
+      vm.$mdToast.show(
+        vm.$mdToast.simple()
+          .textContent('Attribute set not saved. There was an error.')
+          .position('top right')
+          .theme('error-toast')
+          .parent(vm.$element)
+      );
 
       vm.busy = false;
 
@@ -350,6 +370,7 @@ AttributeSetEditorController.$inject = [
   'AttributeRepository',
   'EditorRegistry',
   'fieldSelection',
+  '$mdToast',
   '$mdDialog',
   '$scope',
   '$rootScope',

@@ -12,6 +12,8 @@
  *
  */
 
+ import angular from 'angular';
+
 export default EntityFieldRenderer;
 
 /**
@@ -40,11 +42,11 @@ function EntityFieldRenderer(fieldTypes, $compile){
     };
   }
 
-  function preLink(scope, element, attrs, ctrls) {
+  function preLink(scope, element, attrs) {
 
   }
 
-  function postLink(scope, element, attrs, ctrls) {
+  function postLink(scope, element, attrs) {
     var input_type;
     if(!scope.attribute.attributes.data || !scope.attribute.attributes.data.input_type){
       input_type = fieldTypes[scope.attribute.attributes.field_type].default_input;
