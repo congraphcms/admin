@@ -16,13 +16,24 @@
 /**
  * ngInject
  */
+class Ctrl {
+  constructor($scope, $attrs, $parse) {
+    this.isRequired = $parse($attrs.nullEmpty);
+  }
+}
+
+Ctrl.$inject = [
+  '$scope',
+  '$attrs',
+  '$parse'
+];
 export default function NullEmptyValidator($q, $parse){
 
   return {
     restrict: 'A',
     require: ['nullEmpty', '?ngModel'],
     compile: compile,
-    controller: ctrl
+    controller: Ctrl
   };
 
   function compile(templateElement) {
@@ -47,15 +58,6 @@ export default function NullEmptyValidator($q, $parse){
     }
   }
 
-  function ctrl($scope, $attrs) {
-    // this.modelGet = $parse($attrs.entityFieldUnique);
-    this.isRequired = $parse($attrs.nullEmpty);
-  }
-
-  ctrl.$inject = [
-    '$scope',
-    '$attrs'
-  ];
 }
 
 NullEmptyValidator.$inject = [

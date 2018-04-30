@@ -9,12 +9,23 @@
 /**
  * ngInject
  */
+class Ctrl {
+  constructor($scope, $attrs, $parse) {
+    this.modelGet = $parse($attrs.contentModelEndpointUnique);
+  }
+}
+
+Ctrl.$inject = [
+  '$scope',
+  '$attrs',
+  '$parse'
+];
 export default function ContentModelEndpointUniqueValidator(EntityTypeRepository, $q, $parse){
   return {
     restrict: 'A',
     require: ['contentModelEndpointUnique', '?ngModel'],
     compile: compile,
-    controller: ctrl
+    controller: Ctrl
   };
 
   function compile(templateElement) {
@@ -66,14 +77,6 @@ export default function ContentModelEndpointUniqueValidator(EntityTypeRepository
     }
   }
 
-  function ctrl($scope, $attrs) {
-    this.modelGet = $parse($attrs.contentModelEndpointUnique);
-  }
-
-  ctrl.$inject = [
-    '$scope',
-    '$attrs'
-  ];
 }
 
 ContentModelEndpointUniqueValidator.$inject = [

@@ -11,12 +11,13 @@
 /**
  * ngInject
  */
-
-function ctrl($scope, $attrs, $parse) {
-  this.modelGet = $parse($attrs.AttributeCodeUnique);
+class Ctrl {
+  constructor($scope, $attrs, $parse) {
+    this.modelGet = $parse($attrs.AttributeCodeUnique);
+  }
 }
 
-ctrl.$inject = [
+Ctrl.$inject = [
   '$scope',
   '$attrs',
   '$parse'
@@ -27,7 +28,7 @@ export default function AttributeCodeUnique(AttributeRepository, $q, $parse){
     restrict: 'A',
     require: ['AttributeCodeUnique', '?ngModel'],
     compile: compile,
-    controller: ctrl
+    controller: Ctrl
   };
 
   function compile(templateElement) {

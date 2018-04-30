@@ -16,12 +16,14 @@
 /**
  * ngInject
  */
-function ctrl($scope, $attrs, $parse) {
-  this.modelGet = $parse($attrs.entityFieldUnique);
-  this.attributeGet = $parse($attrs.entityFieldAttribute);
+class Ctrl {
+  constructor($scope, $attrs, $parse) {
+    this.modelGet = $parse($attrs.entityFieldUnique);
+    this.attributeGet = $parse($attrs.entityFieldAttribute);
+  }
 }
 
-ctrl.$inject = [
+Ctrl.$inject = [
   '$scope',
   '$attrs',
   '$parse'
@@ -32,7 +34,7 @@ export default function EntityFieldUniqueValidator(EntityRepository, $q, $parse)
     restrict: 'A',
     require: ['entityFieldUnique', '?ngModel'],
     compile: compile,
-    controller: ctrl
+    controller: Ctrl
   };
 
   function compile(templateElement) {

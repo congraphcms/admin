@@ -9,11 +9,13 @@
 /**
  * ngInject
  */
-function ctrl($scope, $attrs, $parse) {
-  this.modelGet = $parse($attrs.userEmailUnique);
+class Ctrl {
+  constructor($scope, $attrs, $parse) {
+    this.modelGet = $parse($attrs.userEmailUnique);
+  }
 }
 
-ctrl.$inject = [
+Ctrl.$inject = [
   '$scope',
   '$attrs',
   '$parse'
@@ -25,7 +27,7 @@ export default function UserEmailUniqueValidator(UserRepository, $q, $parse){
     restrict: 'A',
     require: ['userEmailUnique', '?ngModel'],
     compile: compile,
-    controller: ctrl
+    controller: Ctrl
   };
 
   function compile(templateElement) {

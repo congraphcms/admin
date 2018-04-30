@@ -16,13 +16,26 @@ import _ from 'underscore';
 /**
  * ngInject
  */
+class Ctrl {
+  constructor($scope, $attrs, $parse) {
+    // this.modelGet = $parse($attrs.entityFieldUnique);
+    this.isRequired = $parse($attrs.arrayEmpty);
+    this.getAttribute = $parse($attrs.arrayEmpty);
+  }
+}
+
+Ctrl.$inject = [
+  '$scope',
+  '$attrs',
+  '$parse'
+];
 export default function ArrayEmptyValidator($q, $parse){
 
   return {
     restrict: 'A',
     require: ['arrayEmpty', '?ngModel'],
     compile: compile,
-    controller: ctrl
+    controller: Ctrl
   };
 
   function compile(templateElement) {
@@ -58,16 +71,6 @@ export default function ArrayEmptyValidator($q, $parse){
     }
   }
 
-  function ctrl($scope, $attrs) {
-    // this.modelGet = $parse($attrs.entityFieldUnique);
-    this.isRequired = $parse($attrs.arrayEmpty);
-    this.getAttribute = $parse($attrs.arrayEmpty);
-  }
-
-  ctrl.$inject = [
-    '$scope',
-    '$attrs'
-  ];
 }
 
 ArrayEmptyValidator.$inject = [

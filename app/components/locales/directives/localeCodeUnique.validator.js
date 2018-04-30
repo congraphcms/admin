@@ -11,11 +11,13 @@
 /**
  * ngInject
  */
-function ctrl($scope, $attrs, $parse) {
-  this.modelGet = $parse($attrs.localeCodeUnique);
+class Ctrl {
+  constructor($scope, $attrs, $parse) {
+    this.modelGet = $parse($attrs.localeCodeUnique);
+  }
 }
 
-ctrl.$inject = [
+Ctrl.$inject = [
   '$scope',
   '$attrs',
   '$parse'
@@ -25,7 +27,7 @@ export default function LocaleCodeUniqueValidator(LocaleRepository, $q, $parse){
     restrict: 'A',
     require: ['localeCodeUnique', '?ngModel'],
     compile: compile,
-    controller: ctrl
+    controller: Ctrl
   };
 
   function compile(templateElement) {

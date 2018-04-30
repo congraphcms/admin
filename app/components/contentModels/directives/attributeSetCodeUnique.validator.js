@@ -10,12 +10,23 @@
 /**
  * ngInject
  */
+class Ctrl{
+  constructor($scope, $attrs, $parse) {
+    this.modelGet = $parse($attrs.attributeSetCodeUnique);
+  }
+}
+
+Ctrl.$inject = [
+  '$scope',
+  '$attrs',
+  '$parse'
+];
 export default function AttributeSetCodeUniqueValidator(AttributeSetRepository, $q, $parse){
   return {
     restrict: 'A',
     require: ['attributeSetCodeUnique', '?ngModel'],
     compile: compile,
-    controller: ctrl
+    controller: Ctrl
   };
 
   function compile(templateElement) {
@@ -67,14 +78,6 @@ export default function AttributeSetCodeUniqueValidator(AttributeSetRepository, 
     }
   }
 
-  function ctrl($scope, $attrs) {
-    this.modelGet = $parse($attrs.attributeSetCodeUnique);
-  }
-
-  ctrl.$inject = [
-    '$scope',
-    '$attrs'
-  ];
 }
 
 AttributeSetCodeUniqueValidator.$inject = [

@@ -21,6 +21,7 @@ mdThemesConfig.$inject = [
     '$mdThemingProvider'
 ];
 
+
 function translationsConfig($rootScope) {
     $rootScope.translations = translations;
     $rootScope.language = 'sr';
