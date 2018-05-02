@@ -383,11 +383,11 @@ export default class RelationSearchHandlerController {
 
   getRelation(model) {
     var handler = this;
-    if (!handler.relations) {
+    if (!handler.relations || !model) {
       return null;
     }
-
-    return handler.relations.findWhere({ id: model.id });
+    let relation = handler.relations.findWhere({ id: model.id });
+    return relation;
   }
 
   getValue() {
@@ -590,6 +590,90 @@ export default class RelationSearchHandlerController {
     });
   }
 
+  editRelation(model) {
+    var handler = this;
+
+    // first fetch fresh model from API
+
+    // create defered object
+    var modelDeferred = handler.$q.defer();
+    // define promise for resolving model
+    var modelPromise = modelDeferred.promise;
+
+    // if type is localized set the default locale for the model
+    var locale = null;
+    if (model.get('localized')) {
+      locale = handler.locale || handler.locales.findWhere({ id: parseInt(handler.AppSettings.APP.DEFAULT_LOCALE) });
+      locale = locale.get('code');
+    }
+
+    handler.EntityRepository.get( model.get('id'), { locale: locale }).then(function(result){
+      modelDeferred.resolve(result);
+    });
+
+    // create defered object
+    var cmDeferred = handler.$q.defer();
+    // define promise for resolving content model
+    var cmPromise = cmDeferred.promise;
+
+    // resolve promise when service finds that entity type
+    handler.EntityTypesService.getById(model.get('entity_type_id')).then(function (type) {
+      cmDeferred.resolve(type);
+    });
+
+    // get attribute set
+    // define a promise for 
+    var asDefered = handler.$q.defer();
+    var asPromise = asDefered.promise;
+
+    // get all attribute sets for the chosen type
+    handler.AttributeSetsService.getById(model.get('attribute_set_id')).then(function (set) {
+      // resolve attribute set
+      asDefered.resolve(set);
+    });
+
+
+    handler.$q.all({model: modelPromise, type: cmPromise, set: asPromise}).then(function(results){
+      // set entity type for the model
+      results.model.setEntityType(results.type);
+
+      // set attribute set for the model
+      results.model.setAttributeSet(results.set);
+
+      // set status if locale doesn't have a status
+      if (results.model.get('status') == null) {
+        let defaultPoint = results.type.get('default_point');
+        let status = defaultPoint.get('status');
+        results.model.set('status', status);
+      }
+
+      // define form settings
+      var formSettings = {
+        model: results.model,
+        attributeSet: results.set,
+        contentModel: results.type,
+        locale: locale,
+        scope: handler.$scope.$new()
+      };
+
+      // open the quick form
+      handler.EntityQuickForm.open(formSettings).then(
+        function (payload) {
+          handler.loadAllLocalesForRelation(payload).then(function (relation) {
+            // when the new relation is created set it as selected relation
+            handler.swapRelation(relation);
+          });
+        },
+        function (msg) {
+          // exit
+        }
+      );
+
+    }, function (errors) {
+      console.error('There was an error trying to open quick form', errors);
+    });
+  }
+
   loadAllLocalesForRelation(model) {
     var handler = this;
     return handler.EntityRepository.get(model.get('id'));
@@ -630,6 +714,37 @@ export default class RelationSearchHandlerController {
     handler.selectionMode = false;
     handler.empty = false;
     handler.selectedItems = [];
+  }
+
+  swapRelation(model) {
+    var handler = this;
+
+    let relationsIndex = _.findIndex(handler.relations.models, function (m) {
+      return m.get('id') == model.get('id');
+    });
+
+    if (relationsIndex > -1) {
+      delete handler.relations.models[relationsIndex];
+      handler.relations.models[relationsIndex] = model;
+    }
+
+    if (handler.single) {
+      handler.setValue(model);
+      return;
+    }
+
+    var value = handler.getValue();
+
+    let index = _.findIndex(value.models, function(m){
+      return m.get('id') == model.get('id');
+    });
+
+    if(index > -1) {
+      delete value.models[index];
+      value.models[index] = model;
+    }
+
+    handler.setValue(value);
   }
 
   removeRelation(model) {

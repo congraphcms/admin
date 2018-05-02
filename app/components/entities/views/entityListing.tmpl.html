@@ -184,7 +184,9 @@
                           class="cb-table-header-item" style="padding-right: 16px;">
                           {{translate('entity_title_label')}}
                         </div>
-
+                        <div flex="20" class="cb-table-header-item" hide show-gt-md style="padding-right: 16px;">
+                          {{translate('attribute_set_label')}}
+                        </div>
                         <div
                           flex="20" flex-gt-lg="15"
                           hide show-gt-md
@@ -236,6 +238,13 @@
                                   md-truncate>
                                   {{item.getTitle()}}
                                 </p>
+                            </div>
+
+                            <!-- attribute set col -->
+                            <div flex="20" class="cb-item-title" layout="row" layout-align="start center">
+                              <p hide show-gt-md md-truncate>
+                                {{vm.getItemAttributeSet(item)}}
+                              </p>
                             </div>
 
                             <!-- updated_at col -->
@@ -345,6 +354,35 @@
 
             <md-content flex layout="column">
               <div class="md-padding">
+
+                <!-- General Info -->
+                <div class="kv-list" style="font-size:14px">
+
+                  <div class="kv-list-item">
+                    <div class="key">{{translate('content_model_label')}}</div>
+                    <div class="value" ng-bind-html="vm.contentModel.get('name')"></div>
+                  </div>
+
+                  <div class="kv-list-item">
+                    <div class="key">{{translate('attribute_set_label')}}</div>
+                    <div class="value" ng-bind-html="vm.getItemAttributeSet(vm.selectedModel)"></div>
+                  </div>
+
+                  <div class="kv-list-item">
+                    <div class="key">{{translate('created_at_label')}}</div>
+                    <div class="value">{{vm.selectedModel.get('created_at') | amDateFormat:'DD/MM/YYYY'}}</div>
+                  </div>
+                  
+                  <div class="kv-list-item">
+                    <div class="key">{{translate('updated_at_label')}}</div>
+                    <div class="value">{{vm.selectedModel.get('updated_at') | amDateFormat:'DD/MM/YYYY'}}</div>
+                  </div>
+
+                </div>
+
+                <md-divider inset></md-divider>
+
+                <!-- Fields -->
                 <div class="kv-list" style="font-size:14px">
                   <ng-switch
                     ng-repeat="attribute in vm.getDetailAttributes()"

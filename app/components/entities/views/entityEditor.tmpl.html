@@ -44,6 +44,48 @@
 
 		<md-content class="cb-transparent md-padding">
 
+			<!-- Entity Info -->
+			<div class="md-whiteframe-1dp" style="background:#fff;margin-bottom:16px">
+				<md-toolbar class="cb-white">
+					<div class="md-toolbar-tools">
+						<h1>Info</h1>
+					</div>
+				</md-toolbar>
+				<md-content>
+					<div class="md-padding">
+						<div class="kv-list" style="font-size:14px">
+						
+							<div class="kv-list-item">
+								<div class="key">{{editor.$rootScope.translate('content_model_label')}}</div>
+								<div class="value" ng-bind-html="editor.contentModel.get('name')">
+								</div>
+							</div>
+						
+							<div class="kv-list-item">
+								<div class="key">{{editor.$rootScope.translate('attribute_set_label')}}</div>
+								<div class="value" ng-bind-html="editor.attributeSet.get('name')">
+								</div>
+							</div>
+
+							<div class="kv-list-item">
+								<div class="key">{{editor.$rootScope.translate('created_at_label')}}</div>
+								<div class="value">{{editor.model.get('created_at') | amDateFormat:'DD/MM/YYYY'}}</div>
+							</div>
+							
+							<div class="kv-list-item">
+								<div class="key">{{editor.$rootScope.translate('updated_at_label')}}</div>
+								<div class="value">{{editor.model.get('updated_at') | amDateFormat:'DD/MM/YYYY'}}</div>
+							</div>
+						
+						</div>
+					</div>
+
+				</md-content>
+			</div>
+
+			
+
+
 			<!-- Entity Status -->
 			<div class="md-whiteframe-1dp" style="background:#fff;margin-bottom:16px">
 				<md-toolbar class="cb-white">

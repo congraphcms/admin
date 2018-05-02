@@ -102,8 +102,8 @@ export default {
 		'choose_entity_type_modal_help': 'Please, choose a type for the new entity.',
 		'choose_entity_type_modal_label': 'Content types:',
 		'entity_title_label': 'Title',
-		'created_at_label': 'Created at',
-		'updated_at_label': 'Updated at',
+		'created_at_label': 'Date Created',
+		'updated_at_label': 'Last Updated',
 		'actions_label': 'Actions',
 
 		// attributes

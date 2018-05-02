@@ -60,7 +60,7 @@ export default class ContentModelNewEditorController {
     });
 
     vm.$scope.$watch('editor.model.attributes.workflow_id', function(newValue, oldValue) {
-
+      console.log('selectedWorkflow changed', newValue, oldValue);
       if(newValue == oldValue) {
         return;
       }
@@ -70,6 +70,7 @@ export default class ContentModelNewEditorController {
       }
 
       let selectedWorkflow = vm.workflows.findWhere({id: parseInt(newValue)});
+      console.log('selectedWorkflow', selectedWorkflow);
       if(selectedWorkflow) {
         vm.selectedWorkflow = selectedWorkflow;
       }
@@ -84,6 +85,7 @@ export default class ContentModelNewEditorController {
   getWorkflows() {
     let vm = this;
     this.WorkflowRepository.get({include: 'points'}).then(function(result){
+      console.log('got workflows', result);
       vm.workflows = result;
     }, function(errors){
       throw new Error('Can\'t get workflows');

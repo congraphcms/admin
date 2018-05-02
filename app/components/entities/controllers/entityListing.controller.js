@@ -451,6 +451,18 @@ export default class EntityListingController {
     return attributes;
   }
 
+  getItemAttributeSet(item) {
+    let vm = this;
+
+    if(!item) {
+      return false;
+    }
+
+    let set = vm.attributeSets.findWhere({id: item.get('attribute_set_id')});
+
+    return set.get('name');
+  }
+
   isListing() {
     return this.$state.is('app.entities.type');
   }
