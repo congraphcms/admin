@@ -28,7 +28,8 @@ export default function EntityEditorDirective(){
       attributes: "=",
       contentModel: "=",
       locales: "=",
-      locale: "="
+      locale: "=",
+      nested: "="
     },
     controller: 'EntityEditorController',
     controllerAs: 'editor',

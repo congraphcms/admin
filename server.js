@@ -22,10 +22,12 @@ var publicPath = path.resolve(__dirname, 'public');
 app.use(express.static(publicPath));
 console.log('is production: ', isProduction);
 if (!isProduction) {
+    console.log('Not in production');
     const Webpack = require('webpack');
     const webpackDevMiddleware = require('webpack-dev-middleware');
     const webpackHotMiddleware = require('webpack-hot-middleware');
     const webpackConfig = require('./webpack.config.js');
+    
     // var httpProxy = require('http-proxy');
     // var proxy = httpProxy.createProxyServer();
     // // Any requests to localhost:3000/assets is proxied
@@ -71,6 +73,8 @@ if (!isProduction) {
         path: '/__webpack_hmr',
         heartbeat: 2 * 1000,
     }));
+} else {
+    console.log('Production env');
 }
 
 

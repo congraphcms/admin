@@ -151,7 +151,7 @@ export default class RelationSearchHandlerController {
       /** @type {number} Total number of items. */
       this.numItems = 0;
       /** @const {number} Number of items to fetch per request. */
-      this.fetchPage_(1);
+      // this.fetchPage_(1);
     };
 
     // Required.
@@ -197,7 +197,7 @@ export default class RelationSearchHandlerController {
       handler.selectionReady = false;
       this.numItems = 0;
       this.loadedPages = {};
-      this.fetchPage_(1);
+      this.fetchPage_(0);
     };
 
 
@@ -258,7 +258,6 @@ export default class RelationSearchHandlerController {
 
   getEntities(pageNumber) {
     var handler = this;
-
     var query = _.extend({}, {
 
       filter: _.extend(handler.listFilter, {
@@ -266,7 +265,7 @@ export default class RelationSearchHandlerController {
           nin: handler.getRelationIds()
         }
       }),
-      offset: (pageNumber - 1) * handler.pageSize,
+      offset: (pageNumber) * handler.pageSize,
       limit: handler.pageSize,
       sort: '-updated_at'
     });

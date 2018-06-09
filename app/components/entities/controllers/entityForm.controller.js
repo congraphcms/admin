@@ -65,6 +65,16 @@ export default class EntityFormController {
       event.stopPropagation();
       
     });
+
+    // vm.$scope.$on('entityEditorChangeLocale', function(event, editor, model, locale) {
+    //   console.log('entityEditorchangeLocale', event, editor, model, locale);
+
+    //   if(editor != vm.editor) {
+    //     return;
+    //   }
+
+    //   console.log('should change locale');
+    // });
   }
 
   getLocale() {

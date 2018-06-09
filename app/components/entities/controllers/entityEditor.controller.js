@@ -311,10 +311,15 @@ export default class EntityEditorController{
   goToTranslation($event, locale) {
     var editor = this;
 
+    if(editor.nested) {
+      return;
+    }
+
     if(editor.ownTranslation(locale)) {
       $event.preventDefault();
       return;
     }
+    // editor.$rootScope.$broadcast('entityEditorChangeLocale', editor, editor.model, locale.get('code'));
     editor.deregister();
     editor.$state.go('^.edit', {locale: locale.get('code'), attributeSet: editor.model.attributes.attribute_set.attributes.code}, { reload: false });
   }
