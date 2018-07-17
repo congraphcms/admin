@@ -32,6 +32,7 @@ import QueryBuilderService from './services/queryBuilder.service.js';
 import ConditionBuilderDirective from './directives/conditionBuilder.directive.js';
 import QueryBuilderConstant from './constants/queryBuilder.constant.js';
 import QueryBuilderController from './controllers/queryBuilder.controller.js';
+import ConditionBuilderController from './controllers/conditionBuilder.controller.js';
 
 
 export default 'app.components.entities';
@@ -49,6 +50,7 @@ angular
   .directive('entityFieldUnique', EntityFieldUniqueValidator)
 
   .controller('QueryBuilderController', QueryBuilderController)
+  .controller('ConditionBuilderController', ConditionBuilderController)
   .directive('queryBuilder', QueryBuilderDirective)
   .service('queryBuilderService', QueryBuilderService)
 

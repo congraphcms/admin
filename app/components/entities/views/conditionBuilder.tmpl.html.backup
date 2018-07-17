@@ -15,7 +15,7 @@
                 <md-button 
                 class="md-icon-button" 
                 style="margin-top:18px;"
-                ng-click="vm.removeCondition($index, vm.rules[$index].field)">
+                ng-click="vm.removeCondition($index)">
                     <md-icon class="material-icons">remove_circle_outline</md-icon>
                 </md-button>
 <!-- Input for fields (columns) in which data is searched -->
@@ -24,11 +24,11 @@
                     <md-select 
                     ng-model="vm.rules[$index].field" 
                     placeholder="Choose property"
-                    ng-change="vm.fieldChanged(vm.rules.indexOf(vm.rules[$index]), vm.rules[$index].field)">
+                    ng-change="vm.setInputTypeForFieldType(vm.rules.indexOf(vm.rules[$index]), vm.rules[$index].field) vm.print($index)">
                         <md-option 
-                        ng-repeat="a in vm.attributesInUse[$index]"
-                        ng-value="a">
-                            {{a}}
+                        ng-repeat="a in vm.attributes"
+                        ng-value="a['admin_label']">
+                            {{a['admin_label']}}
                         </md-option>
                     </md-select>
                 </md-input-container>
@@ -39,7 +39,7 @@
                     <md-select 
                     ng-model="vm.rules[$index].condition" 
                     placeholder="Choose property"
-                    ng-change="vm.conditionChanged(vm.rules.indexOf(vm.rules[$index]), vm.rules[$index].condition)">
+                    ng-change="vm.formatInputField(vm.rules.indexOf(vm.rules[$index]), vm.rules[$index].condition)">
                         <md-option 
                         ng-repeat="c in vm.getConditionsForFieldType(vm.rules[$index].field)" 
                         ng-value="c.label">
