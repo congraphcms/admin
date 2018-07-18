@@ -74,10 +74,10 @@ export default function ConditionBuilderController($scope, queryBuilderService){
 };
 
 /*
- * TESTING FUNCTION
+ * TESTING FUNCTIONS
 */
 ConditionBuilderController.prototype.updateAttributesInUse = function(newValue, oldValue, arrayLength){
-    
+    const vm = this;
     let oldFields = [];
     let newFields = [];
     // ================
@@ -96,8 +96,21 @@ ConditionBuilderController.prototype.updateAttributesInUse = function(newValue, 
     indexOfOldField = _.indexOf(oldFields, oldField[0]);
     indexOfNewField = _.indexOf(newFields, newField[0]);
 
+    console.log("Attributes in use before: ", vm.attributesInUse);
     if(indexOfOldField == indexOfNewField){
         console.log("The fields are changed. Performe update for vm.attributesInUse and vm.fieldsInUse")
+        vm.fieldsInUse.splice(indexOfNewField, 1);
+        vm.fieldsInUse.push(newField[0]);
+        vm.fieldsInUse.sort();
+        for(let i = 0; i < vm.rules.length; i++){
+            if(i!==indexOfOldField){
+                if(vm.attributesInUse[i].indexOf(newField[0])!==-1){
+                    vm.attributesInUse[i].splice(_.indexOf(vm.attributesInUse[i], newField[0]), 1);
+                    vm.attributesInUse[i].push(oldField[0]);
+                    vm.attributesInUse[i].sort();
+                }
+            }
+        }
     } else {
         throw "Cannot performe update: The indexes of the oldField is not equal to the index of newField";
     }
