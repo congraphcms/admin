@@ -10,7 +10,7 @@ export default function ConditionBuilderController($scope, queryBuilderService){
     vm.rules                    = [];
     vm.modRules                 = {field: [], condition: [], value: [], inputType: []};
     vm.attributes               = qbs.extractAttributes(attrs);
-    vm.inUseAttributes          = []; //vm.attributesInUse = [[], [], []]
+    vm.fieldsInUse              = [];
     vm.attributesInUse          = [];
     vm.OperatorByCondition      = qbs.operatorByCondition;
     vm.conditions               = qbs.conditions; // Lists all conditions with labels and symbols
@@ -55,15 +55,56 @@ export default function ConditionBuilderController($scope, queryBuilderService){
         */
         // rulesValidation(vm.rules);
         // watch for changes in rules array and create query by calling createAPIQuery()
+        if(newValue.length == oldValue.length && (newValue.length > 1 && oldValue.length > 1)){
+            vm.updateAttributesInUse(newValue, oldValue, newValue.length);
+        }
+
         vm.createAPIQuery();
     }, true);
 
-    //TESTING
-    $scope.$watch('vm.modRules', function(newValue, oldValue, scope){
-        // console.log("newValue: ", newValue);
-        // console.log("oldValue: ", oldValue);
+    //TESTING: Field changed
+    $scope.$watch('vm.fieldsInUse', function(newValue, oldValue, scope){
+        if(newValue.length<oldValue.length){
+            let removedField = _.difference(oldValue, newValue);
+            console.log("'" + removedField + "' field was removed!");
+            // console.log("newValue FIU: ", newValue);
+            // console.log("oldValue FIU: ", oldValue);            
+        }
     }, true)
 };
+
+/*
+ * TESTING FUNCTION
+*/
+ConditionBuilderController.prototype.updateAttributesInUse = function(newValue, oldValue, arrayLength){
+    
+    let oldFields = [];
+    let newFields = [];
+    // ================
+    let oldField = "";
+    let indexOfOldField;
+    let newField = "";
+    let indexOfNewField;
+
+    for(let i = 0; i<arrayLength; i++){
+        oldFields.push(oldValue[i].field);
+        newFields.push(newValue[i].field);
+    }
+
+    oldField        = _.difference(oldFields, newFields);
+    newField        = _.difference(newFields, oldFields);
+    indexOfOldField = _.indexOf(oldFields, oldField[0]);
+    indexOfNewField = _.indexOf(newFields, newField[0]);
+
+    if(indexOfOldField == indexOfNewField){
+        console.log("The fields are changed. Performe update for vm.attributesInUse and vm.fieldsInUse")
+    } else {
+        throw "Cannot performe update: The indexes of the oldField is not equal to the index of newField";
+    }
+
+}
+
+
 
 /*
 * Called on Add condition ng-click
@@ -74,10 +115,10 @@ ConditionBuilderController.prototype.addCondition = function (){
     * Zatim napravi novi array u kome ce biti neupotrebljeni fieldovi
     * Potom dodaj novi rule
     * Onda prodji kroz rulove i modifikuj attributesInUse
+    * @TODO Treba da razlikuje numericka polja i koji je condition na njima
     */
     const vm = this;
     let tmp = [];           // Used for putting unused fields intp attributesInUse
-    let usedFields = [];    // Keeps track of used fields
 
     // Get all available admin_label-s from attributes into tmp
     for(let i = 0; i<vm.attributes.length; i++){
@@ -102,7 +143,8 @@ ConditionBuilderController.prototype.addCondition = function (){
     /*
     * Add new rule
     */
-    if(vm.attributesInUse.length>0){    
+    if(vm.attributesInUse.length>0){
+
         const field = _.last(vm.attributesInUse)[0]; //vm.attributes[0]['admin_label'],
         const condition = vm.getInitialCondition(field); //vm.getInitialCondition(vm.attributes[0]['admin_label']),
         const inputType = vm.getInitialInputType(field); //vm.getInitialInputType(vm.attributes[0]['admin_label']),
@@ -117,20 +159,20 @@ ConditionBuilderController.prototype.addCondition = function (){
     }
 
     /*
-    * Update attributesInUse according to new state of the rules
+    * Update attributesInUse according to the new state of the rules
     */
-    let fieldsInUse = [];
+    vm.fieldsInUse = [];
 
     // Get all fields into the array
     for(let i = 0; i<vm.rules.length; i++){
-        fieldsInUse.push(vm.rules[i].field)
+        vm.fieldsInUse.push(vm.rules[i].field)
     }
     
     for(let i = 0; i < vm.rules.length; i++){
-        for(let j = 0; j < fieldsInUse.length; j++){
+        for(let j = 0; j < vm.fieldsInUse.length; j++){
             if(i!==j){
                 // Izbaci iz opsega
-                let fieldName = fieldsInUse[j];
+                let fieldName = vm.fieldsInUse[j];
                 // This condition is because the field has already been removed in the previous step
                 if(vm.attributesInUse[i].indexOf(fieldName)!==-1){
                     vm.attributesInUse[i].splice(vm.attributesInUse[i].indexOf(fieldName), 1);
@@ -139,8 +181,6 @@ ConditionBuilderController.prototype.addCondition = function (){
         }
     }
 
-    //console.log("vm.rules: ", vm.rules)
-
 };
 
 /*
@@ -148,16 +188,21 @@ ConditionBuilderController.prototype.addCondition = function (){
 */
 ConditionBuilderController.prototype.removeCondition = function(index, field){
     const vm = this;
+    let removedField = "";
+
     // Removes condition from the array
     vm.rules.splice(index, 1);
+    console.log("removed index: ", index);
+    console.log("removed field: ", field);
     /*
     * Added code when attributesInUse were added
     */
     vm.attributesInUse.splice(index, 1);
-    for(let i = index; i < vm.attributesInUse.length; i++){
+    for(let i = 0; i < vm.attributesInUse.length; i++){
         vm.attributesInUse[i].push(field);
+        vm.attributesInUse[i].sort();
     }
-    console.log(vm.attributesInUse)
+    vm.fieldsInUse.splice(vm.fieldsInUse.indexOf(field), 1);
 };
 
 /*
@@ -226,11 +271,7 @@ ConditionBuilderController.prototype.formatInputField = function(index, conditio
         } else {
             vm.rules[index].value = [];
         }
-        // console.log(index);
-        // console.log(condition);
-        // console.log(vm.rules[index]);
-    }
-    else {
+    } else {
         vm.setInputTypeForFieldType(index, vm.rules[index].field);
         if(vm.rules[index].value.length > 0){
             let firstValueInArray = vm.rules[index].value[0];
@@ -238,9 +279,6 @@ ConditionBuilderController.prototype.formatInputField = function(index, conditio
         } else {
             vm.rules[index].value = "";
         }
-        // console.log(index);
-        // console.log(condition);
-        // console.log(vm.rules[index]);
     }
 };
 
@@ -257,7 +295,7 @@ ConditionBuilderController.prototype.getInitialCondition = function(admin_label)
         const vm = this;
         let fieldType = vm.adminLabelFieldTypeMap[admin_label];
         let fieldTypeAttributes = vm.FieldTypeConditionMap[fieldType];
-        // console.log(vm.conditions[fieldTypeAttributes[0]].label);
+
         return vm.conditions[fieldTypeAttributes[0]].label;
 };
 
@@ -290,7 +328,7 @@ ConditionBuilderController.prototype.createAPIQuery = function(){
     // validateRules(vm.rules);
     //console.log(JSON.stringify(vm.rules));
     
-    console.log(vm.rules);
+    // console.log("vm.rules, createAPIQuery: ", vm.rules);
     if(vm.rules.length>0){
         vm.qry = "";
         let q = "?filter";
