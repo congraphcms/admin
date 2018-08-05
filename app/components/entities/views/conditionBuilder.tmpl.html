@@ -71,6 +71,36 @@
                     ng-model-options="{debounce: 750}" 
                     ng-model="vm.rules[$index].value"></md-datepicker>
                 </md-input-container>
+<!-- ============================= BETWEEN ============================= -->
+                <md-input-container ng-if="vm.rules[$index].inputType=='number-between'" style="display: inline-flex">
+                    <label>From:</label>
+                    <input 
+                    ng-model-options="{debounce: 750}" 
+                    ng-model="vm.rules[$index].value" 
+                    type="number">
+                    <md-input-container style="margin: 0">
+                        <label>To:</label>
+                        <input 
+                        ng-model-options="{debounce: 750}" 
+                        ng-model="vm.rules[$index].value_2" 
+                        type="number">    
+                    </md-input-container>
+                </md-input-container>
+
+                <md-input-container  ng-if="vm.rules[$index].inputType=='date-between'" style="display: inline-flex">
+                    <label>As of date:</label>
+                    <md-datepicker
+                    ng-model-options="{debounce: 750}" 
+                    ng-model="vm.rules[$index].value"></md-datepicker>
+                    <md-input-container style="margin: 0">
+                        <label>To:</label>
+                        <md-datepicker
+                        style=""
+                        ng-model-options="{debounce: 750}" 
+                        ng-model="vm.rules[$index].value_2"></md-datepicker>                    
+                    </md-input-container>  
+                </md-input-container>
+
 <!-- ============================= CHIPS ============================= -->
                 <!-- <md-input-container ng-if="vm.rules[$index].inputType=='text-array'"> -->
                 <span ng-if="vm.rules[$index].inputType=='text-array'">

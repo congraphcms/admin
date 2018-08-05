@@ -1,6 +1,9 @@
 /*
 * Inject into quryBuilderService
 */
+/*
+* @TODO: The "Between" condition is not yet implemented to work 22/07/2018
+*/
 
 export default {
     conditions: {

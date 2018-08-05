@@ -37,7 +37,6 @@ export default function ConditionBuilderController($scope, queryBuilderService){
     vm.fieldsOnly.sort();
     console.log("vm.fieldsOnly", vm.fieldsOnly);
 
-
     vm.createInUseAttributes(vm.attributes);
 
     $scope.$watch('vm.rules', function (newValue, oldValue, scope) {
@@ -86,38 +85,42 @@ ConditionBuilderController.prototype.updateAttributesInUse = function(newValue, 
     let newField = "";
     let indexOfNewField;
 
+    let test = "";
+
     for(let i = 0; i<arrayLength; i++){
         oldFields.push(oldValue[i].field);
         newFields.push(newValue[i].field);
     }
 
-    oldField        = _.difference(oldFields, newFields);
-    newField        = _.difference(newFields, oldFields);
-    indexOfOldField = _.indexOf(oldFields, oldField[0]);
-    indexOfNewField = _.indexOf(newFields, newField[0]);
-
     console.log("Attributes in use before: ", vm.attributesInUse);
-    if(indexOfOldField == indexOfNewField){
-        console.log("The fields are changed. Performe update for vm.attributesInUse and vm.fieldsInUse")
+
+    if(_.difference(oldFields, newFields).length == 1 && _.difference(newFields, oldFields).length == 1){
+        oldField        = _.difference(oldFields, newFields)[0];
+        newField        = _.difference(newFields, oldFields)[0];
+        indexOfOldField = _.indexOf(oldFields, oldField);
+        indexOfNewField = _.indexOf(newFields, newField);
+        
+        console.log("The fields have been changed. Performe update for vm.attributesInUse and vm.fieldsInUse")
         vm.fieldsInUse.splice(indexOfNewField, 1);
-        vm.fieldsInUse.push(newField[0]);
+        vm.fieldsInUse.push(newField);
         vm.fieldsInUse.sort();
         for(let i = 0; i < vm.rules.length; i++){
             if(i!==indexOfOldField){
-                if(vm.attributesInUse[i].indexOf(newField[0])!==-1){
-                    vm.attributesInUse[i].splice(_.indexOf(vm.attributesInUse[i], newField[0]), 1);
-                    vm.attributesInUse[i].push(oldField[0]);
+                if(vm.attributesInUse[i].indexOf(newField)!==-1){
+                    vm.attributesInUse[i].splice(_.indexOf(vm.attributesInUse[i], newField), 1);
+                    vm.attributesInUse[i].push(oldField);
                     vm.attributesInUse[i].sort();
                 }
             }
         }
     } else {
-        throw "Cannot performe update: The indexes of the oldField is not equal to the index of newField";
+        throw "Cannot performe attributes update: The indexes of the oldField is not equal to the index of newField";
     }
-
 }
 
-
+/*
+Da li ici putem between ili less than i greater than
+*/
 
 /*
 * Called on Add condition ng-click
@@ -166,6 +169,7 @@ ConditionBuilderController.prototype.addCondition = function (){
             field: field,
             condition: condition,
             value: "",
+            value_2: "",
             inputType: inputType,
             isSearchable: true
         });
@@ -193,7 +197,6 @@ ConditionBuilderController.prototype.addCondition = function (){
             }
         }
     }
-
 };
 
 /*
@@ -235,6 +238,7 @@ ConditionBuilderController.prototype.getConditionsForFieldType = function(admin_
         // create an object to return
         temp[fieldTypeAttributes[i]] = vm.conditions[fieldTypeAttributes[i]];
     }
+    console.log("temp from getConditionForFieldType(): ", temp);
     return temp;
 };
 
@@ -248,7 +252,8 @@ ConditionBuilderController.prototype.fieldChanged = function(index, admin_label)
     let tmp = []; //Privremeno cuva sve field-ove iz rulsa koji se koriste
     // Change input type for field type
     vm.setInputTypeForFieldType(index, admin_label);
-    
+    //Set the condition for newly selected field ( just like in addCondition() )
+    vm.rules[index].condition = vm.getInitialCondition(admin_label);
 }
 
 /*
@@ -286,22 +291,37 @@ ConditionBuilderController.prototype.formatInputField = function(index, conditio
         }
     } else {
         vm.setInputTypeForFieldType(index, vm.rules[index].field);
-        if(vm.rules[index].value.length > 0){
-            let firstValueInArray = vm.rules[index].value[0];
-            vm.rules[index].value = firstValueInArray;
-        } else {
-            vm.rules[index].value = "";
-        }
+            if(vm.rules[index].value.length > 0){
+                let firstValueInArray = vm.rules[index].value[0];
+                vm.rules[index].value = firstValueInArray;
+            } else {
+                // Does not change the value
+                // vm.rules[index].value = "";
+            }
     }
 };
 
 ConditionBuilderController.prototype.setInputTypeForFieldType = function(index, admin_label){
     const vm = this;
     // When Field select changes it calls this function to set 
-    // input type of the input field
+    // input type of the input field and control the value of the rule
     // @TODO See if this function can be combined with getConditionsForFieldType()
     let fieldType = vm.adminLabelFieldTypeMap[admin_label];
-    vm.rules[index].inputType = vm.FieldTypeInputMap[fieldType];
+    let currentRuleValue = vm.rules[index].value;  //Keep the value
+    let newInputType = vm.FieldTypeInputMap[fieldType];
+    let previousInputType = vm.rules[index].inputType;
+    vm.rules[index].inputType = newInputType;
+    // Reseting the value of the rule for two main reasons
+    if(newInputType != "date"){
+        if(currentRuleValue instanceof Date){
+            vm.rules[index].value = "";
+        }
+    } else if (newInputType == "date"){
+        if(previousInputType != "date"){
+            vm.rules[index].value = "";
+        }
+    }
+
 };
 
 ConditionBuilderController.prototype.getInitialCondition = function(admin_label){
@@ -341,7 +361,7 @@ ConditionBuilderController.prototype.createAPIQuery = function(){
     // validateRules(vm.rules);
     //console.log(JSON.stringify(vm.rules));
     
-    // console.log("vm.rules, createAPIQuery: ", vm.rules);
+    console.log("vm.rules, createAPIQuery: ", vm.rules);
     if(vm.rules.length>0){
         vm.qry = "";
         let q = "?filter";
