@@ -1,0 +1,31 @@
+
+<div class='carddemoBasicUsage qbFrame'>
+    <div layout="column" class="qbFrame2">
+        <md-content class="md-padding" layout="column">
+            <div class="cb-container">
+                <div class="md-whiteframe-1dp">
+                    <label for="">QueryBuilderCtrl scope: {{$$childHead.vm.query}}</label>
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <p class="md-subhead">Create new filter</p>
+                        </div>
+                    </md-toolbar>
+                    <md-content>
+                        <div layout="row" class="md-padding">
+                            <condition-builder 
+                                flex 
+                                class="cb-container" 
+                                query="">
+                            </condition-builder>
+                        </div>
+                        <div flex layout="row" layout-align="start center" ng-if="$$childHead.vm.rules[0]">
+                            <md-button class="md-primary md-raised">
+                                Search
+                            </md-button>
+                        </div>
+                    </md-content>
+                </div> <!-- END OF QueryBuilderCtrl -->
+            </div> <!-- END OF .cb-container -->
+        </md-content>
+    </div>
+</div>

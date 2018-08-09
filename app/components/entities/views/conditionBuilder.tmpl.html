@@ -1,0 +1,117 @@
+<div flex>
+    <div flex layout="row" layout-align="start center">
+        <md-button 
+        ng-click="vm.addCondition()" 
+        class="md-primary md-raised">
+            Add Condition
+        </md-button>
+    </div>
+<!-- =============================================================== -->
+<!-- Creates a new row when "Add Condition" is cliked -->
+    <div class="group-conditions">
+        <div ng-repeat="rule in vm.rules" class="condition">
+            <div layout="row">
+<!-- Button that removes condition -->
+                <md-button 
+                class="md-icon-button" 
+                style="margin-top:18px;"
+                ng-click="vm.removeCondition($index, vm.rules[$index].field)">
+                    <md-icon class="material-icons">remove_circle_outline</md-icon>
+                </md-button>
+<!-- Input for fields (columns) in which data is searched -->
+                <md-input-container flex="20">
+                    <label>Field</label>
+                    <md-select 
+                    ng-model="vm.rules[$index].field" 
+                    placeholder="Choose property"
+                    ng-change="vm.fieldChanged(vm.rules.indexOf(vm.rules[$index]), vm.rules[$index].field)">
+                        <md-option 
+                        ng-repeat="a in vm.attributesInUse[$index]"
+                        ng-value="a">
+                            {{a}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+<!-- Select condition type as SQL condition -->
+                <md-input-container flex="10">
+                    <label>Condition</label>
+                    <!-- on change check for the type if IN or NIN value change text input type to chips -->
+                    <md-select 
+                    ng-model="vm.rules[$index].condition" 
+                    placeholder="Choose property"
+                    ng-change="vm.conditionChanged(vm.rules.indexOf(vm.rules[$index]), vm.rules[$index].condition)">
+                        <md-option 
+                        ng-repeat="c in vm.getConditionsForFieldType(vm.rules[$index].field)" 
+                        ng-value="c.label">
+                            {{c.label}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+<!-- What are you looking for. This field should be dynamic 
+        and change based on what type of data you want to search -->
+                <md-input-container ng-if="vm.rules[$index].inputType=='text'">
+                    <label>Text value</label>
+                    <input
+                    ng-model-options="{debounce: 750}" 
+                    ng-model="vm.rules[$index].value" 
+                    type="text">
+                </md-input-container>
+
+                <md-input-container ng-if="vm.rules[$index].inputType=='number'">
+                    <label>Number value</label>
+                    <input 
+                    ng-model-options="{debounce: 750}" 
+                    ng-model="vm.rules[$index].value" 
+                    type="number">
+                </md-input-container>
+
+                <md-input-container  ng-if="vm.rules[$index].inputType=='date'">
+                    <label>Select date</label>
+                    <md-datepicker
+                    ng-model-options="{debounce: 750}" 
+                    ng-model="vm.rules[$index].value"></md-datepicker>
+                </md-input-container>
+<!-- ============================= BETWEEN ============================= -->
+                <md-input-container ng-if="vm.rules[$index].inputType=='number-between'" style="display: inline-flex">
+                    <label>From:</label>
+                    <input 
+                    ng-model-options="{debounce: 750}" 
+                    ng-model="vm.rules[$index].value" 
+                    type="number">
+                    <md-input-container style="margin: 0">
+                        <label>To:</label>
+                        <input 
+                        ng-model-options="{debounce: 750}" 
+                        ng-model="vm.rules[$index].value_2" 
+                        type="number">    
+                    </md-input-container>
+                </md-input-container>
+
+                <md-input-container  ng-if="vm.rules[$index].inputType=='date-between'" style="display: inline-flex">
+                    <label>As of date:</label>
+                    <md-datepicker
+                    ng-model-options="{debounce: 750}" 
+                    ng-model="vm.rules[$index].value"></md-datepicker>
+                    <md-input-container style="margin: 0">
+                        <label>To:</label>
+                        <md-datepicker
+                        style=""
+                        ng-model-options="{debounce: 750}" 
+                        ng-model="vm.rules[$index].value_2"></md-datepicker>                    
+                    </md-input-container>  
+                </md-input-container>
+
+<!-- ============================= CHIPS ============================= -->
+                <!-- <md-input-container ng-if="vm.rules[$index].inputType=='text-array'"> -->
+                <span ng-if="vm.rules[$index].inputType=='text-array'">
+                    <label>Array</label>
+                    <md-chips 
+                    ng-model="vm.rules[$index].value" 
+                    readonly="false" 
+                    md-removable="true"
+                    ng-model-options="{debounce: 0}"></md-chips>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
