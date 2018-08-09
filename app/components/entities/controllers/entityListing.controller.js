@@ -31,6 +31,7 @@ export default class EntityListingController {
     vm.workflowPoints = vm.workflow.get('points');
     vm.attributeSets = attributeSets;
     vm.attributes = attributes;
+    console.log('Attributes', vm.attributes);
     vm.locales = locales;
     vm.defaultLocale = defaultLocale;
     vm.AppSettings = AppSettings;
@@ -188,9 +189,6 @@ export default class EntityListingController {
   getLocale() {
     let vm = this;
     let localeCode = vm.$stateParams.listingLocale || vm.defaultLocale.get('code');
-
-
-
     let locale = angular.copy(vm.locales.findWhere({code: localeCode}));
 
     return locale;

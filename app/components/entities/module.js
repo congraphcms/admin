@@ -16,8 +16,6 @@ import EntityFormController from './controllers/entityForm.controller.js';
 import EntityEditorController from './controllers/entityEditor.controller.js';
 import EntityEditorDirective from './directives/entityEditor.directive.js';
 
-
-
 import EntityQuickFormService  from './services/entityQuickForm.service.js';
 import EntityQuickFormController  from './controllers/entityQuickForm.controller.js';
 import EntityQuickFormDirective  from './directives/entityQuickForm.directive.js';
