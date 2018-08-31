@@ -9,6 +9,7 @@ node_modules/
 coverage/
 .grunt/
 npm-debug.log
+error_log
 bower_components/
 .grunt
 reports
