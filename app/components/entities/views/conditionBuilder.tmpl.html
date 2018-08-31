@@ -26,7 +26,7 @@
                     placeholder="Choose property"
                     ng-change="vm.fieldChanged(vm.rules.indexOf(vm.rules[$index]), vm.rules[$index].field)">
                         <md-option 
-                        ng-repeat="a in vm.attributesInUse[$index]"
+                        ng-repeat="a in vm.attributesInUse[$index] track by $index"
                         ng-value="a">
                             {{a}}
                         </md-option>

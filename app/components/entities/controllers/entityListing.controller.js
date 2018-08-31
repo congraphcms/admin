@@ -285,6 +285,8 @@ export default class EntityListingController {
 
     vm.filterList(filter);
 
+    vm.filterList(filter);
+
   }
 
   filterList(filter) {
