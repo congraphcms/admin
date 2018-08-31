@@ -18,3 +18,5 @@ test/src/
 .env
 .env.production
 *.zip
+cms.zip
+node_modules.zip
