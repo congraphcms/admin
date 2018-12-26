@@ -178,31 +178,46 @@
                     <!-- List Header -->
                     <div ng-if="!vm.empty" layout="row" class="cb-table-header md-padding cb-white" style="padding-right: 32px;">
 
-                        <div flex
-                          class="cb-table-header-item" style="padding-right: 16px;">
+                        <!-- title col -->
+                        <div
+                          flex
+                          class="cb-table-header-item"
+                          style="padding-right: 16px;">
                           {{translate('entity_title_label')}}
                         </div>
-                        <div flex="20" class="cb-table-header-item" hide show-gt-md style="padding-right: 16px;">
+                        <!-- attribute set col -->
+                        <div
+                          flex="20"
+                          class="cb-table-header-item"
+                          hide
+                          show-gt-md
+                          style="padding-right: 16px;">
                           {{translate('attribute_set_label')}}
                         </div>
+                        <!-- updated_at col -->
                         <div
-                          flex="20" flex-gt-lg="15"
-                          hide show-gt-md
+                          flex="20"
+                          flex-gt-lg="15"
+                          hide
+                          show-gt-md
                           class="cb-table-header-item"
                           layout-align="start center">
                           {{translate('updated_at_label')}}
                         </div>
-
-                        <div
-                          flex="20" flex-gt-lg="15"
-                          hide show-gt-md
+                        <!-- created_at col -->
+                        <!-- <div
+                          flex="20"
+                          flex-gt-lg="15"
+                          hide
+                          show-gt-md
                           class="cb-table-header-item"
                           layout-align="start center">
                           {{translate('created_at_label')}}
-                        </div>
-
+                        </div> -->
+                        <!-- actions col -->
                         <div
-                          flex="30" flex-gt-lg="20"
+                          flex="30"
+                          flex-gt-lg="20"
                           class="cb-table-header-item"
                           layout-align="end center"
                           layout="row">
@@ -239,8 +254,15 @@
                             </div>
 
                             <!-- attribute set col -->
-                            <div flex="20" class="cb-item-title" layout="row" layout-align="start center">
-                              <p hide show-gt-md md-truncate>
+                            <div
+                              flex="20"
+                              class="cb-item-title"
+                              layout="row"
+                              layout-align="start center">
+                              <p
+                                hide
+                                show-gt-md
+                                md-truncate>
                                 {{vm.getItemAttributeSet(item)}}
                               </p>
                             </div>
@@ -258,7 +280,7 @@
                             </div>
 
                             <!-- created_at col -->
-                            <div
+                            <!-- <div
                               flex="20"
                               flex-gt-lg="15"
                               layout="row"
@@ -267,7 +289,7 @@
                                 <p class="ellipsis">
                                   <span>{{item.get('created_at') | amDateFormat:'DD/MM/YYYY'}}</span>
                                 </p>
-                            </div>
+                            </div> -->
 
                             <!-- actions col -->
                             <div
@@ -370,7 +392,7 @@
                     <div class="key">{{translate('created_at_label')}}</div>
                     <div class="value">{{vm.selectedModel.get('created_at') | amDateFormat:'DD/MM/YYYY'}}</div>
                   </div>
-                  
+
                   <div class="kv-list-item">
                     <div class="key">{{translate('updated_at_label')}}</div>
                     <div class="value">{{vm.selectedModel.get('updated_at') | amDateFormat:'DD/MM/YYYY'}}</div>

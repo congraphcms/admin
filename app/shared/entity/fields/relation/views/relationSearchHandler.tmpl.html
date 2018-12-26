@@ -42,7 +42,7 @@
 			<!-- Multiple -->
 			<div as-sortable="handler.dragControlListeners" ng-if="handler.multiple && !handler.loadingItems" ng-model="handler.entity.attributes.fields[handler.fieldCode].models">
 				<div ng-repeat="item in handler.entity.attributes.fields[handler.fieldCode].models" class="repeated-item cb-item" as-sortable-item>
-					
+
 					<md-icon class="material-icons md-secondary" as-sortable-item-handle ng-click="null">
 						drag_handle
 					</md-icon>
@@ -55,7 +55,7 @@
 							<md-button ng-click="handler.editRelation(handler.getRelation(item))">
 								{{handler.$rootScope.translate('btn_edit')}}
 							</md-button>
-				
+
 							<md-button ng-click="handler.removeRelation(item)">
 								{{handler.$rootScope.translate('btn_remove')}}
 							</md-button>
@@ -63,7 +63,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 
 			<!-- Single -->
 			<div
@@ -133,7 +133,8 @@
 
 			        <md-checkbox
 								ng-checked="handler.isSelected(item)"
-			          ng-show="handler.multipleSelection">
+			          ng-show="handler.multipleSelection"
+								ng-click="handler.itemClicked(item)">
 							</md-checkbox>
 
 			        <!-- <div class="cb-item-media">

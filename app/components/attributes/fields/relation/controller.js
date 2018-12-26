@@ -5,14 +5,14 @@ import angular from 'angular';
 
 export default class RelationFieldEditorController {
   constructor(
-    EntityTypeRepository,  
-    $scope, 
-    $element, 
+    EntityTypeRepository,
+    $scope,
+    $element,
     $attrs
   ) {
     /* jshint validthis: true */
     let ctrl = this;
-    
+
     ctrl.$scope = $scope;
     ctrl.$element = $element;
     ctrl.$attrs = $attrs;
@@ -97,14 +97,18 @@ export default class RelationFieldEditorController {
   }
 
   toggleType(type) {
+    console.log('allowedType toggle', type);
+    console.log('this.allowedTypes', this.allowedTypes);
     let index = _.indexOf(this.allowedTypes, type);
     if(index > -1) {
+      console.log('type already checked, remove it');
       this.allowedTypes.splice(index, 1);
       index = _.indexOf(this.data.allowed_types, type.attributes.id);
       this.data.allowed_types.splice(index, 1);
       return;
     }
 
+    console.log('type not checked, add it');
     this.allowedTypes.push(type);
     this.data.allowed_types.push(type.attributes.id);
   }
