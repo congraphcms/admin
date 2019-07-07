@@ -60,6 +60,31 @@ function FileModelFactory(AppSettings, cbOAuth, $q){
       return url;
     },
 
+    getDeliveryUrl: function(params) {
+      params || (params = {});
+      var endpoint = AppSettings.APP.CG_URL + 'api/delivery';
+      var url = this.cleanUrl(endpoint + '/' + this.get('url'));
+
+      if (!_.isEmpty(params)) {
+        url += '?' + Qs.stringify(params);
+      }
+
+      return url;
+    },
+
+    getDeliveryVersionUrl: function(version, params) {
+      params || (params = {});
+      params.v = version;
+      var endpoint = AppSettings.APP.CG_URL + 'api/delivery';
+      var url = this.cleanUrl(endpoint + '/' + this.get('url'));
+
+      if (!_.isEmpty(params)) {
+        url += '?' + Qs.stringify(params);
+      }
+
+      return url;
+    },
+
     getAdminThumbUrl: function() {
       return this.getUrl({v: 'admin_thumb'});
     },

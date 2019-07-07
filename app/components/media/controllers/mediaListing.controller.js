@@ -41,6 +41,14 @@ export default class MediaListingController {
     vm.init();
   }
 
+  copyToClipboard() {
+    const vm = this;
+
+    const input = document.getElementById('deliveryUrlInput');
+    input.select();
+    document.execCommand('copy');
+  }
+
   init() {
     let vm = this;
 
@@ -58,6 +66,7 @@ export default class MediaListingController {
     vm.empty = true;
     vm.selectedModel = null;
     vm.busyModels = [];
+    vm.ctcModel = '';
 
     vm.getList();
 
@@ -103,6 +112,12 @@ export default class MediaListingController {
     vm.$scope.$on('fileDeleted', fileChangeHandler);
     vm.$scope.$on('fileSaved', fileChangeHandler);
 
+    vm.$scope.$watch('vm.selectedModel', value => {
+      if(!value) return;
+
+      vm.ctcModel = value.getDeliveryUrl();
+    })
+
     vm.filtersOpened = vm.$mdMedia('gt-sm');
   }
 
@@ -119,14 +134,16 @@ export default class MediaListingController {
       vm.filesCollection.each(function(file){
         if(!file.isImage()) return;
 
-        let img = new Image();
-        img.onload = function() {
-          vm.$scope.$apply(function(){
-            file.isLoaded = true;
-          });
-        };
+        file.isLoaded = false;
 
-        img.src = file.getAdminImageUrl();
+        // let img = new Image();
+        // img.onload = function() {
+        //   vm.$scope.$apply(function(){
+        //     file.isLoaded = true;
+        //   });
+        // };
+
+        // img.src = file.getAdminImageUrl();
       });
       // set listing flags
       vm.ready = true;

@@ -151,12 +151,12 @@ export default class AttributeSetEditorController {
 
     // Create filter function for a query string
     function createFilterFor(query) {
-      var lowercaseQuery = angular.lowercase(query);
+      var lowercaseQuery = query.toLowerCase();
       // console.log('lowercaseQuery', lowercaseQuery);
 
       return function filterFn(attribute) {
         // console.log('attribute (filterFn)', attribute);
-        var label = angular.lowercase(attribute.attributes.admin_label);
+        var label = attribute.attributes.admin_label.toLowerCase();
         var found = label.indexOf(lowercaseQuery) === 0;
 
         return found;

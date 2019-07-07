@@ -10,11 +10,11 @@ export default function availableAttributesSearch() {
     }
 
     var query = attrSearchSelectedItem.attributes.admin_label;
-    var lowercaseQuery = angular.lowercase(query);
+    var lowercaseQuery = query.toLowerCase();
 
     let filteredItems = [];
     _.each(items, function(item){
-      var label = angular.lowercase(item.attributes.admin_label);
+      var label = item.attributes.admin_label.toLowerCase();
 
       if (label.indexOf(lowercaseQuery) === 0) {
         filteredItems.push(item);

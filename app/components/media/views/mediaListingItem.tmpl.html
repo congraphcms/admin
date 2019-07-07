@@ -1,0 +1,51 @@
+<md-card style="width: 300px; position: relative;">
+  <div class="wrapper" style="height:200px; background:#ccc;">
+    <div
+      layout="column" layout-align="center center"
+      style="width:300px; height: 100%;" 
+      ng-if="!vm.item.isImage()">
+      <div>
+        <md-icon ng-if="vm.item.isDocument()" class="material-icons" style="font-size: 50px; height: 50px; width: 50px;">description</md-icon>
+        <md-icon ng-if="vm.item.isVideo()" class="material-icons" style="font-size: 50px; height: 50px; width: 50px;">videocam</md-icon>
+        <md-icon ng-if="vm.item.isAudio()" class="material-icons" style="font-size: 50px; height: 50px; width: 50px;">audiotrack</md-icon>
+      </div>
+      <div>
+        <p style="text-align: center;">{{vm.item.get('name')}}</p>
+      </div>
+    </div>
+    <div 
+      layout="column" layout-align="center center"
+      style="width:300px; height: 100%; padding: 16px;" 
+      ng-if="vm.item.isImage() && !vm.item.isLoaded">
+      <div>
+        <md-icon class="material-icons" style="font-size: 50px; height: 50px; width: 50px;">insert_photo</md-icon>
+      </div>
+      <div >
+        <p style="text-align: center; word-wrap: break-word;">{{vm.item.get('name')}}</p>
+      </div>
+      
+    </div>
+    <img ng-if="vm.item.isImage() && vm.item.isLoaded" ng-src="{{vm.item.getAdminImageUrl()}}" class="md-card-image" alt="Washed Out" >
+  </div>
+
+  <md-card-actions layout="row" layout-align="end center">
+    <md-button class="md-button" aria-label="Favorite" ng-click="vm.onEdit(vm.item, $event); $event.stopPropagation();">
+     {{vm.$rootScope.translate('btn_edit')}}
+    </md-button>
+    <md-button class="md-button" aria-label="Favorite" ng-click="vm.onDeleteFile(vm.item, $event); $event.stopPropagation();">
+     {{vm.$rootScope.translate('btn_delete')}}
+    </md-button>
+  </md-card-actions>
+  <div 
+    ng-if="vm.busy(vm.item)"
+    class="card-loader"
+    style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,.87);">
+  </div>
+
+</md-card>

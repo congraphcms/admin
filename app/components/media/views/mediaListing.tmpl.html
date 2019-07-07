@@ -124,54 +124,17 @@
             <div class="md-body-1">{{translate('no_items_info')}}</div>
           </div>
           <div layout="row" layout-wrap layout-margin>
-            <md-card ng-repeat="item in vm.list"  ng-click="vm.selectModel(item, $event)" style="width: 300px; position: relative;">
-              <div
-                layout="column" layout-align="center center"
-                style="width:300px; height:200px; background:#ccc;" 
-                ng-if="!item.isImage()">
-                <div>
-                  <md-icon ng-if="item.isDocument()" class="material-icons" style="font-size: 50px; height: 50px; width: 50px;">description</md-icon>
-                  <md-icon ng-if="item.isVideo()" class="material-icons" style="font-size: 50px; height: 50px; width: 50px;">videocam</md-icon>
-                  <md-icon ng-if="item.isAudio()" class="material-icons" style="font-size: 50px; height: 50px; width: 50px;">audiotrack</md-icon>
-                </div>
-                <div>
-                  <p style="text-align: center;">{{item.get('name')}}</p>
-                </div>
-              </div>
-              <div 
-                layout="column" layout-align="center center"
-                style="width:300px; height:200px; background:#ccc; padding: 16px;" 
-                ng-if="item.isImage() && !item.isLoaded">
-                <div>
-                  <md-icon class="material-icons" style="font-size: 50px; height: 50px; width: 50px;">insert_photo</md-icon>
-                </div>
-                <div >
-                  <p style="text-align: center; word-wrap: break-word;">{{item.get('name')}}</p>
-                </div>
-                
-              </div>
-              <img ng-if="item.isImage() && item.isLoaded" ng-src="{{item.getAdminImageUrl()}}" class="md-card-image" alt="Washed Out" >
-              <md-card-actions layout="row" layout-align="end center">
-                <md-button class="md-button" aria-label="Favorite" ng-click="vm.editFile(item, $event); $event.stopPropagation();">
-                 {{translate('btn_edit')}}
-                </md-button>
-                <md-button class="md-button" aria-label="Favorite" ng-click="vm.deleteFile(item, $event); $event.stopPropagation();">
-                 {{translate('btn_delete')}}
-                </md-button>
-              </md-card-actions>
-              <div 
-                ng-if="vm.modelBusy(item)"
-                class="card-loader"
-                style="
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  width: 100%;
-                  height: 100%;
-                  background: rgba(255,255,255,.87);">
-              </div>
+            <!--  -->
 
-            </md-card>
+            <media-listing-item
+              ng-repeat="item in vm.list"
+              ng-click="vm.selectModel(item, $event)"
+              item="item"
+              onEdit="vm.editFile"
+              onDelete="vm.deleteFile"
+              busy="modelBusy"
+              style="width: 300px; position: relative;">
+            </media-listing-item>
           </div>
 
         </div>
@@ -233,6 +196,45 @@
           </div>
 
           <div class="kv-list">
+
+            <!-- name -->
+            <div class="kv-list-item">
+              <div class="key">{{translate('file_url_label')}}</div>
+              <div 
+                class="value"
+                ng-if="vm.selectedModel.get('url')"
+                style="padding-right: 40px; position: relative;">
+                <!-- <span 
+                  class="value" 
+                  ng-bind-html="vm.selectedModel.getDeliveryUrl()">
+                </span> -->
+                <input 
+                  type="text"
+                  id="deliveryUrlInput"
+                  name="deliveryUrl"
+                  readonly
+                  ng-model="vm.ctcModel" 
+                  style="border: none;"/>
+                <md-button 
+                  class="md-icon-button" 
+                  ng-click="vm.copyToClipboard()"
+                  style="    
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    margin: 0;
+                    padding: 0 8px;
+                    height: 24px;
+                    min-height: 24px;
+                    border: none;">
+                  <md-icon class="material-icons">file_copy</md-icon>
+                </md-button>
+              </div>
+              
+              <div class="value" ng-if="!vm.selectedModel.get('url')">
+                <span class="md-caption">&ndash;</span>
+              </div>
+            </div>
 
             <!-- name -->
             <div class="kv-list-item">

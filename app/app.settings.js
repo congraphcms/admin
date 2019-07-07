@@ -3,7 +3,7 @@
  * ngInject
  */
 
-export default function SettingsFactory() {
+const SettingsFactory = function() {
 
   return {
     APP: SETTINGS,
@@ -91,3 +91,5 @@ export default function SettingsFactory() {
     }
   };
 }
+
+module.exports = SettingsFactory
