@@ -15,8 +15,8 @@ var config = merge(common, {
     new UglifyJSPlugin({
       sourceMap: true,
       uglifyOptions: {
+        warnings: false,
         compress: {
-          warnings: false,
           conditionals: true,
           unused: true,
           comparisons: true,
