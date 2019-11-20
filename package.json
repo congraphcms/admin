@@ -34,7 +34,7 @@
     "@babel/core": "^7.5.0",
     "@babel/preset-env": "^7.5.0",
     "@babel/preset-es2015": "^7.0.0-beta.53",
-    "angular": "1.4.*",
+    "angular": "1.7.*",
     "angular-animate": "1.4.*",
     "angular-aria": "1.4.*",
     "angular-cookies": "1.4.*",
