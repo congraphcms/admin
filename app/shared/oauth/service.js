@@ -13,6 +13,10 @@ var defaults = {
   sessionName: 'cbToken',
   sessionOptions: {
     secure: false
+  },
+  clientSessionName: 'cbClientToken',
+  clientSessionOptions: {
+    secure: false
   }
 };
 
@@ -106,6 +110,42 @@ function cbOAuthProvider() {
     }
 
     /**
+     * Verifies if the `client` is authenticated or not based on the `client token`
+     * cookie.
+     *
+     * @return {boolean}
+     */
+     OAuth.prototype.isClientAuthenticated = function() {
+      return !!this.getClientToken();
+    }
+
+    OAuth.prototype.authenticateClient = function(data, options) {
+      var self = this;
+      data = angular.extend({
+        client_id: config.clientId,
+        // client_secret: config.clientSecret,
+        grant_type: 'client_credentials',
+
+      }, data);
+
+      if (null !== config.clientSecret) {
+        data.client_secret = config.clientSecret;
+      }
+
+      if (null !== config.scopes) {
+        data.scope = config.scopes;
+      }
+
+      var $http = $injector.get('$http');
+
+      return $http.post(config.baseUrl + config.grantPath, data, options).then( function(response) {
+        var cookie = self.setClientToken(response.data);
+        // self.getOwner();
+        return response;
+      });
+    }
+
+    /**
      * Retrieves the `access_token` and stores the `response.data` on cookies
      *
      * @param {object} data - Request content, e.g., `username` and `password`.
@@ -113,6 +153,7 @@ function cbOAuthProvider() {
      * @return {promise} A response promise.
      */
     OAuth.prototype.authenticate = function(data, options) {
+      console.trace();
       var self = this;
       data = angular.extend({
         client_id: config.clientId,
@@ -127,12 +168,13 @@ function cbOAuthProvider() {
         data.scope = config.scopes;
       }
 
-      data = Qs.stringify(data);
+      // data = Qs.stringify(data);
 
       options = angular.extend({
         headers: {
-          'Authorization': undefined,
-          'Content-Type': 'application/x-www-form-urlencoded'
+          // 'Authorization': this.getClientAuthorizationHeader(),
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         }
       }, options);
 
@@ -336,10 +378,27 @@ function cbOAuthProvider() {
     }
 
     /**
+     * Set client token.
+     */
+     OAuth.prototype.setClientToken = function(data) {
+      if(data.expires_in) {
+        data.expiration_date = moment().add(data.expires_in, 's').format();
+      }
+      return $cookies.putObject(config.clientSessionName, data, config.clientSessionOptions);
+    }
+
+    /**
      * Get token.
      */
     OAuth.prototype.getToken = function() {
       return $cookies.getObject(config.sessionName);
+    }
+
+    /**
+     * Get client token.
+     */
+     OAuth.prototype.getClientToken = function() {
+      return $cookies.getObject(config.clientSessionName);
     }
 
     /**
@@ -350,6 +409,13 @@ function cbOAuthProvider() {
     }
 
     /**
+     * Get client accessToken.
+     */
+     OAuth.prototype.getClientAccessToken = function() {
+      return this.getClientToken() ? this.getClientToken().access_token : undefined;
+    }
+
+    /**
      * Get authorizationHeader.
      */
     OAuth.prototype.getAuthorizationHeader = function() {
@@ -357,7 +423,18 @@ function cbOAuthProvider() {
         return;
       }
 
-      return this.getTokenType().charAt(0).toUpperCase() + this.getTokenType().substr(1) + ' ' + this.getAccessToken();
+      return this.getTokenType() + ' ' + this.getAccessToken();
+    }
+
+    /**
+     * Get client authorizationHeader.
+     */
+     OAuth.prototype.getClientAuthorizationHeader = function() {
+      if (!this.getClientAccessToken()) {
+        return;
+      }
+
+      return 'Bearer ' + this.getClientAccessToken();
     }
 
     /**
@@ -379,6 +456,13 @@ function cbOAuthProvider() {
      */
     OAuth.prototype.removeToken = function() {
       return $cookies.remove(config.sessionName, config.sessionOptions);
+    }
+
+    /**
+     * Remove client token.
+     */
+     OAuth.prototype.removeClientToken = function() {
+      return $cookies.remove(config.clientSessionName, config.clientSessionOptions);
     }
 
     /**

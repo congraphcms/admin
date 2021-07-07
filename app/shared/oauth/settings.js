@@ -9,10 +9,11 @@ function cbOAuthSettings(cbOAuthProvider) {
 	cbOAuthProvider.configure({
 		clientId: SETTINGS.CG_CLIENT_ID,
 		clientSecret: SETTINGS.CG_CLIENT_SECRET,
-		grantPath: '/oauth/access_token',
-		revokePath: '/oauth/revoke_token',
-		ownerPath: '/oauth/owner',
-		scopes: 'manage_users,read_users,manage_clients,read_clients,manage_roles,read_roles,manage_content_model,read_content_model,manage_content,read_content',
+		grantPath: '/oauth/token',
+		revokePath: '/oauth/revoke',
+		ownerPath: '/congraph/oauth/owner',
+		// scopes: 'manage_users,read_users,manage_clients,read_clients,manage_roles,read_roles,manage_content_model,read_content_model,manage_content,read_content',
+		scopes: '*',
 		sessionName: 'cbToken'
 	});
 }

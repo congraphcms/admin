@@ -41,7 +41,7 @@ export default class PluploadController{
       max_file_count: 0,
       //container : 'abc',
       max_file_size : '25mb',
-      url : pl.AppSettings.APP.CG_URL + 'api/files',
+      url : pl.AppSettings.APP.CG_URL + 'congraph/api/v1/files',
       headers: {
         'Authorization': pl.cbOAuth.getAuthorizationHeader()
       }

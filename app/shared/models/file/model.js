@@ -50,7 +50,7 @@ function FileModelFactory(AppSettings, cbOAuth, $q){
     getUrl: function(params) {
       params || (params = {});
       params.access_token = cbOAuth.getAccessToken();
-      var endpoint = AppSettings.APP.CG_URL + 'api';
+      var endpoint = AppSettings.APP.CG_URL + 'congraph/api/v1';
       var url = this.cleanUrl(endpoint + '/' + this.get('url'));
 
       if (!_.isEmpty(params)) {

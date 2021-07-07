@@ -46,6 +46,10 @@ function authConfig($rootScope, $state, $stateParams, cbOAuth) {
         // authorization check immediately. otherwise,
         // it'll be done when the state it resolved.
 
+        // if(!cbOAuth.isAuthenticated() && !cbOAuth.isClientAuthenticated()) {
+        //     cbOAuth.authenticateClient();
+        // }
+
 
         if (toState.requireAuth && !cbOAuth.isAuthenticated()) {
             event.preventDefault();

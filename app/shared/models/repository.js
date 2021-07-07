@@ -21,7 +21,7 @@ function RepositoryFactory(AppSettings, $http, $q, Client){
 
     createClient(endpoint){
       endpoint || (endpoint = '');
-      this.client = new Client(AppSettings.APP.CG_URL+'api', endpoint);
+      this.client = new Client(AppSettings.APP.CG_URL+'congraph/api/v1', endpoint);
     }
 
 

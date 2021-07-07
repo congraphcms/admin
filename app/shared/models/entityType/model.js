@@ -18,9 +18,6 @@ function EntityTypeModelFactory(AttributeSetModel, AttributeSetCollection, Workf
       default_point_id: null,
       multiple_sets: 1,
       default_set_id: null,
-      workflow: null,
-      default_point: null,
-      default_set: null,
       attribute_sets: []
     },
 
