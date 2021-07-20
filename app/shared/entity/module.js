@@ -14,6 +14,7 @@ import ngMessages from 'angular-messages';
 import textFieldsHandlersModule from './fields/text/module.js';
 import relationFieldsHandlersModule from './fields/relation/module.js';
 import numberFieldsHandlersModule from './fields/number/module.js';
+import dateFieldsHandlersModule from './fields/date/module.js';
 import datetimeFieldsHandlersModule from './fields/datetime/module.js';
 import choiceFieldsHandlersModule from './fields/choice/module.js';
 import booleanFieldsHandlersModule from './fields/boolean/module.js';
@@ -41,6 +42,7 @@ angular
     textFieldsHandlersModule,
     relationFieldsHandlersModule,
     numberFieldsHandlersModule,
+    dateFieldsHandlersModule,
     datetimeFieldsHandlersModule,
     choiceFieldsHandlersModule,
     booleanFieldsHandlersModule,

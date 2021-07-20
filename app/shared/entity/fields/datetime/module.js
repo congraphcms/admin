@@ -6,13 +6,13 @@
  * Datetime Fields Handlers (attributes)
  */
 
-import DateInputHandlerController from './controllers/dateInputHandler.controller.js';
+import DatetimeInputHandlerController from './controllers/datetimeInputHandler.controller.js';
 
-import dateInputHandler from './directives/dateInputHandler.directive.js';
+import datetimeInputHandler from './directives/datetimeInputHandler.directive.js';
 
 export default 'app.entity.fields.datetime';
 
 angular
   .module('app.entity.fields.datetime', [])
-  .controller('DateInputHandlerController', DateInputHandlerController)
-  .directive('dateInputHandler', dateInputHandler);
+  .controller('DatetimeInputHandlerController', DatetimeInputHandlerController)
+  .directive('datetimeInputHandler', datetimeInputHandler);

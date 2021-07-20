@@ -133,7 +133,7 @@ export default {
     },
     "default_input": "decimal_input"
   },
-  "datetime": {
+  "date": {
     "can_have_default_value": false,
     "can_be_unique": false,
     "can_be_filter": false,
@@ -153,6 +153,27 @@ export default {
       }
     },
     "default_input": "date_input"
+  },
+  "datetime": {
+    "can_have_default_value": false,
+    "can_be_unique": false,
+    "can_be_filter": false,
+    "can_be_used_in_search": false,
+    "can_be_localized": true,
+    "has_options": false,
+    "has_multiple_values": false,
+    "editor": "datetime",
+    "has_input_choice": false,
+    "input_choice": {
+      "datetime_input": {
+        "label": "Datetime Input",
+        "description": "",
+        "icon": "title",
+        "complex": false,
+        "value": "datetime_input"
+      }
+    },
+    "default_input": "datetime_input"
   },
   "select": {
     "can_have_default_value": false,

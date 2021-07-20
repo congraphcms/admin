@@ -20,7 +20,6 @@ export default class AttributeEditorController {
     $compile
   ) {
 
-
     /* jshint validthis: true */
     let vm = this;
 
@@ -238,6 +237,7 @@ export default class AttributeEditorController {
   }
 
   selectField(selection) {
+    console.log('SELECTION', selection);
     let vm = this;
     if (!vm.attributeModel.isNew()) {
       return false;

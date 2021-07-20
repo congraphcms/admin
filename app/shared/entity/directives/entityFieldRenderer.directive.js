@@ -56,6 +56,9 @@ function EntityFieldRenderer(fieldTypes, $compile){
 
     var name = input_type.split('_');
     name = name.join('-');
+    console.log('FIELD TYPE', fieldTypes[scope.attribute.attributes.field_type]);
+    console.log('ATTRIBUTE', scope.attribute);
+    console.log('HANDLER NAME', name);
     var html = '<'+name+'-handler entity="entity" attribute="attribute" locale="locale" locales="locales">'+name+'-handler not compiled...</'+name+'-handler>';
     
     var input = angular.element(html);

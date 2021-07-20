@@ -1,7 +1,7 @@
 
 import _ from 'underscore';
 
-export default class DateInputHandlerController{
+export default class DatetimeInputHandlerController{
 
   constructor($scope, $rootScope, $state, $stateParams, $q, $timeout) {
 
@@ -51,7 +51,7 @@ export default class DateInputHandlerController{
   }
 }
 
-DateInputHandlerController.$inject = [
+DatetimeInputHandlerController.$inject = [
   '$scope',
   '$rootScope',
   '$state',

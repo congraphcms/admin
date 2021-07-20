@@ -45,11 +45,24 @@ export default {
     }
   },
   "datetime": {
-    "label": "Date and Time",
+    "label": "Date and/or Time",
     "description": "Dates and time",
     "icon": "date_range",
     "value": "datetime",
-    "sub_choices": false
+    "sub_choices": {
+      "date": {
+        "label": "Date Only",
+        "description": "Stores only date values",
+        "icon": "date_range",
+        "value": "date"
+      },
+      "datetime": {
+        "label": "Date and Time",
+        "description": "Stores date and time (sensitive to timezones)",
+        "icon": "date_range",
+        "value": "datetime"
+      }
+    }
   },
   "boolean": {
     "label": "Boolean",
