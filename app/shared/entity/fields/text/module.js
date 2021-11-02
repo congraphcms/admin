@@ -8,7 +8,7 @@
 
 import 'angular-ui-tinymce';
 import 'tinymce/tinymce'
-import 'tinymce/themes/modern/theme'
+import 'tinymce/themes/silver/theme'
 
 // Plugins
 // import 'tinymce/plugins/paste/plugin'

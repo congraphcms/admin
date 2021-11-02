@@ -38,6 +38,7 @@ import EntityModule from './../entity/module.js';
 // import contactsComponent from './../../components/contacts/module.js';
 
 
+
 export default 'app.shared.core';
 
 angular
